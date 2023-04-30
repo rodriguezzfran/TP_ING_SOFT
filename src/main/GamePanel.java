@@ -17,19 +17,16 @@ import java.io.InputStream;
 public class GamePanel extends JPanel{
 
     private MouseImputs mouseImputs;
-<<<<<<< HEAD
+
    // private float xDir = 0.1F, yDir=0.1F;
     private float xDelta=100, yDelta=100;
     private BufferedImage img;
     private int frames =0;
     private long lastCkeck =0;
     private BufferedImage subImg;
-=======
+
     private float xDir = 1F, yDir=1F;
-    private float xDelta=100, yDelta=100;
-    private int frames = 0;
-    private long lastCkeck = 0;
->>>>>>> d633667482aa08652261a2eeb32dac4e5c987b86
+
 
     public GamePanel(){
         importImg();
@@ -72,7 +69,7 @@ public class GamePanel extends JPanel{
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-<<<<<<< HEAD
+
         subImg = img.getSubimage(2*72,0,72,58);
         g.drawImage(subImg,(int)xDelta,(int)yDelta,72*2,58*2,null);
     }
@@ -89,23 +86,6 @@ public class GamePanel extends JPanel{
 //
 //        }
 //    }
-=======
-        updateRectangle();
-        g.fillRect((int)xDelta,(int)yDelta,200,50);
 
-    }
-
-    private void updateRectangle(){
-        xDelta+=xDir;
-        if(xDelta >= 185 || xDelta <0) {
-            xDir *= -1;
-        }
-
-        yDelta += yDir;
-        if(yDelta >= 315 || yDelta < 0) {
-           yDir *= -1;
-        }
-    }
->>>>>>> d633667482aa08652261a2eeb32dac4e5c987b86
-
+    
 }
