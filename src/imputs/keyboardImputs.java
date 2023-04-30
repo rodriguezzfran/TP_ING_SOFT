@@ -57,6 +57,7 @@ public class keyboardImputs implements KeyListener {
                 if(pressedSpace == false) {
                     gameScreen.cambiarDeltaY(-50);
                     pressedSpace = true;
+                    break;
                 }
                 break;
         }
