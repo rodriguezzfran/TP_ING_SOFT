@@ -13,14 +13,25 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class gameScreen extends JPanel{
+    private int deltaX=0;
+    private int deltaY=0;
     public gameScreen(){
-        addKeyListener(new keyboardImputs());
+        addKeyListener(new keyboardImputs(this));
         addMouseListener(new mouseImputs());
     }
 
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.fillRect(100,100,200,50);
+        g.fillRect(100+deltaX,100+deltaY,200,50);
+    }
+
+    public void cambiarDeltaX(int value){
+        this.deltaX += value;
+        repaint();
+    }
+    public void cambiarDeltaY(int value){
+        this.deltaY += value;
+        repaint();
     }
 
 }
