@@ -24,14 +24,14 @@ public class GamePanel extends JPanel{
     private int frames =0;
     private long lastCkeck =0;
     private BufferedImage[][] allAnimations;
-    private int playerAction = ATTACK;
+    private int playerAction = DEAD;
     private int aniTick,aniIndex,aniSpeed = 20;
     private int playerDir = -1;
     private boolean moving = false;
 
 
     public GamePanel(){
-        importImg();
+        importSprites();
         setPanelSize();
         this.mouseImputs=new MouseImputs(this);
         addKeyListener(new KeyBoardImputs(this));
@@ -45,11 +45,16 @@ public class GamePanel extends JPanel{
         moving = true;
     }
 
+
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
 
-    public void importImg() {
+
+    /**
+     * Importación de los sprites.
+     */
+    public void importSprites() {
         allAnimations = new BufferedImage[10][11];
         String aux = "/Sprites/01-King Human/";
         for(int i = 0;i<10;i++) {
@@ -120,12 +125,20 @@ public class GamePanel extends JPanel{
         }
     }
 
+    /**
+     * Update the logics of the game.
+     */
     public void updateGame() {
         updateAnimationTick();
         setAnimation();
         updatePos();
     }
 
+    /**
+     * Makes the render.
+     *
+     * @param g the <code>Graphics</code> object to protect
+     */
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(allAnimations[playerAction][aniIndex],(int)xDelta,(int)yDelta,78*3,58*3,null);

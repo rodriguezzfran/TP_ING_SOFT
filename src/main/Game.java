@@ -44,23 +44,22 @@ public class Game implements Runnable{
             deltaF += (currentTime - previousTime)/timePerFrame;
             previousTime=currentTime;
 
-            if(deltaU >= 1){
+            if(deltaU >= 1){ //Check if is time for update
                 update();
                 updates++;
                 deltaU--;
             }
 
-            if(deltaF >= 1){
+            if(deltaF >= 1){ //Check if is time for render
                 gamePanel.repaint();
                 frames++;
                 deltaF--;
             }
 
 
-
             if(System.currentTimeMillis() - lastCheck >= 1000){
                 lastCheck = System.currentTimeMillis();
-                System.out.println("FPS: "+ frames + " | UPS: "+updates);
+                System.out.println("FPS: "+ frames + " | UPS: "+ updates);
                 frames = 0;
                 updates = 0;
             }
