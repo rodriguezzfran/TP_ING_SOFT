@@ -1,6 +1,5 @@
 package entities;
-import static utils.Constants.Direction.*;
-import static utils.Constants.PlayerConstants.*;
+
 public abstract class Entity {
     protected float x,y;
     protected int speed;

@@ -1,14 +1,11 @@
 package entities;
 
-import javax.imageio.ImageIO;
+import utilz.LoadSave;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.io.InputStream;
 
-import static utils.Constants.Direction.*;
-import static utils.Constants.Direction.DOWN;
-import static utils.Constants.PlayerConstants.*;
+import static utilz.Constants.PlayerConstants.*;
 
 
 
@@ -104,27 +101,12 @@ public class Player extends Entity{
 
 
     private void importSprites() {
+        BufferedImage playerAtlas[] = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
         allAnimations = new BufferedImage[10][11];
-        String aux = "/Sprites/01-King Human/";
-        for(int i = 0;i<10;i++) {
-            aux += (i+".png");
-            InputStream is = getClass().getResourceAsStream(aux);
-            try {
-                img = ImageIO.read(is);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }finally {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-                for(int j = 0; j < (img.getWidth()/78);j++){
-                    allAnimations[i][j] = img.getSubimage(j*(78),0,78,58);
-                }
+        for(int i = 0;i<playerAtlas.length;i++){
+            for(int j = 0; j < (playerAtlas[i].getWidth()/78);j++){
+                allAnimations[i][j] = playerAtlas[i].getSubimage(j*(78),0,78,58);
             }
-            aux = "/Sprites/01-King Human/";
         }
     }
 
