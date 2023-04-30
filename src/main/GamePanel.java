@@ -120,31 +120,15 @@ public class GamePanel extends JPanel{
         }
     }
 
-
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
+    public void updateGame() {
         updateAnimationTick();
         setAnimation();
         updatePos();
-        g.drawImage(allAnimations[playerAction][aniIndex],(int)xDelta,(int)yDelta,78*3,58*3,null);
     }
 
-
-
-
-
-//    private void updateRectangle(){
-//        xDelta+=xDir;
-//        if(xDelta > 200 || xDelta <0) {
-//            xDir *= -1;
-//
-//        }
-//        yDelta += yDir;
-//        if(yDelta > 350 || yDelta < 0) {
-//           yDir *= -1;
-//
-//        }
-//    }
-
-
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.drawImage(allAnimations[playerAction][aniIndex],(int)xDelta,(int)yDelta,78*3,58*3,null);
+    }
+    
 }
