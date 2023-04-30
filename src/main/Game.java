@@ -2,13 +2,14 @@ package main;
 
 public class Game {
 
-    private  gameWindow gameWindow;
-    private gameScreen gameScreen;
+    private GameWindow gameWindow;
+    private GamePanel gamePanel;
 
     public Game(){
-        gameScreen = new gameScreen();
-        gameWindow = new gameWindow(gameScreen);
-        gameScreen.requestFocus();
+        gamePanel = new GamePanel();
+        gameWindow= new GameWindow(gamePanel);
+        gamePanel.requestFocus();
+
     }
 
 }

@@ -1,21 +1,19 @@
 package main;
+import javax.swing.JFrame;
+
 /**
  * Esto es solo la ventana y sus dimensiones
  */
 
-import javax.swing.*;
-
-public class gameWindow {
+public class GameWindow {
     private JFrame jframe;
 
-
-
-    public gameWindow(gameScreen gameScreen) {
+    public GameWindow(GamePanel gamePanel) {
         jframe = new JFrame();
 
         jframe.setSize(400, 400);
         jframe.setDefaultCloseOperation(jframe.EXIT_ON_CLOSE);
-        jframe.add(gameScreen);
+        jframe.add(gamePanel);
         jframe.setLocationRelativeTo(null);
         jframe.setVisible(true);
     }

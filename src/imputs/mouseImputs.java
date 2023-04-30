@@ -1,17 +1,21 @@
-package imputs;
+package Imputs;
 
-/**
- * Lee los botones del mouse que estoy tocando
- */
+import main.GamePanel;
 
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class mouseImputs implements MouseListener {
+public class MouseImputs implements MouseListener, MouseMotionListener {
+
+    private GamePanel gamePanel;
+    public MouseImputs(GamePanel gamePanel){
+        this.gamePanel=gamePanel;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {
-        System.out.println("Click");
+
     }
 
     @Override
@@ -32,5 +36,15 @@ public class mouseImputs implements MouseListener {
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        gamePanel.setRecPos(e.getX(),e.getY());
     }
 }
