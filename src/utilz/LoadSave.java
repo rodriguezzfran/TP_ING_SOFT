@@ -12,7 +12,7 @@ public class LoadSave {
 
     public static final String PLAYER_ATLAS = "/Sprites/01-King Human/";
     public static final String LEVEL_ATLAS = "/Sprites/14-TileSets/";
-    public static final String LEVEL_ONE_DATA = "/Sprites/14-TileSets/"; //probablemente haya un error acá
+    public static final String LEVEL_ONE_DATA = "/Sprites/15-LevelData/"; //probablemente haya un error acá
     /**
      * Devuelve una lista con los png de cada animacion
      * @return
@@ -22,10 +22,12 @@ public class LoadSave {
         BufferedImage playerAtlas[] = new BufferedImage[10];
         int aux=-1;
 
-        switch (fileName){
+        switch (fileName){ //para saber la cantidad de imágenes a buscar
             case PLAYER_ATLAS: aux = 10;
                 break;
             case LEVEL_ATLAS: aux = 2;
+                break;
+            case LEVEL_ONE_DATA: aux = 1;
                 break;
         }
 
@@ -51,11 +53,11 @@ public class LoadSave {
         int[][] lvData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
         BufferedImage[] img = GetSpriteAtlas(LEVEL_ONE_DATA);
 
-        for (int j = 0; j < 13; j++) {
-            for (int i = 0; i < 19; i++) {
-                Color color = new Color(img[1].getRGB(i, j));
+        for (int j = 0; j < img[0].getHeight(); j++) {
+            for (int i = 0; i < img[0].getWidth(); i++) {
+                Color color = new Color(img[0].getRGB(i, j));
                 int value = color.getRed();
-                if (value >= 48) {
+                if (value >= 247){
                     value = 0;
                 }
                 lvData[j][i] = value;

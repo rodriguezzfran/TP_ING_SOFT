@@ -9,7 +9,7 @@ public class Level {
     }
 
     public int getSpriteIndex(int x, int y){
-        return lvData[y][x];
+        return lvData[x][y];
     }
 
 }

@@ -18,7 +18,7 @@ public class LevelManager {
 
     }
 
-    //debe haber algo mal acá con el index que no permite que se dibuje bien
+
     private void importOutsideSprites() {
         BufferedImage img = LoadSave.GetSpriteAtlas(LoadSave.LEVEL_ATLAS)[1];
         levelSprite = new BufferedImage[247];
@@ -33,11 +33,8 @@ public class LevelManager {
     public void draw(Graphics g){
         for(int j=0; j < Game.TILES_IN_HEIGHT; j++){
             for(int i = 0; i < Game.TILES_IN_WIDTH; i++){
-                int index = levelOne.getSpriteIndex(i,j);
-                //Seguro haya un error acá porque si en vez de index le pone a mano un valor si lo dibuja
-                //Probablemente me haya equivocado con las dimensiones del archivo.
-                g.drawImage(levelSprite[59], Game.TILES_SIZE*i ,Game.TILES_SIZE*j,Game.TILES_SIZE,Game.TILES_SIZE,null);
-
+                int index = levelOne.getSpriteIndex(j,i);
+                g.drawImage(levelSprite[index], Game.TILES_SIZE*i ,Game.TILES_SIZE*j,Game.TILES_SIZE,Game.TILES_SIZE,null);
             }
         }
     }

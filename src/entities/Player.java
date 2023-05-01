@@ -28,7 +28,7 @@ public class Player extends Entity{
         setAnimation();
     }
     public void render(Graphics g){
-        g.drawImage(allAnimations[playerAction][aniIndex],(int)x,(int)y,78*3,58*3,null);
+        g.drawImage(allAnimations[playerAction][aniIndex],(int)x,(int)y,78*2,58*2,null);
     }
 
 
