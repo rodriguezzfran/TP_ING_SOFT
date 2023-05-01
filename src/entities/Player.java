@@ -34,10 +34,6 @@ public class Player extends Entity{
 
 
 
-    /**
-     * Importación de los sprites.
-     */
-
 
     private void setAnimation() {
         int startAnimation = playerAction;
