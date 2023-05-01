@@ -99,7 +99,9 @@ public class Player extends Entity{
     }
 
 
-
+    /**
+     * mete al array todas las animaciones
+     */
     private void importSprites() {
         BufferedImage playerAtlas[] = LoadSave.GetSpriteAtlas(LoadSave.PLAYER_ATLAS);
         allAnimations = new BufferedImage[10][11];

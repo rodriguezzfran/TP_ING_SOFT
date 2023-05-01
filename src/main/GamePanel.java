@@ -1,7 +1,7 @@
 package main;
 
-import Imputs.KeyBoardImputs;
-import Imputs.MouseImputs;
+import imputs.KeyBoardImputs;
+import imputs.MouseImputs;
 import javax.swing.JPanel;
 import java.awt.*;
 import static main.Game.GAME_HEIGHT;

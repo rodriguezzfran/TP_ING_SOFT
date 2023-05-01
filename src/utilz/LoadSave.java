@@ -1,6 +1,9 @@
 package utilz;
 
+import main.Game;
+
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,6 +12,7 @@ public class LoadSave {
 
     public static final String PLAYER_ATLAS = "/Sprites/01-King Human/";
     public static final String LEVEL_ATLAS = "/Sprites/14-TileSets/";
+    public static final String LEVEL_ONE_DATA = "/Sprites/14-TileSets/"; //probablemente haya un error acá
     /**
      * Devuelve una lista con los png de cada animacion
      * @return
@@ -41,5 +45,22 @@ public class LoadSave {
             }
         }
         return playerAtlas;
+    }
+
+    public static int[][] GetLevelData() {
+        int[][] lvData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
+        BufferedImage[] img = GetSpriteAtlas(LEVEL_ONE_DATA);
+
+        for (int j = 0; j < 13; j++) {
+            for (int i = 0; i < 19; i++) {
+                Color color = new Color(img[1].getRGB(i, j));
+                int value = color.getRed();
+                if (value >= 48) {
+                    value = 0;
+                }
+                lvData[j][i] = value;
+            }
+        }
+        return lvData;
     }
 }
