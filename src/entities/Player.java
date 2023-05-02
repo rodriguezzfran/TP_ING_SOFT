@@ -12,6 +12,7 @@ import static utilz.Constants.PlayerConstants.*;
 
 
 public class Player extends Entity{
+    private int speed = 2;
     private BufferedImage[][] allAnimations;
     private BufferedImage img;
     private int playerAction = DEAD;
@@ -30,8 +31,8 @@ public class Player extends Entity{
 
 
 
-    public Player(float x, float y,int speed,int width, int height) {
-        super(x, y,speed,width,height);
+    public Player(float x, float y,int width, int height) {
+        super(x, y,width,height);
         importSprites();
         initHitbox(x,y,20*Game.SCALE, 27*Game.SCALE); //20x27 is the actual player's size
 

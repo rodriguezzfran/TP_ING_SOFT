@@ -8,10 +8,9 @@ public abstract class Entity {
     protected float x,y;
     protected int speed;
     protected Rectangle2D.Float hitBox;
-    public Entity(float x, float y,int speed, int width, int height){
+    public Entity(float x, float y, int width, int height){
         this.x = x;
         this.y = y;
-        this.speed = speed;
         this.width = width;
         this.height = height;
 

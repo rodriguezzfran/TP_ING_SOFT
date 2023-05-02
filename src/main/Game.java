@@ -1,7 +1,8 @@
 package main;
 
-import entities.Player;
-import levels.LevelManager;
+import gameStates.GameState;
+import gameStates.Playing;
+import gameStates.Menu;
 
 import java.awt.*;
 
@@ -12,8 +13,10 @@ public class Game implements Runnable{
     private Thread gameThread;
     private final int FPS_SET =120;
     private final int UPS_SET=200;
-    private Player player;
-    private LevelManager levelManager;
+
+    private Playing playing;
+    private Menu menu;
+
 
     public final static int TILES_DEFAULT_SIZE = 32;
     public final static float SCALE =2f;
@@ -33,9 +36,8 @@ public class Game implements Runnable{
     }
 
     private void initClases() {
-        levelManager = new LevelManager(this);
-        player = new Player(270,200,playerSpeed,(int)(78*SCALE),(int)(58*SCALE)); //78 y 58
-        player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
+        menu = new Menu(this);
+        playing = new Playing(this);
     }
 
     private void startGameLoop(){
@@ -44,12 +46,28 @@ public class Game implements Runnable{
     }
 
     public void update() {
-        player.update();
-        levelManager.update();
+        switch (GameState.state){
+            case MENU:
+                menu.update();
+                break;
+            case PLAYING:
+                playing.update();
+                break;
+            default:
+                break;
+        }
     }
     public void render(Graphics g){
-        levelManager.draw(g);
-        player.render(g);
+        switch (GameState.state){
+            case MENU:
+                menu.draw(g);
+                break;
+            case PLAYING:
+                playing.draw(g);
+                break;
+            default:
+                break;
+        }
     }
 
 
@@ -97,12 +115,17 @@ public class Game implements Runnable{
 
         }
     }
-    public void windowFocusLost() {
-        player.resetDirBooleans();
+
+    public void windowFocusLost(){
+        if(GameState.state == GameState.PLAYING)
+            playing.getPlayer().resetDirBooleans();
     }
 
-    public Player getPlayer(){
-        return player;
+    public Menu getMenu(){
+        return menu;
+    }
+    public Playing getPlaying(){
+        return playing;
     }
 
 }
