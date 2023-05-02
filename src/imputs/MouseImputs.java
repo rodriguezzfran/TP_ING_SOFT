@@ -1,5 +1,6 @@
 package imputs;
 
+import gameStates.GameState;
 import main.GamePanel;
 
 import java.awt.event.MouseEvent;
@@ -15,8 +16,16 @@ public class MouseImputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if(e.getButton() == MouseEvent.BUTTON1){
-            gamePanel.getGame().getPlayer().setAttacking(true);
+        switch (GameState.state){
+
+            case PLAYING:
+                gamePanel.getGame().getPlaying().mouseClicked(e);
+                break;
+            case MENU:
+                gamePanel.getGame().getMenu().mouseClicked(e);
+                break;
+            default:
+                break;
         }
     }
 
