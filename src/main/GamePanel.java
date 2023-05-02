@@ -31,7 +31,7 @@ public class GamePanel extends JPanel{
      * Importación de los sprites.
      */
     private void setPanelSize() {
-        Dimension size = new Dimension(GAME_WIDTH,GAME_HEIGHT);
+        Dimension size = new Dimension(game.GAME_WIDTH,game.GAME_HEIGHT);
         setPreferredSize(size);
         System.out.println("Size: "+GAME_WIDTH + " : "+GAME_HEIGHT);
     }
