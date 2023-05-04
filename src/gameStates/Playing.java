@@ -67,18 +67,23 @@ public class Playing extends State implements StateMethods {
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()){
             case KeyEvent.VK_W:
+                System.out.println("Tecla W apretada");
                 player.setUp(true);
                 break;
             case KeyEvent.VK_A:
+                System.out.println("Tecla A apretada");
                 player.setLeft(true);
                 break;
             case KeyEvent.VK_S:
+                System.out.println("Tecla S apretada");
                 player.setDown(true);
                 break;
             case KeyEvent.VK_D:
+                System.out.println("Tecla D apretada");
                 player.setRight(true);
                 break;
             case KeyEvent.VK_SPACE:
+                System.out.println("Tecla Espacio apretada");
                 player.setJump(true);
                 break;
 
