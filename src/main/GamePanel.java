@@ -14,7 +14,7 @@ import static main.Game.GAME_WIDTH;
 public class GamePanel extends JPanel{
 
     private MouseImputs mouseImputs;
-    private Game game;
+    private static Game game;
 
 
     public GamePanel(Game game){
@@ -47,7 +47,7 @@ public class GamePanel extends JPanel{
         game.render(g);
     }
 
-    public Game getGame(){
+    public static Game getGame(){
         return game;
     }
 
