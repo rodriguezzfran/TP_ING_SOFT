@@ -36,7 +36,7 @@ public class HelpMethods {
    public static float getEntityYPosUnderRoofOrAboveFloor(Rectangle2D.Float hitbox, float airSpeed){
        int currentTile = (int)(hitbox.y/Game.TILES_SIZE);
        if(airSpeed > 0){
-           //cayendo
+           //cayendo 384
             int tileYPos = currentTile * Game.TILES_SIZE;
             int yOffset = (int)(Game.TILES_SIZE - hitbox.height);
             return tileYPos + yOffset-1;

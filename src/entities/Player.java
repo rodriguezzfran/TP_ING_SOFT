@@ -13,7 +13,7 @@ import static utilz.HelpMethods.*;
 
 
 public class Player extends Entity{
-    private int speed = 2;
+    private int speed = 3;
     private BufferedImage[][] allAnimations;
     private BufferedImage img;
     private int playerAction = DEAD;
@@ -90,7 +90,6 @@ public class Player extends Entity{
     private void updatePos() {
         moving = false;
         if(jump){
-            System.out.println("Saltando");
             jump();
         }
 
@@ -154,7 +153,6 @@ public class Player extends Entity{
         if(CanMoveHere(hitBox.x + xSpeed,hitBox.y, hitBox.width, hitBox.height,lvlData)){
             //lo que se va a mover es la hitbox, y con el metodo de render
             //hacemos que el sprite del pj "siga" a la hitbox
-            System.out.println("Jugador se desplaza sobre eje x " + xSpeed  + " posiciones ");
             hitBox.x += xSpeed;
         }else{
             hitBox.x = getEntityXPosNextToWall(hitBox,xSpeed);
