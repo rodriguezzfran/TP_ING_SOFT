@@ -12,7 +12,9 @@ public class LoadSave {
 
     public static final String PLAYER_ATLAS = "/Sprites/01-King Human/";
     public static final String LEVEL_ATLAS = "/Sprites/14-TileSets/";
-    public static final String LEVEL_ONE_DATA = "/Sprites/15-LevelData/"; //probablemente haya un error acá
+    public static final String LEVEL_ONE_DATA = "/Sprites/15-LevelData/";
+    public static final String MENU_BUTTONS = "/Sprites/16-Menu/";
+    /**
     /**
      * Devuelve una lista con los png de cada animacion
      * @return
@@ -28,6 +30,8 @@ public class LoadSave {
             case LEVEL_ATLAS: aux = 2;
                 break;
             case LEVEL_ONE_DATA: aux = 1;
+                break;
+            case MENU_BUTTONS: aux = 2;
                 break;
         }
 
