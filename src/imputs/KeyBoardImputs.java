@@ -24,9 +24,7 @@ public class KeyBoardImputs implements KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         switch (GameState.state){
-
             case PLAYING:
-                System.out.println("Tecla soltada");
                 gamePanel.getGame().getPlaying().keyReleased(e);
                 break;
             case MENU:
@@ -39,7 +37,6 @@ public class KeyBoardImputs implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
         switch (GameState.state){
-
             case PLAYING:
                 gamePanel.getGame().getPlaying().keyPressed(e);
                 break;
