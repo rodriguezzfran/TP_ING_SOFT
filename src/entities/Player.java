@@ -24,12 +24,26 @@ public class Player extends Entity{
     private int[][] lvlData;
     private float xDrawOffset = 21 * Game.SCALE;
     private float yDrawOffset = 16 * Game.SCALE;
+
+    //Jumping / Gravity
     private float airSpeed = 0f;
     private float gravity = 0.04f * Game.SCALE;
     private float jumpSpeed = -2.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
 
+    //StatusBarUI
+    private BufferedImage statusBarImg;
+
+    private int statusBarWidth = (int) (192*Game.SCALE);
+    private int statusBarHeight = (int) (58*Game.SCALE);
+    private int statusBarX = (int) (10*Game.SCALE);
+    private int statusBarY = (int) (10*Game.SCALE);
+
+    private int healthBarWidth = (int) (150*Game.SCALE);
+    private int healthBarHeight = (int) (4*Game.SCALE);
+    private int healthBarX = (int) (34*Game.SCALE);
+    private int healthBarY = (int) (14*Game.SCALE);
 
 
     public Player(float x, float y,int width, int height) {
@@ -49,6 +63,12 @@ public class Player extends Entity{
         //sprite del pj "siga" a la hitbox q es la q se mueve
         g.drawImage(allAnimations[playerAction][aniIndex],(int)(hitBox.x - xDrawOffset),(int)(hitBox.y - yDrawOffset),width,height,null);
         //drawHitbox(g);
+
+        drawUI(g);
+    }
+
+    private void drawUI(Graphics g) {
+        g.drawImage(statusBarImg,statusBarX,statusBarY,statusBarWidth,statusBarHeight,null);
     }
 
     private void setAnimation() {
@@ -106,7 +126,7 @@ public class Player extends Entity{
             xSpeed += speed;
         }
         if(!inAir){
-            if(!isEntityOnFloor(hitBox,lvlData)){
+            if(!IsEntityOnFloor(hitBox,lvlData)){
                 inAir = true;
             }
         }
@@ -117,7 +137,7 @@ public class Player extends Entity{
                 airSpeed += gravity;
                 updateXPos(xSpeed);
             }else {
-                hitBox.y = getEntityYPosUnderRoofOrAboveFloor(hitBox, airSpeed);
+                hitBox.y = GetEntityYPosUnderRoofOrAboveFloor(hitBox, airSpeed);
                 if (airSpeed > 0) {
                     resetInAir();
                 } else {
@@ -155,7 +175,7 @@ public class Player extends Entity{
             //hacemos que el sprite del pj "siga" a la hitbox
             hitBox.x += xSpeed;
         }else{
-            hitBox.x = getEntityXPosNextToWall(hitBox,xSpeed);
+            hitBox.x = GetEntityXPosNextToWall(hitBox,xSpeed);
         }
     }
 
@@ -183,10 +203,12 @@ public class Player extends Entity{
                 allAnimations[i][j] = playerAtlas[i].getSubimage(j*(78),0,78,58);
             }
         }
+        statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.LIVE_BAR_GRAPH)[4]; //toma la health bar del array de las
+                                                                            //imagenes de "12-Live and Coins"
     }
     public void loadLvlData(int[][] lvlData){
         this.lvlData = lvlData;
-        if(!isEntityOnFloor(hitBox,lvlData)){
+        if(!IsEntityOnFloor(hitBox,lvlData)){
             inAir = true;
         }
     }

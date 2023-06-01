@@ -1,5 +1,6 @@
 package gameStates;
 
+import entities.EnemyManager;
 import entities.Player;
 import levels.LevelManager;
 import main.Game;
@@ -12,6 +13,7 @@ public class Playing extends State implements StateMethods {
 
     private Player player;
     private LevelManager levelManager;
+    private EnemyManager enemyManager;
 
     public Playing(Game game) {
         super(game);
@@ -19,6 +21,7 @@ public class Playing extends State implements StateMethods {
     }
     private void initClases() {
         levelManager = new LevelManager(game);
+        enemyManager = new EnemyManager(this);
         player = new Player(270,200,(int)(78*Game.SCALE),(int)(58*Game.SCALE)); //78 y 58
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
     }
@@ -31,6 +34,7 @@ public class Playing extends State implements StateMethods {
     @Override
     public void update() {
         levelManager.update();
+        enemyManager.update(levelManager.getCurrentLevel().getLvlData(),player);
         player.update();
     }
 
@@ -38,6 +42,7 @@ public class Playing extends State implements StateMethods {
     public void draw(Graphics g) {
         levelManager.draw(g);
         player.render(g);
+        enemyManager.draw(g); //desp ver lo de ofset para level estirado
     }
 
     @Override

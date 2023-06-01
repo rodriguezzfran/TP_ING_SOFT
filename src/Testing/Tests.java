@@ -17,21 +17,21 @@ public class Tests extends TestCase {
     }
     public void testGetEntityXPosNextToWallRight(){
         jibos();
-        assertEquals(279,(int)getEntityXPosNextToWall(hitBox,3)); //87 es lo que debería volver
+        assertEquals(279,(int) GetEntityXPosNextToWall(hitBox,3)); //87 es lo que debería volver
     }
 
     public void testGetEntityXPosNextToWallLeft(){
         jibos();
-        assertEquals(256,(int)getEntityXPosNextToWall(hitBox,-3)); //87 es lo que debería volver
+        assertEquals(256,(int) GetEntityXPosNextToWall(hitBox,-3)); //87 es lo que debería volver
     }
 
     public void testGetEntityYPosUnderRoofOrAboveFloorDown(){
         jibos();
-        assertEquals(393,(int)getEntityYPosUnderRoofOrAboveFloor(hitBox,0.04f)); //87 es lo que debería volver
+        assertEquals(393,(int) GetEntityYPosUnderRoofOrAboveFloor(hitBox,0.04f)); //87 es lo que debería volver
     }
 
     public void testGetEntityYPosUnderRoofOrAboveFloorUp(){
         jibos();
-        assertEquals(384,(int)getEntityYPosUnderRoofOrAboveFloor(hitBox,-2.25f)); //87 es lo que debería volver
+        assertEquals(384,(int) GetEntityYPosUnderRoofOrAboveFloor(hitBox,-2.25f)); //87 es lo que debería volver
     }
 }
