@@ -31,12 +31,31 @@ public class MouseImputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        switch (GameState.state){
 
+            case PLAYING:
+                gamePanel.getGame().getPlaying().mousePressed(e);
+                break;
+            case MENU:
+                gamePanel.getGame().getMenu().mousePressed(e);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-
+        switch (GameState.state){
+            case PLAYING:
+                gamePanel.getGame().getPlaying().mouseReleased(e);
+                break;
+            case MENU:
+                gamePanel.getGame().getMenu().mouseReleased(e);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -56,6 +75,16 @@ public class MouseImputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        switch (GameState.state){
 
+            case PLAYING:
+                gamePanel.getGame().getPlaying().mouseMoved(e);
+                break;
+            case MENU:
+                gamePanel.getGame().getMenu().mouseMoved(e);
+                break;
+            default:
+                break;
+        }
     }
 }
