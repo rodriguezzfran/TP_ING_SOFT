@@ -46,8 +46,8 @@ public class EnemyManager {
                         (int) kp.getHitBox().x - KING_PIG_DRAWOFFSET_X + kp.flipX(),
                         (int) kp.getHitBox().y - KING_PIG_DRAWOFFSET_Y,
                         KING_PIG_WIDTH * kp.flipW(), KING_PIG_HEIGHT, null);
-                kp.drawHitbox(g); //para debuggear hitbox
-                kp.drawAttackBox(g);
+                //kp.drawHitbox(g); //para debuggear hitbox
+                //kp.drawAttackBox(g);
             }
         }
     }

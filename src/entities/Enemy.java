@@ -89,12 +89,12 @@ public abstract class Enemy extends Entity{
 
     protected boolean isPlayerInRange(Player player) {
         int absValue = (int)(Math.abs(player.hitBox.x - hitBox.x));
-        return (absValue <= attackDistance);
+        return (absValue <= attackDistance*10);
     }
 
     protected boolean isPlayerCloseForAttack(Player player){
         int absValue = (int) Math.abs(player.hitBox.x - hitBox.x);
-        return (absValue <= attackDistance*2);
+        return (absValue <= attackDistance*3);
     }
 
     protected void newState(int enemyState){
