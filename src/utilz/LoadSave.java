@@ -14,7 +14,13 @@ public class LoadSave {
     public static final String LEVEL_ATLAS = "/Sprites/14-TileSets/";
     public static final String LEVEL_ONE_DATA = "/Sprites/15-LevelData/";
     public static final String MENU_BUTTONS = "/Sprites/16-Menu/";
+<<<<<<< Updated upstream
     /**
+=======
+    public static final String KING_PIG_SPRITE = "/Sprites/02-King Pig/";
+    public static final String LIVE_BAR_GRAPH = "/Sprites/12-Live and Coins/";
+
+>>>>>>> Stashed changes
     /**
      * Devuelve una lista con los png de cada animacion
      * @return
@@ -31,7 +37,7 @@ public class LoadSave {
                 break;
             case LEVEL_ONE_DATA: aux = 1;
                 break;
-            case MENU_BUTTONS: aux = 2;
+            case MENU_BUTTONS: aux = 3;
                 break;
         }
 
