@@ -63,7 +63,45 @@ public class GameOverOverlay {
         }
     }
     private boolean isIn(UrmButton b, MouseEvent e){
+        return b.getBounds().contains(e.getX(),e.getY());
+    }
+    public void mouseMoved(MouseEvent e){
+        play.setMouseOver(false);
+        menu.setMouseOver(false);
 
+        if(isIn(menu,e))
+            menu.setMouseOver(true);
+        else if (isIn(play,e)) {
+            play.setMouseOver(true);
+        }
+    }
+
+    public void mouseReleased(MouseEvent e){
+        if(isIn(menu,e)){
+            if(menu.isMousePressed()){
+                playing.resetAll();
+                Gamestate.state = Gamestate.MENU;
+
+            }
+        } else if (isIn(play,e)) {
+            if(play.isMousePressed()){
+
+            }
+        }
+        menu.resetBooleans();
+        play.resetBooleans();
+    }
+    public void update(){
+        menu.update();
+        play.update();
+    }
+    public void mousePressed(MouseEvent e){
+        if(isIn(menu,e)){
+            menu.setMousePressed(true);
+        }
+        else if(isIn(play,e)){
+            play.setMousePressed(true);
+        }
     }
 
 }
