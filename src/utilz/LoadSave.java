@@ -16,6 +16,7 @@ public class LoadSave {
     public static final String PLAYER_ATLAS = "/Sprites/01-King Human/";
     public static final String LEVEL_ATLAS = "/Sprites/14-TileSets/";
     public static final String LEVEL_ONE_DATA = "/Sprites/15-LevelData/";
+    public static final String MENU_BUTTONS = "/Sprites/16-Menu/";
     public static final String KING_PIG_SPRITE = "/Sprites/02-King Pig/";
     public static final String LIVE_BAR_GRAPH = "/Sprites/12-Live and Coins/";
     /**
@@ -33,6 +34,7 @@ public class LoadSave {
                 break;
             case LEVEL_ONE_DATA: aux = 1;
                 break;
+            case MENU_BUTTONS: aux = 2;
             case KING_PIG_SPRITE: aux = 8;
                 break;
             case LIVE_BAR_GRAPH: aux = 10;
