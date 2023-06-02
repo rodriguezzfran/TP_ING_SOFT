@@ -13,6 +13,7 @@ public class Menu extends State implements StateMethods{
 
     private MenuButton[] buttons = new MenuButton[3];
     private BufferedImage backGroundImg;
+    private BufferedImage BGImg;
     private int menuX,menuY,menuWidth,menuHeight;
 
     public Menu(Game game) {
@@ -23,6 +24,7 @@ public class Menu extends State implements StateMethods{
     }
 
     private void loadBackground() {
+        BGImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[4];
         backGroundImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[1];
         menuWidth = (int)(backGroundImg.getWidth()*Game.SCALE);
         menuHeight = (int)(backGroundImg.getHeight()*Game.SCALE);
@@ -45,6 +47,7 @@ public class Menu extends State implements StateMethods{
 
     @Override
     public void draw(Graphics g) {
+        g.drawImage(BGImg,0,0,Game.GAME_WIDTH-40,Game.GAME_HEIGHT-40,null);
         g.drawImage(backGroundImg,menuX,menuY+50,menuWidth/2,menuHeight/2,null);
         for(MenuButton mb: buttons){
             mb.draw(g);
