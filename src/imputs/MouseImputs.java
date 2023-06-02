@@ -1,6 +1,6 @@
 package imputs;
 
-import gameStates.GameState;
+import gamestates.Gamestate;
 import main.GamePanel;
 
 import java.awt.event.MouseEvent;
@@ -16,7 +16,7 @@ public class MouseImputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        switch (GameState.state){
+        switch (Gamestate.state){
 
             case PLAYING:
                 gamePanel.getGame().getPlaying().mouseClicked(e);
@@ -31,7 +31,7 @@ public class MouseImputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        switch (GameState.state){
+        switch (Gamestate.state){
 
             case PLAYING:
                 gamePanel.getGame().getPlaying().mousePressed(e);
@@ -46,7 +46,7 @@ public class MouseImputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        switch (GameState.state){
+        switch (Gamestate.state){
             case PLAYING:
                 gamePanel.getGame().getPlaying().mouseReleased(e);
                 break;
@@ -75,7 +75,7 @@ public class MouseImputs implements MouseListener, MouseMotionListener {
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        switch (GameState.state){
+        switch (Gamestate.state){
 
             case PLAYING:
                 gamePanel.getGame().getPlaying().mouseMoved(e);

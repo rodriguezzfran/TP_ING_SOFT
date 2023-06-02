@@ -1,7 +1,6 @@
 package imputs;
 
-import gameStates.GameState;
-import main.Game;
+import gamestates.Gamestate;
 import main.GamePanel;
 
 import java.awt.event.KeyEvent;
@@ -23,7 +22,7 @@ public class KeyBoardImputs implements KeyListener {
 
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (GameState.state){
+        switch (Gamestate.state){
             case PLAYING:
                 gamePanel.getGame().getPlaying().keyReleased(e);
                 break;
@@ -36,7 +35,7 @@ public class KeyBoardImputs implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        switch (GameState.state){
+        switch (Gamestate.state){
             case PLAYING:
                 gamePanel.getGame().getPlaying().keyPressed(e);
                 break;

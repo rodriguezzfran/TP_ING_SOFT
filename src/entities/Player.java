@@ -1,5 +1,6 @@
 package entities;
 
+import gamestates.Playing;
 import main.Game;
 import utilz.LoadSave;
 
@@ -57,9 +58,13 @@ public class Player extends Entity{
     private int flipX = 0;
     private int flipW = 1;
 
+    private boolean attackChecked = false;
+    private Playing playing;
 
-    public Player(float x, float y,int width, int height) {
+
+    public Player(float x, float y,int width, int height, Playing playing) {
         super(x, y,width,height);
+        this.playing=playing;
         importSprites();
         initHitbox(x,y,20*Game.SCALE, 27*Game.SCALE); //20x27 is the actual player's size
         initAttackBox();
@@ -71,11 +76,25 @@ public class Player extends Entity{
 
     public void update(){
         updateHealthBar();
+        if(currentHealth <= 0){
+            playing.setGameOver(true);
+            return;
+        }
         updateAttackBox();
-
         updatePos();
+        if(attacking){
+            checkAttack();
+        }
         updateAnimationTick();
         setAnimation();
+    }
+
+    private void checkAttack() {
+        if(attackChecked || aniIndex != 0){
+            return;
+        }
+        attackChecked = true;
+        playing.checkEnemyHit(attackBox);
     }
 
     private void updateAttackBox() {
@@ -247,6 +266,7 @@ public class Player extends Entity{
             if(aniIndex >= getSpriteAmount(playerAction)){
                 aniIndex = 0;
                 attacking = false;
+                attackChecked = false;
             }
         }
     }
@@ -316,4 +336,19 @@ public class Player extends Entity{
     }
 
 
+    public void resetAll() {
+        resetDirBooleans();
+        inAir = false;
+        attacking=false;
+        moving=false;
+        playerAction=IDLE;
+        currentHealth=maxHealth;
+
+        hitBox.x=x;
+        hitBox.y=y;
+
+        if(!IsEntityOnFloor(hitBox,lvlData)){
+            inAir = true;
+        }
+    }
 }
