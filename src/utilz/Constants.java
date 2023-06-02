@@ -52,6 +52,23 @@ public class Constants {
 
         }
 
+        public static int GetMaxHealth(int enemy_type){
+            switch (enemy_type){
+                case KING_PIG:
+                    return 10;
+                default:
+                    return 1;
+            }
+        }
+
+        public static int GetEnemyDmg(int enemy_type){
+            switch (enemy_type){
+                case KING_PIG:
+                    return 15;
+                default:
+                    return 0;
+            }
+        }
 
 
     }

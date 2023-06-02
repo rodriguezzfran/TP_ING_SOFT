@@ -1,5 +1,6 @@
 package entities;
 
+import gamestates.Playing;
 import main.Game;
 import utilz.LoadSave;
 
@@ -57,9 +58,13 @@ public class Player extends Entity{
     private int flipX = 0;
     private int flipW = 1;
 
+    private boolean attackChecked = false;
+    private Playing playing;
 
-    public Player(float x, float y,int width, int height) {
+
+    public Player(float x, float y,int width, int height, Playing playing) {
         super(x, y,width,height);
+        this.playing=playing;
         importSprites();
         initHitbox(x,y,20*Game.SCALE, 27*Game.SCALE); //20x27 is the actual player's size
         initAttackBox();
@@ -71,11 +76,25 @@ public class Player extends Entity{
 
     public void update(){
         updateHealthBar();
+        if(currentHealth <= 0){
+            playing.setGameOver(true);
+            return;
+        }
         updateAttackBox();
-
         updatePos();
+        if(attacking){
+            checkAttack();
+        }
         updateAnimationTick();
         setAnimation();
+    }
+
+    private void checkAttack() {
+        if(attackChecked || aniIndex != 0){
+            return;
+        }
+        attackChecked = true;
+        playing.checkEnemyHit(attackBox);
     }
 
     private void updateAttackBox() {
@@ -96,11 +115,11 @@ public class Player extends Entity{
         //con "hitBox.x-xDrawOffset" y "hitBox.y-yDrawOffset" hacemos que el
         //sprite del pj "siga" a la hitbox q es la q se mueve
         g.drawImage(allAnimations[playerAction][aniIndex],
-                (int)(hitBox.x - xDrawOffset + flipX),
-                (int)(hitBox.y - yDrawOffset),
+                (int) (hitBox.x - xDrawOffset) + flipX,
+                (int) (hitBox.y - yDrawOffset),
                 width * flipW,height,null);
-        drawHitbox(g);
-        drawAttackBox(g);
+        //drawHitbox(g);
+        //drawAttackBox(g);
         drawUI(g);
     }
 
@@ -161,11 +180,11 @@ public class Player extends Entity{
             return;
         }
 
-        float xSpeed = 0, ySpeed = 0;
+        float xSpeed = 0;
 
         if(left){
             xSpeed -= speed;
-            flipX = width;
+            flipX = (width-30); //30 es el drawOffset del lado derecho
             flipW = -1;
         }
         if(right){
@@ -247,6 +266,7 @@ public class Player extends Entity{
             if(aniIndex >= getSpriteAmount(playerAction)){
                 aniIndex = 0;
                 attacking = false;
+                attackChecked = false;
             }
         }
     }
@@ -316,4 +336,19 @@ public class Player extends Entity{
     }
 
 
+    public void resetAll() {
+        resetDirBooleans();
+        inAir = false;
+        attacking=false;
+        moving=false;
+        playerAction=IDLE;
+        currentHealth=maxHealth;
+
+        hitBox.x=x;
+        hitBox.y=y;
+
+        if(!IsEntityOnFloor(hitBox,lvlData)){
+            inAir = true;
+        }
+    }
 }

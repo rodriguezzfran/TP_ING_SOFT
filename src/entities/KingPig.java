@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
 import static utilz.Constants.Directions.LEFT;
 import static utilz.Constants.Directions.RIGHT;
 import static utilz.Constants.EnemyConstants.*;
-import static utilz.HelpMethods.*;
 
 public class KingPig  extends  Enemy{
     private Rectangle2D.Float attackBox;
@@ -26,7 +25,7 @@ public class KingPig  extends  Enemy{
     }
 
     public void update(int[][] lvlData, Player player){
-        updateMove(lvlData,player);
+        updateBehavior(lvlData,player);
         updateAnimationTick();
         updateAttackBox();
     }
@@ -41,7 +40,7 @@ public class KingPig  extends  Enemy{
         attackBox.y = hitBox.y - (7*Game.SCALE);
     }
 
-    private void updateMove(int[][] lvlData,Player player){
+    private void updateBehavior(int[][] lvlData, Player player){
         if (firstUpdate) {
             firstUpdateCheck(lvlData);
         }
@@ -53,13 +52,23 @@ public class KingPig  extends  Enemy{
                     newState(RUN);
                     break;
                 case RUN:
-                    if(canSeePlayer(lvlData,player)){
+                    if(canSeePlayer(lvlData,player)) {
                         turnTowardsPlayer(player);
-                    }
-                    if(isPlayerCloseForAttack(player)){
-                        newState(ATTACK);
+                        if (isPlayerCloseForAttack(player)) {
+                            newState(ATTACK);
+                        }
                     }
                     move(lvlData);
+                    break;
+                case ATTACK:
+                    if(aniIndex == 0){
+                        attackChecked = false;
+                    }
+                    if(aniIndex == 2 && !attackChecked){
+                        checkEnemyHit(attackBox, player);
+                    }
+                    break;
+                case HIT:
                     break;
             }
         }

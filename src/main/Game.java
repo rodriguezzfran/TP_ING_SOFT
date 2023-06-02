@@ -1,8 +1,8 @@
 package main;
 
-import gameStates.GameState;
-import gameStates.Playing;
-import gameStates.Menu;
+import gamestates.Gamestate;
+import gamestates.Playing;
+import gamestates.Menu;
 
 import java.awt.*;
 
@@ -31,6 +31,7 @@ public class Game implements Runnable{
         initClases();
         gamePanel = new GamePanel(this);
         gameWindow= new GameWindow(gamePanel);
+        gamePanel.setFocusable(true);
         gamePanel.requestFocus();
         startGameLoop();
     }
@@ -46,7 +47,7 @@ public class Game implements Runnable{
     }
 
     public void update() {
-        switch (GameState.state){
+        switch (Gamestate.state){
             case MENU:
                 menu.update();
                 break;
@@ -63,7 +64,7 @@ public class Game implements Runnable{
         }
     }
     public void render(Graphics g){
-        switch (GameState.state){
+        switch (Gamestate.state){
             case MENU:
                 menu.draw(g);
                 break;
@@ -122,7 +123,7 @@ public class Game implements Runnable{
     }
 
     public void windowFocusLost(){
-        if(GameState.state == GameState.PLAYING)
+        if(Gamestate.state == Gamestate.PLAYING)
             playing.getPlayer().resetDirBooleans();
     }
 

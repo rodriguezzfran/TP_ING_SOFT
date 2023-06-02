@@ -1,4 +1,4 @@
-package gameStates;
+package gamestates;
 
 import main.Game;
 import UI.MenuButton;
@@ -31,9 +31,9 @@ public class Menu extends State implements StateMethods{
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int)(Game.SCALE*150),0,GameState.PLAYING);
-        buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int)(Game.SCALE*220),1,GameState.OPTION);
-        buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int)(Game.SCALE*290),2,GameState.QUIT);
+        buttons[0] = new MenuButton(Game.GAME_WIDTH/2, (int)(Game.SCALE*150),0, Gamestate.PLAYING);
+        buttons[1] = new MenuButton(Game.GAME_WIDTH/2, (int)(Game.SCALE*220),1, Gamestate.OPTION);
+        buttons[2] = new MenuButton(Game.GAME_WIDTH/2, (int)(Game.SCALE*290),2, Gamestate.QUIT);
     }
 
     @Override
@@ -105,8 +105,8 @@ public class Menu extends State implements StateMethods{
     @Override
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ENTER)
-            GameState.state = GameState.PLAYING;
-        System.out.println(GameState.state);
+            Gamestate.state = Gamestate.PLAYING;
+        System.out.println(Gamestate.state);
 
     }
 

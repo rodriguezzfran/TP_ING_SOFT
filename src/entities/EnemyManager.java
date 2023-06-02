@@ -1,15 +1,13 @@
 package entities;
 
-import gameStates.Playing;
+import gamestates.Playing;
 
-import static utilz.Constants.Directions.*;
 import static utilz.Constants.EnemyConstants.*;
 import utilz.LoadSave;
 
 import java.awt.*;
-import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 
@@ -32,7 +30,9 @@ public class EnemyManager {
 
     public void update(int[][] lvlData, Player player){
         for(KingPig kp : kingPigs){
-            kp.update(lvlData,player);
+            if(kp.isActive()){
+                kp.update(lvlData,player);
+            }
         }
     }
     public void draw(Graphics g){
@@ -41,15 +41,27 @@ public class EnemyManager {
 
     private void drawKingPigs(Graphics g) {
         for(KingPig kp : kingPigs){
-            g.drawImage(kingPigArr[kp.getEnemyState()][kp.getAniIndex()],
-                    (int)kp.getHitBox().x-KING_PIG_DRAWOFFSET_X + kp.flipX(),
-                    (int)kp.getHitBox().y-KING_PIG_DRAWOFFSET_Y,
-                    KING_PIG_WIDTH * kp.flipW(), KING_PIG_HEIGHT,null);
-            kp.drawHitbox(g); //para debuggear hitbox
-            kp.drawAttackBox(g);
+            if(kp.isActive()) {
+                g.drawImage(kingPigArr[kp.getEnemyState()][kp.getAniIndex()],
+                        (int) kp.getHitBox().x - KING_PIG_DRAWOFFSET_X + kp.flipX(),
+                        (int) kp.getHitBox().y - KING_PIG_DRAWOFFSET_Y,
+                        KING_PIG_WIDTH * kp.flipW(), KING_PIG_HEIGHT, null);
+                //kp.drawHitbox(g); //para debuggear hitbox
+                //kp.drawAttackBox(g);
+            }
         }
     }
 
+    public void checkEnemyHit(Rectangle2D.Float attackBox){
+        for(KingPig kp : kingPigs){
+            if(kp.isActive()){
+                if (attackBox.intersects(kp.getHitBox())) {
+                    kp.hurt(10);
+                    return;
+                }
+            }
+        }
+    }
 
 
     private void loadEnemyImgs() {
@@ -59,6 +71,12 @@ public class EnemyManager {
             for(int j = 0; j < (temp[i].getWidth()/KING_PIG_WIDTH_DEFAULT);j++){
                 kingPigArr[i][j] = temp[i].getSubimage(j*(KING_PIG_WIDTH_DEFAULT),0,KING_PIG_WIDTH_DEFAULT,KING_PIG_HEIGHT_DEFAULT);
             }
+        }
+    }
+
+    public void resetAllEnemies() {
+        for(KingPig kp : kingPigs){
+            kp.resetEnemy();
         }
     }
 }
