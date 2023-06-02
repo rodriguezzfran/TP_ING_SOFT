@@ -88,6 +88,10 @@ public class Constants {
             public static final int B_HEIGHT = (int)(B_HEIGHT_DEFAULT* Game.SCALE);
 
         }
+        public static class URMButton{
+            public static final int URM_DEFAULT_SIZE = 56;
+            public static final int URM_SIZE = (int)(URM_DEFAULT_SIZE*Game.SCALE);
+        }
     }
 
     public static class PlayerConstants {
