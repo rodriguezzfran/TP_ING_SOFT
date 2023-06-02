@@ -54,6 +54,9 @@ public class Player extends Entity{
     //AttackBox
     private Rectangle2D.Float attackBox;
 
+    private int flipX = 0;
+    private int flipW = 1;
+
 
     public Player(float x, float y,int width, int height) {
         super(x, y,width,height);
@@ -63,7 +66,7 @@ public class Player extends Entity{
     }
 
     private void initAttackBox() {
-        attackBox = new Rectangle2D.Float(x,y,(int)(20*Game.SCALE),(int)(20*Game.SCALE));
+        attackBox = new Rectangle2D.Float(x,y,(int)(25*Game.SCALE),(int)(40*Game.SCALE));
     }
 
     public void update(){
@@ -82,7 +85,7 @@ public class Player extends Entity{
         else if(left){
             attackBox.x = hitBox.x - hitBox.width - (int)(Game.SCALE * 10);
         }
-        attackBox.y = hitBox.y + (Game.SCALE * 10);
+        attackBox.y = hitBox.y - (Game.SCALE * 12);
     }
 
     private void updateHealthBar() {
@@ -92,10 +95,18 @@ public class Player extends Entity{
     public void render(Graphics g){
         //con "hitBox.x-xDrawOffset" y "hitBox.y-yDrawOffset" hacemos que el
         //sprite del pj "siga" a la hitbox q es la q se mueve
-        g.drawImage(allAnimations[playerAction][aniIndex],(int)(hitBox.x - xDrawOffset),(int)(hitBox.y - yDrawOffset),width,height,null);
-        //drawHitbox(g);
-
+        g.drawImage(allAnimations[playerAction][aniIndex],
+                (int)(hitBox.x - xDrawOffset + flipX),
+                (int)(hitBox.y - yDrawOffset),
+                width * flipW,height,null);
+        drawHitbox(g);
+        drawAttackBox(g);
         drawUI(g);
+    }
+
+    private void drawAttackBox(Graphics g) {
+        g.setColor(Color.red);
+        g.drawRect((int)attackBox.x, (int)attackBox.y, (int) attackBox.width, (int) attackBox.height);
     }
 
     private void drawUI(Graphics g) {
@@ -154,9 +165,13 @@ public class Player extends Entity{
 
         if(left){
             xSpeed -= speed;
+            flipX = width;
+            flipW = -1;
         }
         if(right){
             xSpeed += speed;
+            flipX = 0;
+            flipW = 1;
         }
         if(!inAir){
             if(!IsEntityOnFloor(hitBox,lvlData)){

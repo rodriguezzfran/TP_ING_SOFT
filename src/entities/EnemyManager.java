@@ -41,8 +41,12 @@ public class EnemyManager {
 
     private void drawKingPigs(Graphics g) {
         for(KingPig kp : kingPigs){
-            g.drawImage(kingPigArr[kp.getEnemyState()][kp.getAniIndex()], (int)kp.getHitBox().x-KING_PIG_DRAWOFFSET_X, (int)kp.getHitBox().y-KING_PIG_DRAWOFFSET_Y, KING_PIG_WIDTH, KING_PIG_HEIGHT,null);
+            g.drawImage(kingPigArr[kp.getEnemyState()][kp.getAniIndex()],
+                    (int)kp.getHitBox().x-KING_PIG_DRAWOFFSET_X + kp.flipX(),
+                    (int)kp.getHitBox().y-KING_PIG_DRAWOFFSET_Y,
+                    KING_PIG_WIDTH * kp.flipW(), KING_PIG_HEIGHT,null);
             kp.drawHitbox(g); //para debuggear hitbox
+            kp.drawAttackBox(g);
         }
     }
 
