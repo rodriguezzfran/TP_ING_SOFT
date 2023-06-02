@@ -4,6 +4,7 @@ import main.Game;
 import utilz.LoadSave;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static utilz.Constants.PlayerConstants.*;
@@ -24,31 +25,94 @@ public class Player extends Entity{
     private int[][] lvlData;
     private float xDrawOffset = 21 * Game.SCALE;
     private float yDrawOffset = 16 * Game.SCALE;
+
+    //Jumping / Gravity
     private float airSpeed = 0f;
     private float gravity = 0.04f * Game.SCALE;
     private float jumpSpeed = -2.25f * Game.SCALE;
     private float fallSpeedAfterCollision = 0.5f * Game.SCALE;
     private boolean inAir = false;
 
+    //StatusBarUI
+    private BufferedImage statusBarImg;
+
+    private int statusBarWidth = (int) (192*Game.SCALE);
+    private int statusBarHeight = (int) (58*Game.SCALE);
+    private int statusBarX = (int) (10*Game.SCALE);
+    private int statusBarY = (int) (10*Game.SCALE);
+
+    private int healthBarWidth = (int) (150*Game.SCALE);
+    private int healthBarHeight = (int) (4*Game.SCALE);
+    private int healthBarXStart = (int) (34*Game.SCALE);
+    private int healthBarYStart = (int) (14*Game.SCALE);
+
+
+    private int maxHealth = 100;
+    private int currentHealth = maxHealth;
+    private int healthWidth = healthBarWidth;
+
+    //AttackBox
+    private Rectangle2D.Float attackBox;
+
+    private int flipX = 0;
+    private int flipW = 1;
 
 
     public Player(float x, float y,int width, int height) {
         super(x, y,width,height);
         importSprites();
         initHitbox(x,y,20*Game.SCALE, 27*Game.SCALE); //20x27 is the actual player's size
+        initAttackBox();
+    }
 
+    private void initAttackBox() {
+        attackBox = new Rectangle2D.Float(x,y,(int)(25*Game.SCALE),(int)(40*Game.SCALE));
     }
 
     public void update(){
+        updateHealthBar();
+        updateAttackBox();
+
         updatePos();
         updateAnimationTick();
         setAnimation();
     }
+
+    private void updateAttackBox() {
+        if(right){
+            attackBox.x = hitBox.x + hitBox.width + (int)(Game.SCALE * 10);
+        }
+        else if(left){
+            attackBox.x = hitBox.x - hitBox.width - (int)(Game.SCALE * 10);
+        }
+        attackBox.y = hitBox.y - (Game.SCALE * 12);
+    }
+
+    private void updateHealthBar() {
+        healthWidth = (int)((currentHealth/(float)maxHealth) * healthBarWidth); //escala
+    }
+
     public void render(Graphics g){
         //con "hitBox.x-xDrawOffset" y "hitBox.y-yDrawOffset" hacemos que el
         //sprite del pj "siga" a la hitbox q es la q se mueve
-        g.drawImage(allAnimations[playerAction][aniIndex],(int)(hitBox.x - xDrawOffset),(int)(hitBox.y - yDrawOffset),width,height,null);
-        //drawHitbox(g);
+        g.drawImage(allAnimations[playerAction][aniIndex],
+                (int)(hitBox.x - xDrawOffset + flipX),
+                (int)(hitBox.y - yDrawOffset),
+                width * flipW,height,null);
+        drawHitbox(g);
+        drawAttackBox(g);
+        drawUI(g);
+    }
+
+    private void drawAttackBox(Graphics g) {
+        g.setColor(Color.red);
+        g.drawRect((int)attackBox.x, (int)attackBox.y, (int) attackBox.width, (int) attackBox.height);
+    }
+
+    private void drawUI(Graphics g) {
+        g.drawImage(statusBarImg,statusBarX,statusBarY,statusBarWidth,statusBarHeight,null);
+        g.setColor(Color.RED);
+        g.fillRect(healthBarXStart+statusBarX, healthBarYStart+statusBarY,healthWidth,healthBarHeight);
     }
 
     private void setAnimation() {
@@ -101,12 +165,16 @@ public class Player extends Entity{
 
         if(left){
             xSpeed -= speed;
+            flipX = width;
+            flipW = -1;
         }
         if(right){
             xSpeed += speed;
+            flipX = 0;
+            flipW = 1;
         }
         if(!inAir){
-            if(!isEntityOnFloor(hitBox,lvlData)){
+            if(!IsEntityOnFloor(hitBox,lvlData)){
                 inAir = true;
             }
         }
@@ -117,7 +185,7 @@ public class Player extends Entity{
                 airSpeed += gravity;
                 updateXPos(xSpeed);
             }else {
-                hitBox.y = getEntityYPosUnderRoofOrAboveFloor(hitBox, airSpeed);
+                hitBox.y = GetEntityYPosUnderRoofOrAboveFloor(hitBox, airSpeed);
                 if (airSpeed > 0) {
                     resetInAir();
                 } else {
@@ -155,7 +223,19 @@ public class Player extends Entity{
             //hacemos que el sprite del pj "siga" a la hitbox
             hitBox.x += xSpeed;
         }else{
-            hitBox.x = getEntityXPosNextToWall(hitBox,xSpeed);
+            hitBox.x = GetEntityXPosNextToWall(hitBox,xSpeed);
+        }
+    }
+
+    public void changeHealth(int value){
+        currentHealth += value;
+
+        if(currentHealth <= 0){
+            currentHealth = 0;
+            //gameOver();
+        }
+        else if(currentHealth >= maxHealth){
+            currentHealth = maxHealth;
         }
     }
 
@@ -183,10 +263,12 @@ public class Player extends Entity{
                 allAnimations[i][j] = playerAtlas[i].getSubimage(j*(78),0,78,58);
             }
         }
+        statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.LIVE_BAR_GRAPH)[4]; //toma la health bar del array de las
+                                                                            //imagenes de "12-Live and Coins"
     }
     public void loadLvlData(int[][] lvlData){
         this.lvlData = lvlData;
-        if(!isEntityOnFloor(hitBox,lvlData)){
+        if(!IsEntityOnFloor(hitBox,lvlData)){
             inAir = true;
         }
     }
