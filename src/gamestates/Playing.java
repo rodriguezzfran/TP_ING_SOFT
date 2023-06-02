@@ -56,7 +56,6 @@ public class Playing extends State implements StateMethods {
     }
 
     public void resetAll(){
-        //TODO: reset playing, enemy, lvl, etc.
         gameOver=false;
         player.resetAll();
         enemyManager.resetAllEnemies();

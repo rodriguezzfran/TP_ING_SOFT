@@ -115,8 +115,8 @@ public class Player extends Entity{
         //con "hitBox.x-xDrawOffset" y "hitBox.y-yDrawOffset" hacemos que el
         //sprite del pj "siga" a la hitbox q es la q se mueve
         g.drawImage(allAnimations[playerAction][aniIndex],
-                (int)(hitBox.x - xDrawOffset + flipX),
-                (int)(hitBox.y - yDrawOffset),
+                (int) (hitBox.x - xDrawOffset) + flipX,
+                (int) (hitBox.y - yDrawOffset),
                 width * flipW,height,null);
         drawHitbox(g);
         drawAttackBox(g);
@@ -180,11 +180,11 @@ public class Player extends Entity{
             return;
         }
 
-        float xSpeed = 0, ySpeed = 0;
+        float xSpeed = 0;
 
         if(left){
             xSpeed -= speed;
-            flipX = width;
+            flipX = (width-30); //30 es el drawOffset del lado derecho
             flipW = -1;
         }
         if(right){

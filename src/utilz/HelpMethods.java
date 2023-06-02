@@ -86,7 +86,7 @@ public class HelpMethods {
         if(xSpeed>0){
             return IsSolid(hitbox.x + xSpeed + hitbox.width, hitbox.y + hitbox.height +1,lvlData);
         }
-        return IsSolid(hitbox.x - xSpeed, hitbox.y + hitbox.height + 1, lvlData);
+        return IsSolid(hitbox.x + xSpeed, hitbox.y + hitbox.height + 1, lvlData);
     }
 
     public static boolean IsAllTilesWalkable(int xStart, int xEnd, int y, int[][] lvlData){
