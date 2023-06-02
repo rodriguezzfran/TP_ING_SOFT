@@ -35,6 +35,7 @@ public class LoadSave {
             case LEVEL_ONE_DATA: aux = 1;
                 break;
             case MENU_BUTTONS: aux = 2;
+                break;
             case KING_PIG_SPRITE: aux = 8;
                 break;
             case LIVE_BAR_GRAPH: aux = 10;
