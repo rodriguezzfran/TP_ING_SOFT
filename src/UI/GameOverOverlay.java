@@ -85,7 +85,7 @@ public class GameOverOverlay {
             }
         } else if (isIn(play,e)) {
             if(play.isMousePressed()){
-
+                playing.resetAll();
             }
         }
         menu.resetBooleans();
