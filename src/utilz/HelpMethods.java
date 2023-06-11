@@ -101,16 +101,17 @@ public class HelpMethods {
         }
         return true;
     }
+
     public static boolean IsSightClear(int[][] lvlData,Rectangle2D.Float firstHitbox,
                                        Rectangle2D.Float secondHitbox, int yTile){
-        int firstXTile = (int)(firstHitbox.x / Game.TILES_SIZE);
-        int secondXTile = (int)(secondHitbox.x / Game.TILES_SIZE);
+        int firstHBXTile = (int)(firstHitbox.x / Game.TILES_SIZE);
+        int secondHBXTile = (int)(secondHitbox.x / Game.TILES_SIZE);
 
-        if(firstXTile > secondXTile){
-            return IsAllTilesWalkable(secondXTile,firstXTile,yTile,lvlData);
+        if(firstHBXTile > secondHBXTile){
+            return IsAllTilesWalkable(secondHBXTile,firstHBXTile,yTile,lvlData);
         }
         else{
-            return IsAllTilesWalkable(firstXTile,secondXTile,yTile,lvlData);
+            return IsAllTilesWalkable(firstHBXTile,secondHBXTile,yTile,lvlData);
         }
     }
 

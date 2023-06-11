@@ -1,5 +1,6 @@
 package entities;
 
+import behaviors.RangeEnemiesBehavior;
 import main.Game;
 
 import java.awt.geom.Rectangle2D;
@@ -10,6 +11,8 @@ import static utilz.Constants.Directions.*;
 
 
 public abstract class Enemy extends Entity{
+    protected RangeEnemiesBehavior rangeEnemiesBehavior;
+
     protected int aniIndex, enemyState,enemyType;
     protected int aniTick, aniSpeed =25;
     protected boolean firstUpdate = true;
@@ -18,17 +21,28 @@ public abstract class Enemy extends Entity{
     protected float gravity = 0.04f * Game.SCALE;
     protected float walkSpeed = 0.45f * Game.SCALE;
     protected int walkDir = LEFT;
-    protected int tileY;
-    protected float attackDistance = Game.SCALE*9;
+    protected int enemyTileY;
+    protected float attackDistance;
+    protected float sightDistance;
     protected int maxHealth;
     protected int currentHealth;
     protected boolean active = true;
     protected boolean attackChecked;
-    public Enemy(float x, float y, int width, int height, int enemyType) {
+    protected Rectangle2D.Float attackBox;
+    protected int xDrawOffset, yDrawOffset;
+    protected String spritePath;
+    protected int enemyIndex;
+
+
+
+
+    public Enemy(float x, float y, int width, int height, int enemyType, int xDrawOffset, int yDrawOffset) {
         super(x, y, width, height);
         this.enemyState=RUN;
         this.enemyType=enemyType;
         initHitbox(x,y,width,height);
+        this.xDrawOffset=xDrawOffset;
+        this.yDrawOffset=yDrawOffset;
         maxHealth = GetMaxHealth(enemyType);
         currentHealth = maxHealth;
     }
@@ -47,7 +61,7 @@ public abstract class Enemy extends Entity{
         } else {
             inAir = false;
             hitBox.y = GetEntityYPosUnderRoofOrAboveFloor(hitBox, fallSpeed);
-            tileY=(int)(hitBox.y/Game.TILES_SIZE);
+            enemyTileY =(int)(hitBox.y/Game.TILES_SIZE);
         }
     }
 
@@ -77,9 +91,9 @@ public abstract class Enemy extends Entity{
     }
     protected  boolean canSeePlayer(int[][] lvlData, Player player){
         int playerTileY = (int)(player.getHitBox().y / Game.TILES_SIZE);
-        if(playerTileY == tileY){
+        if(playerTileY == enemyTileY){
             if(isPlayerInRange(player)){
-                if(IsSightClear(lvlData,hitBox, player.hitBox,tileY)){
+                if(IsSightClear(lvlData,hitBox, player.hitBox, enemyTileY)){
                     return true;
                 }
             }
@@ -87,14 +101,32 @@ public abstract class Enemy extends Entity{
         return false;
     }
 
+    public int flipX(){
+        if(walkDir==RIGHT){
+            return width;
+        }
+        else{
+            return 0;
+        }
+    }
+    public int flipW(){
+        if(walkDir==RIGHT){
+            return -1;
+        }
+        else{
+            return 1;
+        }
+    }
+
+
     protected boolean isPlayerInRange(Player player) {
         int absValue = (int)(Math.abs(player.hitBox.x - hitBox.x));
-        return (absValue <= attackDistance*10);
+        return (absValue <= sightDistance);
     }
 
     protected boolean isPlayerCloseForAttack(Player player){
         int absValue = (int) Math.abs(player.hitBox.x - hitBox.x);
-        return (absValue <= attackDistance*3);
+        return (absValue <= attackDistance);
     }
 
     protected void newState(int enemyState){
@@ -105,12 +137,61 @@ public abstract class Enemy extends Entity{
 
     public void hurt(int amount){
         currentHealth -= amount;
+        newState(HIT);
         if(currentHealth <= 0){
             newState(DEAD);
         }
-        else{
-            newState(HIT);
+    }
+
+    private void updateBehavior(int[][] lvlData, Player player){
+        if (firstUpdate) {
+            firstUpdateCheck(lvlData);
         }
+        if (inAir) {
+            updateInAir(lvlData);
+        } else { //patrol
+            switch (enemyState) {
+                case IDLE:
+                    newState(RUN);
+                    break;
+                case RUN:
+                    if(canSeePlayer(lvlData,player)) {
+                        turnTowardsPlayer(player);
+                        if (isPlayerCloseForAttack(player)) {
+                            newState(ATTACK);
+                        }
+                    }
+                    move(lvlData);
+                    break;
+                case ATTACK:
+                    if(aniIndex == 0){
+                        attackChecked = false;
+                    }
+                    if(aniIndex == 2 && !attackChecked){
+                        checkEnemyHit(attackBox, player);
+                    }
+                    break;
+                case HIT:
+                    break;
+            }
+        }
+    }
+
+
+    private void updateAttackBox() {
+        if(walkDir==RIGHT){
+            attackBox.x = hitBox.x;
+        }
+        else if(walkDir==LEFT){
+            attackBox.x = hitBox.x + hitBox.width - attackBox.width;
+        }
+        attackBox.y = hitBox.y - (7*Game.SCALE);
+    }
+
+    public void update(int[][] lvlData, Player player){
+        updateBehavior(lvlData,player);
+        updateAnimationTick();
+        updateAttackBox();
     }
 
     protected void checkEnemyHit(Rectangle2D.Float attackBox, Player player){
@@ -157,12 +238,39 @@ public abstract class Enemy extends Entity{
         fallSpeed=0;
     }
 
+    protected void setAttackBehavior(RangeEnemiesBehavior rangeEnemiesBehavior){
+        this.rangeEnemiesBehavior = rangeEnemiesBehavior;
+    }
 
+    public void setAttackDistance(float attackDistance){
+        this.attackDistance=attackDistance;
+    }
+    public void setSightDistance(float sightDistance){
+        this.sightDistance=sightDistance;
+    }
     public int getAniIndex(){
         return aniIndex;
     }
     public int getEnemyState(){
         return enemyState;
     }
+
+    public int getEnemyIndex() {
+        return enemyIndex;
+    }
+
     public boolean isActive(){ return active; }
+
+    public int getXDrawOffset(){
+        return xDrawOffset;
+    }
+    public int getYDrawOffset(){
+        return yDrawOffset;
+    }
+    public int getEnemyWidth(){
+        return width;
+    }
+    public int getEnemyHeight(){
+        return height;
+    }
 }
