@@ -2,4 +2,4 @@
 1-Dead
 2-Hit
 3-Idle
-4-Jump
+4-Run
