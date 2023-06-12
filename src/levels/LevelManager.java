@@ -83,5 +83,9 @@ public class LevelManager {
         return levels.size();
     }
 
+    public void setLvlIndex(int index){
+        this.lvlIndex =  index;
+    }
+
 
 }

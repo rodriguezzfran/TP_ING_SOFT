@@ -76,6 +76,8 @@ public class Playing extends State implements StateMethods {
             levelManager.update();
             player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player);
+        } else if (gameOver) {
+            levelManager.setLvlIndex(0);
         }
     }
 
