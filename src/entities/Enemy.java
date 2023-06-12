@@ -1,6 +1,8 @@
 package entities;
 
-import behaviors.RangeEnemiesBehavior;
+import behaviors.damage.DamageBehavior;
+import behaviors.health.HealthBehavior;
+import behaviors.rangeenemies.RangeEnemiesBehavior;
 import main.Game;
 
 import java.awt.geom.Rectangle2D;
@@ -11,10 +13,12 @@ import static utilz.Constants.Directions.*;
 
 
 public abstract class Enemy extends Entity{
-    protected RangeEnemiesBehavior rangeEnemiesBehavior;
+    protected RangeEnemiesBehavior rangeBehavior;
+    protected DamageBehavior damageBehavior;
+    protected HealthBehavior healthBehavior;
 
-    protected int aniIndex, enemyState,enemyType;
-    protected int aniTick, aniSpeed =25;
+    protected int aniIndex, enemyState, enemyType;
+    protected int aniTick, aniSpeed = 25;
     protected boolean firstUpdate = true;
     protected boolean inAir = false;
     protected float fallSpeed;
@@ -22,9 +26,7 @@ public abstract class Enemy extends Entity{
     protected float walkSpeed = 0.45f * Game.SCALE;
     protected int walkDir = LEFT;
     protected int enemyTileY;
-    protected float attackDistance;
-    protected float sightDistance;
-    protected int maxHealth;
+
     protected int currentHealth;
     protected boolean active = true;
     protected boolean attackChecked;
@@ -36,15 +38,18 @@ public abstract class Enemy extends Entity{
 
 
 
-    public Enemy(float x, float y, int width, int height, int enemyType, int xDrawOffset, int yDrawOffset) {
+
+    public Enemy(float x, float y, int width, int height, int enemyType, int xDrawOffset, int yDrawOffset,HealthBehavior healthBehavior, DamageBehavior damageBehavior, RangeEnemiesBehavior rangeBehavior) {
         super(x, y, width, height);
         this.enemyState=RUN;
         this.enemyType=enemyType;
         initHitbox(x,y,width,height);
         this.xDrawOffset=xDrawOffset;
         this.yDrawOffset=yDrawOffset;
-        maxHealth = GetMaxHealth(enemyType);
-        currentHealth = maxHealth;
+        setEnemyMaxHealth(healthBehavior);
+        setEnemyDamage(damageBehavior);
+        setRange(rangeBehavior);
+        currentHealth = healthBehavior.getHealth();
     }
 
     protected void firstUpdateCheck(int[][] lvlData){
@@ -121,12 +126,12 @@ public abstract class Enemy extends Entity{
 
     protected boolean isPlayerInRange(Player player) {
         int absValue = (int)(Math.abs(player.hitBox.x - hitBox.x));
-        return (absValue <= sightDistance);
+        return (absValue <= getRangeBehavior().getSightDistance());
     }
 
     protected boolean isPlayerCloseForAttack(Player player){
         int absValue = (int) Math.abs(player.hitBox.x - hitBox.x);
-        return (absValue <= attackDistance);
+        return (absValue <= getRangeBehavior().getAttackDistance());
     }
 
     protected void newState(int enemyState){
@@ -196,7 +201,7 @@ public abstract class Enemy extends Entity{
 
     protected void checkEnemyHit(Rectangle2D.Float attackBox, Player player){
         if(attackBox.intersects(player.hitBox)){
-            player.changeHealth(-GetEnemyDmg(enemyType));
+            player.changeHealth(-getDamageBehavior().getDamage());
         }
         attackChecked = true;
     }
@@ -232,22 +237,25 @@ public abstract class Enemy extends Entity{
         hitBox.x =x;
         hitBox.y = y;
         firstUpdate=true;
-        currentHealth=maxHealth;
+        currentHealth= getHealthBehavior().getHealth();
         newState(IDLE);
         active=true;
         fallSpeed=0;
     }
 
-    protected void setAttackBehavior(RangeEnemiesBehavior rangeEnemiesBehavior){
-        this.rangeEnemiesBehavior = rangeEnemiesBehavior;
+    protected void setRange(RangeEnemiesBehavior rangeBehavior){
+        this.rangeBehavior = rangeBehavior;
+    }
+    public void setEnemyDamage(DamageBehavior damageBehavior){
+        this.damageBehavior = damageBehavior;
+    }
+    public void setEnemyMaxHealth(HealthBehavior healthBehavior){
+        this.healthBehavior=healthBehavior;
     }
 
-    public void setAttackDistance(float attackDistance){
-        this.attackDistance=attackDistance;
-    }
-    public void setSightDistance(float sightDistance){
-        this.sightDistance=sightDistance;
-    }
+    public RangeEnemiesBehavior getRangeBehavior(){return this.rangeBehavior;}
+    public HealthBehavior getHealthBehavior(){return this.healthBehavior;}
+    public DamageBehavior getDamageBehavior(){return this.damageBehavior;}
     public int getAniIndex(){
         return aniIndex;
     }

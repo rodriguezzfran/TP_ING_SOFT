@@ -61,6 +61,12 @@ public class Playing extends State implements StateMethods {
         enemyManager.resetAllEnemies();
     }
 
+    public void loadNextLevel() {
+        resetAll();
+        levelManager.loadNextLevel();
+        player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+    }
+
     public void setGameOver(boolean gameOver){
         this.gameOver = gameOver;
     }
@@ -144,5 +150,8 @@ public class Playing extends State implements StateMethods {
 
     public Player getPlayer(){
         return player;
+    }
+    public EnemyManager getEnemyManager() {
+        return enemyManager;
     }
 }

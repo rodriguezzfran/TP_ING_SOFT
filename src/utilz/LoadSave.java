@@ -11,6 +11,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+import javax.imageio.ImageIO;
 
 import static utilz.Constants.EnemyConstants.CRABBY;
 import static utilz.Constants.EnemyConstants.KING_PIG;
@@ -24,6 +32,8 @@ public class LoadSave {
     public static final String KING_PIG_SPRITE = "/Sprites/02-King Pig/";
     public static final String CRABBY_SPRITE = "/Sprites/17-Crabby/";
     public static final String LIVE_BAR_GRAPH = "/Sprites/12-Live and Coins/";
+    public static final String URM_BUTTONS = "Sprites/18-UrmButtons";
+    public static final String COMPLETED_IMG = "Sprites/";
     /**
      * Devuelve una lista con los png de cada animacion
      * @return
@@ -47,6 +57,12 @@ public class LoadSave {
                 break;
             case CRABBY_SPRITE: aux = 5;
                 break;
+            case URM_BUTTONS: aux = 1;
+                break;
+            case COMPLETED_IMG: aux = 1;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + fileName);
         }
         BufferedImage playerAtlas[] = new BufferedImage[aux];
 
@@ -68,39 +84,37 @@ public class LoadSave {
         return playerAtlas;
     }
 
-    public static ArrayList<Enemy> GetEnemies(){
-        BufferedImage[] img = GetSpriteAtlas(LEVEL_ONE_DATA);
-        ArrayList<Enemy> list = new ArrayList<>();
 
-        for (int j = 0; j < img[0].getHeight(); j++) {
-            for (int i = 0; i < img[0].getWidth(); i++) {
-                Color color = new Color(img[0].getRGB(i, j));
-                int value = color.getGreen();
-                if (value == KING_PIG) {
-                    list.add(new KingPig(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
-                }
-                if (value == CRABBY){
-                    list.add(new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
-                }
-            }
+    public static BufferedImage[] GetAllLevels() {
+        URL url = LoadSave.class.getResource("/Sprites/15-LevelData/");
+        File file = null;
+
+        try {
+            file = new File(url.toURI());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
         }
-        return list;
+
+        File[] files = file.listFiles();
+        File[] filesSorted = new File[files.length];
+
+        for (int i = 0; i < filesSorted.length; i++)
+            for (int j = 0; j < files.length; j++) {
+                if (files[j].getName().equals((i + 1) + ".png"))
+                    filesSorted[i] = files[j];
+
+            }
+
+        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
+
+        for (int i = 0; i < imgs.length; i++)
+            try {
+                imgs[i] = ImageIO.read(filesSorted[i]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        return imgs;
     }
 
-    public static int[][] GetLevelData() {
-        int[][] lvData = new int[Game.TILES_IN_HEIGHT][Game.TILES_IN_WIDTH];
-        BufferedImage[] img = GetSpriteAtlas(LEVEL_ONE_DATA);
-
-        for (int j = 0; j < img[0].getHeight(); j++) {
-            for (int i = 0; i < img[0].getWidth(); i++) {
-                Color color = new Color(img[0].getRGB(i, j));
-                int value = color.getRed();
-                if (value >= 247){
-                    value = 0;
-                }
-                lvData[j][i] = value;
-            }
-        }
-        return lvData;
-    }
 }

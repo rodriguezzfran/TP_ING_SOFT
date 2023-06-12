@@ -1,10 +1,10 @@
-package behaviors;
+package behaviors.rangeenemies;
 
 import entities.Enemy;
 
 //----------------Patron Strategy------------------//
 public interface RangeEnemiesBehavior {
-    void setAttackDistance(Enemy enemy);
-    void setSightDistance(Enemy enemy);
+    float getAttackDistance();
+    float getSightDistance();
 
 }
