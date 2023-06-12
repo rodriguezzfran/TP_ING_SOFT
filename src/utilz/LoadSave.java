@@ -1,27 +1,12 @@
 package utilz;
 
-import entities.Crabby;
-import entities.Enemy;
-import entities.KingPig;
-import main.Game;
-
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
-
-import javax.imageio.ImageIO;
-
-import static utilz.Constants.EnemyConstants.CRABBY;
-import static utilz.Constants.EnemyConstants.KING_PIG;
 
 public class LoadSave {
 
@@ -32,8 +17,10 @@ public class LoadSave {
     public static final String KING_PIG_SPRITE = "/Sprites/02-King Pig/";
     public static final String CRABBY_SPRITE = "/Sprites/17-Crabby/";
     public static final String LIVE_BAR_GRAPH = "/Sprites/12-Live and Coins/";
-    public static final String URM_BUTTONS = "Sprites/18-UrmButtons";
-    public static final String COMPLETED_IMG = "Sprites/";
+    public static final String URM_BUTTONS = "/Sprites/18-UrmButtons/";
+    public static final String COMPLETED_IMG = "/Sprites/19-Completed/";
+    public static final String SOUND_BUTTONS = "/Sprites/20-SOUND_BUTTONS/";
+    public static final String VOLUME_BUTTONS = "/Sprites/21-VOLUME_BUTTONS/";
     /**
      * Devuelve una lista con los png de cada animacion
      * @return
@@ -61,6 +48,10 @@ public class LoadSave {
                 break;
             case COMPLETED_IMG: aux = 1;
                 break;
+            case SOUND_BUTTONS: aux = 1;
+                break;
+            case VOLUME_BUTTONS: aux = 1;
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + fileName);
         }
@@ -73,11 +64,6 @@ public class LoadSave {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             } finally {
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
                 playerAtlas[i]=img;
             }
         }

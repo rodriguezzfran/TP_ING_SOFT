@@ -1,7 +1,7 @@
 package main;
 
-import imputs.KeyBoardImputs;
-import imputs.MouseImputs;
+import Imputs.KeyBoardImputs;
+import Imputs.MouseInputs;
 import javax.swing.JPanel;
 import java.awt.*;
 import static main.Game.GAME_HEIGHT;
@@ -13,14 +13,14 @@ import static main.Game.GAME_WIDTH;
 
 public class GamePanel extends JPanel{
 
-    private MouseImputs mouseImputs;
+    private MouseInputs mouseImputs;
     private Game game;
 
 
     public GamePanel(Game game){
         this.game = game;
         setPanelSize();
-        this.mouseImputs=new MouseImputs(this);
+        this.mouseImputs=new MouseInputs(this);
         addKeyListener(new KeyBoardImputs(this));
         addMouseListener(mouseImputs);
         addMouseMotionListener(mouseImputs);

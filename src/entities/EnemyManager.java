@@ -26,11 +26,15 @@ public class EnemyManager {
     }
 
     public void update(int[][] lvlData, Player player){
+        boolean isAnyActive = false;
         for(Enemy e : enemies){
-            if(e.isActive()){
-                e.update(lvlData,player);
+            if(e.isActive()) {
+                e.update(lvlData, player);
+                isAnyActive = true;
             }
         }
+        if(!isAnyActive)
+            playing.setLevelCompleted(true);
     }
     public void draw(Graphics g){
         drawEnemies(g);
