@@ -4,6 +4,7 @@ import behaviors.damage.DamageBehavior;
 import behaviors.health.HealthBehavior;
 import behaviors.rangeenemies.RangeEnemiesBehavior;
 import main.Game;
+import observables.HealthObservable;
 
 import java.awt.geom.Rectangle2D;
 
@@ -150,7 +151,7 @@ public abstract class Enemy extends Entity{
         }
     }
 
-    private void updateBehavior(int[][] lvlData, Player player){
+    private void updateBehavior(int[][] lvlData, Player player,HealthObservable playerHealth){
         if (firstUpdate) {
             firstUpdateCheck(lvlData);
         }
@@ -175,7 +176,7 @@ public abstract class Enemy extends Entity{
                         attackChecked = false;
                     }
                     if(aniIndex == 2 && !attackChecked){
-                        checkEnemyHit(attackBox, player);
+                        checkEnemyHit(attackBox, player,playerHealth);
                     }
                     break;
                 case HIT:
@@ -195,15 +196,16 @@ public abstract class Enemy extends Entity{
         attackBox.y = hitBox.y - (7*Game.SCALE);
     }
 
-    public void update(int[][] lvlData, Player player){
-        updateBehavior(lvlData,player);
+    public void update(int[][] lvlData, Player player,HealthObservable playerHealth){
+        updateBehavior(lvlData,player,playerHealth);
         updateAnimationTick();
         updateAttackBox();
     }
 
-    protected void checkEnemyHit(Rectangle2D.Float attackBox, Player player){
+    protected void checkEnemyHit(Rectangle2D.Float attackBox, Player player, HealthObservable playerHealth){
         if(attackBox.intersects(player.hitBox)){
-            player.changeHealth(-getDamageBehavior().getDamage());
+            playerHealth.setHealth(-getDamageBehavior().getDamage());
+
         }
         attackChecked = true;
     }
