@@ -1,11 +1,21 @@
 package utilz;
 
+import entities.Crabby;
+import entities.Enemy;
+import entities.KingPig;
 import main.Game;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.nio.Buffer;
+import java.util.ArrayList;
+
+import java.awt.Color;
+import java.awt.Point;
+
+import static utilz.Constants.EnemyConstants.CRABBY;
+import static utilz.Constants.EnemyConstants.KING_PIG;
 
 public class HelpMethods {
 
@@ -50,6 +60,39 @@ public class HelpMethods {
 
    }
 
+    public static int[][] GetLevelData(BufferedImage img) {
+        int[][] lvData = new int[img.getHeight()][img.getWidth()];
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getRed();
+                if (value >= 247){
+                    value = 0;
+                }
+                lvData[j][i] = value;
+            }
+        }
+        return lvData;
+    }
+
+
+    public static ArrayList<Enemy> GetEnemies(BufferedImage img){
+        ArrayList<Enemy> list = new ArrayList<>();
+
+        for (int j = 0; j < img.getHeight(); j++) {
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == KING_PIG) {
+                    list.add(new KingPig(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                }
+                if (value == CRABBY){
+                    list.add(new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                }
+            }
+        }
+        return list;
+    }
     private static boolean IsSolid(float x, float y, int[][] lvlData){
         int maxWidth = lvlData[0].length * Game.TILES_SIZE;
         if(x<0 || x>= maxWidth){
@@ -114,5 +157,18 @@ public class HelpMethods {
             return IsAllTilesWalkable(firstHBXTile,secondHBXTile,yTile,lvlData);
         }
     }
+
+    public static Point GetPlayerSpawn(BufferedImage img) {
+        for (int j = 0; j < img.getHeight(); j++)
+            for (int i = 0; i < img.getWidth(); i++) {
+                Color color = new Color(img.getRGB(i, j));
+                int value = color.getGreen();
+                if (value == 100)
+                    return new Point(i * Game.TILES_SIZE, j * Game.TILES_SIZE);
+            }
+        return new Point(1 * Game.TILES_SIZE, 1 * Game.TILES_SIZE);
+    }
+
+
 
 }

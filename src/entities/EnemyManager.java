@@ -3,6 +3,8 @@ package entities;
 import gamestates.Playing;
 
 import static utilz.Constants.EnemyConstants.*;
+
+import levels.Level;
 import utilz.LoadSave;
 
 import javax.swing.plaf.ButtonUI;
@@ -17,25 +19,22 @@ public class EnemyManager {
 
     private Playing playing;
     private BufferedImage[][][] enemyArr;
-  //  private BufferedImage[][] crabbyArr;
     private ArrayList<Enemy> enemies = new ArrayList<>();
     public EnemyManager(Playing playing){
         this.playing = playing;
         loadEnemyImgs();
-        addEnemies();
-    }
-
-    private void addEnemies() {
-        enemies = LoadSave.GetEnemies();
-        System.out.println("Amount of King Pigs: " + enemies.size());
     }
 
     public void update(int[][] lvlData, Player player){
+        boolean isAnyActive = false;
         for(Enemy e : enemies){
-            if(e.isActive()){
-                e.update(lvlData,player);
+            if(e.isActive()) {
+                e.update(lvlData, player);
+                isAnyActive = true;
             }
         }
+        if(!isAnyActive)
+            playing.setLevelCompleted(true);
     }
     public void draw(Graphics g){
         drawEnemies(g);
@@ -60,7 +59,7 @@ public class EnemyManager {
         for(Enemy e : enemies){
             if(e.isActive()){
                 if (attackBox.intersects(e.getHitBox())) {
-                    e.hurt(10);
+                    e.hurt(100);
                     return;
                 }
             }
@@ -84,6 +83,9 @@ public class EnemyManager {
                 enemyArr[1][i][j] = temp[i].getSubimage(j * (CRABBY_WIDTH_DEFAULT), 0, CRABBY_WIDTH_DEFAULT, CRABBY_HEIGHT_DEFAULT);
             }
         }
+    }
+    public void loadEnemies(Level level) {
+        enemies = level.getEnemies();
     }
 
     public void resetAllEnemies() {
