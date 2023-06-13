@@ -1,0 +1,5 @@
+0-Attack
+1-Dead
+2-Hit
+3-Idle
+4-Run
