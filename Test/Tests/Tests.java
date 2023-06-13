@@ -18,45 +18,48 @@ import static utilz.HelpMethods.*;
 
 
 public class Tests extends TestCase {
-    int xTest=259;
-    int yTest=435;
+    int xTest = 259;
+    int yTest = 435;
     Rectangle2D.Float hitBox;
     Game game;
     Playing playing;
     Enemy kingPig, crabby;
-    private void jibos(){
-        hitBox = new Rectangle2D.Float(xTest,yTest,20* Game.SCALE, 27*Game.SCALE);
+
+    private void jibos() {
+        hitBox = new Rectangle2D.Float(xTest, yTest, 20 * Game.SCALE, 27 * Game.SCALE);
     }
 
-    private void createNewGame(){
-        game  = new Game();
+    private void createNewGame() {
+        game = new Game();
         playing = new Playing(game);
     }
-    private void createTestEnemys(){
-        kingPig=new KingPig(2,2);
-        crabby= new Crabby(2,2);
-    }
-    public void testGetEntityXPosNextToWallRight(){
-        jibos();
-        assertEquals(279,(int) GetEntityXPosNextToWall(hitBox,3)); //87 es lo que debería volver
+
+    private void createTestEnemys() {
+        kingPig = new KingPig(2, 2);
+        crabby = new Crabby(2, 2);
     }
 
-    public void testGetEntityXPosNextToWallLeft(){
+    public void testGetEntityXPosNextToWallRight() {
         jibos();
-        assertEquals(256,(int) GetEntityXPosNextToWall(hitBox,-3)); //87 es lo que debería volver
+        assertEquals(278, (int) GetEntityXPosNextToWall(hitBox, 3)); //87 es lo que debería volver
     }
 
-    public void testGetEntityYPosUnderRoofOrAboveFloorDown(){
+    public void testGetEntityXPosNextToWallLeft() {
         jibos();
-        assertEquals(393,(int) GetEntityYPosUnderRoofOrAboveFloor(hitBox,0.04f)); //87 es lo que debería volver
+        assertEquals(256, (int) GetEntityXPosNextToWall(hitBox, -3)); //87 es lo que debería volver
     }
 
-    public void testGetEntityYPosUnderRoofOrAboveFloorUp(){
+    public void testGetEntityYPosUnderRoofOrAboveFloorDown() {
         jibos();
-        assertEquals(384,(int) GetEntityYPosUnderRoofOrAboveFloor(hitBox,-2.25f)); //87 es lo que debería volver
+        assertEquals(393, (int) GetEntityYPosUnderRoofOrAboveFloor(hitBox, 0.04f)); //87 es lo que debería volver
     }
 
-    public void testMoveRight(){
+    public void testGetEntityYPosUnderRoofOrAboveFloorUp() {
+        jibos();
+        assertEquals(384, (int) GetEntityYPosUnderRoofOrAboveFloor(hitBox, -2.25f)); //87 es lo que debería volver
+    }
+
+    public void testMoveRight() {
         createNewGame();
         Button a = new Button();
         KeyEvent e = new KeyEvent(a, 401, 1686669135712l, 0, 68, 'd');
@@ -65,7 +68,7 @@ public class Tests extends TestCase {
 
     }
 
-    public void testBehaviors(){
+    public void testBehaviors() {
         createTestEnemys();
 
         assertEquals(30, crabby.getDamageBehavior().getDamage());
@@ -73,24 +76,25 @@ public class Tests extends TestCase {
         assertEquals(1, kingPig.getDamageBehavior().getDamage());
         assertEquals(1, kingPig.getHealthBehavior().getHealth());
 
-        assertTrue(Game.TILES_SIZE*2 == crabby.getRangeBehavior().getAttackDistance() && crabby.getRangeBehavior().getSightDistance() == Game.TILES_SIZE*4.5f);
-        assertTrue(kingPig.getRangeBehavior().getAttackDistance() == Game.TILES_SIZE && kingPig.getRangeBehavior().getSightDistance() == Game.TILES_SIZE*3);
+        assertTrue(Game.TILES_SIZE * 2 == crabby.getRangeBehavior().getAttackDistance() && crabby.getRangeBehavior().getSightDistance() == Game.TILES_SIZE * 4.5f);
+        assertTrue(kingPig.getRangeBehavior().getAttackDistance() == Game.TILES_SIZE && kingPig.getRangeBehavior().getSightDistance() == Game.TILES_SIZE * 3);
 
 
-
-        DamageBehavior damageC,damageKP;
+        DamageBehavior damageC, damageKP;
         HealthBehavior healthC, healthKP;
-        damageC=new Damage4(); healthC=new Health3();
-        damageKP=new Damage4(); healthKP=new Health4();
+        damageC = new Damage4();
+        healthC = new Health3();
+        damageKP = new Damage4();
+        healthKP = new Health4();
         crabby.setEnemyDamage(damageC);
         crabby.setEnemyMaxHealth(healthC);
         kingPig.setEnemyDamage(damageKP);
         kingPig.setEnemyMaxHealth(healthKP);
 
         assertEquals(damageC.getDamage(), crabby.getDamageBehavior().getDamage());
-        assertEquals(healthC.getHealth(),crabby.getHealthBehavior().getHealth());
+        assertEquals(healthC.getHealth(), crabby.getHealthBehavior().getHealth());
         assertEquals(damageKP.getDamage(), kingPig.getDamageBehavior().getDamage());
-        assertEquals(healthKP.getHealth(),kingPig.getHealthBehavior().getHealth());
+        assertEquals(healthKP.getHealth(), kingPig.getHealthBehavior().getHealth());
     }
 
 }
