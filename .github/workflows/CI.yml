@@ -27,8 +27,12 @@ jobs:
       - name: Run tests
         run: |
            find $GITHUB_WORKSPACE -type f -name "*.class" | while read -r class; do
-           java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore "$(basename "${class%.*}")"
-           done
+             classname=$(basename "${class%.*}")                           
+             if grep -q "class $classname " $GITHUB_WORKSPACE/test_classes.txt; then
+               java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore "$classname"
+             fi
+            done
+
      
 #       - name: Run tests
 #         run: |
