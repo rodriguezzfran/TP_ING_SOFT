@@ -29,4 +29,8 @@ jobs:
 
       - name: Run tests
         run: |
-          java -cp "$GITHUB_WORKSPACE/out:$GITHUB_WORKSPACE/junit-4.12.jar" org.junit.runner.JUnitCore $(cat $GITHUB_WORKSPACE/test_classes.txt)
+         java -cp "$GITHUB_WORKSPACE/out:$GITHUB_WORKSPACE/out/production/TP ING SOFT:$GITHUB_WORKSPACE/junit-4.12.jar" org.junit.runner.JUnitCore $(cat $GITHUB_WORKSPACE/test_classes.txt)
+      
+#       - name: Run tests
+#         run: |
+#           java -cp "$GITHUB_WORKSPACE/out:$GITHUB_WORKSPACE/junit-4.12.jar" org.junit.runner.JUnitCore $(cat $GITHUB_WORKSPACE/test_classes.txt)
