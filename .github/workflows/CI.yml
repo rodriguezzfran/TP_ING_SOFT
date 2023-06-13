@@ -19,12 +19,12 @@ jobs:
           java-version: '19'
           distribution: 'adopt'
 
-#       - name: Create lib directory
-#         run: mkdir $GITHUB_WORKSPACE/lib
+      - name: Create lib directory
+        run: mkdir $GITHUB_WORKSPACE/lib
 
-#       - name: Download JUnit 3.8.2
-#         run: |
-#           curl -o $GITHUB_WORKSPACE/lib/junit-3.8.2.jar https://repo1.maven.org/maven2/junit/junit/3.8.2/junit-3.8.2.jar
+      - name: Download JUnit 3.8.2
+        run: |
+          curl -o $GITHUB_WORKSPACE/lib/junit-3.8.2.jar https://repo1.maven.org/maven2/junit/junit/3.8.2/junit-3.8.2.jar
 
       - name: Compile program
         run: javac -d $GITHUB_WORKSPACE/out/classes -sourcepath $GITHUB_WORKSPACE/src -classpath $GITHUB_WORKSPACE/lib/junit-3.8.2.jar $GITHUB_WORKSPACE/src/**/*.java
