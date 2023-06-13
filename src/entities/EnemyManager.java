@@ -5,6 +5,7 @@ import gamestates.Playing;
 import static utilz.Constants.EnemyConstants.*;
 
 import levels.Level;
+import observables.HealthObservable;
 import utilz.LoadSave;
 
 import javax.swing.plaf.ButtonUI;
@@ -25,11 +26,11 @@ public class EnemyManager {
         loadEnemyImgs();
     }
 
-    public void update(int[][] lvlData, Player player){
+    public void update(int[][] lvlData, Player player, HealthObservable playerHealth){
         boolean isAnyActive = false;
         for(Enemy e : enemies){
             if(e.isActive()) {
-                e.update(lvlData, player);
+                e.update(lvlData, player,playerHealth);
                 isAnyActive = true;
             }
         }

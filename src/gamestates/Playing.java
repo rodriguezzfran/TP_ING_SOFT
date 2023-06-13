@@ -24,6 +24,7 @@ import levels.LevelManager;
 import main.Game;
 import UI.GameOverOverlay;
 import UI.LevelCompletedOverlay;
+import observables.HealthObservable;
 import utilz.LoadSave;
 
 
@@ -38,6 +39,7 @@ public class Playing extends State implements StateMethods {
     private boolean lvlCompleted;
     private PauseOverlay pauseOverlay;
     private boolean paused = false;
+    HealthObservable playerHealth = new HealthObservable(100);
 
 
     public Playing(Game game) {
@@ -51,6 +53,7 @@ public class Playing extends State implements StateMethods {
         player = new Player(270,200,(int)(78*Game.SCALE),(int)(58*Game.SCALE),this); //78 y 58
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        playerHealth.addObserver(player);
         gameOverOverlay= new GameOverOverlay(this);
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
@@ -75,7 +78,7 @@ public class Playing extends State implements StateMethods {
         } else if (!gameOver) {
             levelManager.update();
             player.update();
-            enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player);
+            enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player,playerHealth);
         } else if (gameOver) {
             levelManager.setLvlIndex(0);
         }
