@@ -18,7 +18,10 @@ jobs:
         with:
           java-version: '19'
           distribution: 'adopt'
-
+      
+      - name: Descargar JUnit 3.8.2
+        run: curl -O https://repo1.maven.org/maven2/junit/junit/3.8.2/junit-3.8.2.jar
+      
       - name: Compile program and tests
         run: |
          javac -d $GITHUB_WORKSPACE/classes -sourcepath $GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE/Test/testing $GITHUB_WORKSPACE/src/**/*.java $GITHUB_WORKSPACE/Test/testing/Tests.java
