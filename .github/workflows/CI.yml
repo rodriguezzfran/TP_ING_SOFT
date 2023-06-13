@@ -21,7 +21,7 @@ jobs:
         javac -cp junit-3.8.2.jar -d bin @sources.txt
     - name: Find test class directory
       run: |
-        TEST_DIR=$(dirname $(find . -name "Tests.class"))
+        TEST_DIR=$(dirname $(find . -name "Main.class"))
         echo "TEST_DIR=$TEST_DIR" >> $GITHUB_ENV
     - name: Run tests with JUnit 3
       run: java -cp bin:junit-3.8.2.jar:$TEST_DIR junit.textui.TestRunner Tests
