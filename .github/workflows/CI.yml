@@ -17,15 +17,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '19'
-          distribution: 'adopt'
 
-      - name: Set up Gradle
+      - name: Compile and run tests
         run: |
-          export GRADLE_HOME=$GITHUB_WORKSPACE/TP_ING_SOFT/gradle-8.1.1
-          export PATH=$GRADLE_HOME/bin:$PATH
-
-      - name: Build with Gradle
-        run: gradle build
-
-      - name: Run tests
-        run: gradle test
+          javac -d  $GITHUB_WORKSPACE/
+          java -cp  $GITHUB_WORKSPACE/Test/testing.java
