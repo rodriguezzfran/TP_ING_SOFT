@@ -17,12 +17,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '19'
-          distribution: 'adopt'
 
-      - name: Build with Gradle Wrapper
+      - name: Compile and run tests
         run: |
-          chmod +x ./gradlew
-          ./gradlew build
-
-      - name: Run tests
-        run: ./gradlew test
+          javac -d  $GITHUB_WORKSPACE/
+          java -cp  $GITHUB_WORKSPACE/Test/testing.java
