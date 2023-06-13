@@ -23,9 +23,6 @@ jobs:
         run: |
           curl -o $GITHUB_WORKSPACE/junit-4.12.jar https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar
 
-      - name: Compile program
-        run: |
-          javac -d $GITHUB_WORKSPACE/out $GITHUB_WORKSPACE/src/*.java
 
       - name: List test classes
         run: |
