@@ -1,3 +1,5 @@
+package Tests;
+
 import behaviors.damage.Damage4;
 import behaviors.damage.DamageBehavior;
 import behaviors.health.Health3;
