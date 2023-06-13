@@ -52,7 +52,7 @@ public class MenuButton {
         }
     }
 
-    public boolean getMouseOver() {
+    public boolean isMouseOver() {
         return mouseOver;
     }
 
@@ -60,7 +60,7 @@ public class MenuButton {
         this.mouseOver = mouseOver;
     }
 
-    public boolean getMousePressed() {
+    public boolean isMousePressed() {
         return mousePressed;
     }
 

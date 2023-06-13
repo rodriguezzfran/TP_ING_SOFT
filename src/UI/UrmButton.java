@@ -29,12 +29,20 @@ public class UrmButton extends PauseButton {
         loadImgs();
     }
 
-    private void loadImgs() {
-        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.URM_BUTTONS)[0];
+//    private void loadImgs() {
+//        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.URM_BUTTONS)[0];
+//        imgs = new BufferedImage[3];
+//        for (int i = 0; i < imgs.length; i++) {
+//            imgs[i] = temp.getSubimage(i * URM_DEFAULT_SIZE, rowIndex * URM_DEFAULT_SIZE, URM_DEFAULT_SIZE, URM_DEFAULT_SIZE);
+//        }
+//    }
+    private void loadImgs(){
+        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[3]; //URM Buttons (3)
         imgs = new BufferedImage[3];
-        for (int i = 0; i < imgs.length; i++) {
-            imgs[i] = temp.getSubimage(i * URM_DEFAULT_SIZE, rowIndex * URM_DEFAULT_SIZE, URM_DEFAULT_SIZE, URM_DEFAULT_SIZE);
+        for(int i = 0;i< imgs.length;i++){
+            imgs[i] = temp.getSubimage(i*URMButtons.URM_DEFAULT_SIZE,rowIndex* URMButtons.URM_DEFAULT_SIZE,URMButtons.URM_DEFAULT_SIZE,URMButtons.URM_DEFAULT_SIZE);
         }
+
     }
 
     public void update() {
@@ -46,23 +54,18 @@ public class UrmButton extends PauseButton {
 
     }
 
-//    public void draw(Graphics g) {
-//        g.drawImage(imgs[index], x, y, URM_SIZE, URM_SIZE, null);
-//    }
+
 
     public void resetBools() {
         mouseOver = false;
         mousePressed = false;
     }
 
-    private void loadImages(){
-        BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[3];
-        imgs = new BufferedImage[3];
-        for(int i = 0;i< imgs.length;i++){
-            imgs[i] = temp.getSubimage(i*URMButtons.URM_DEFAULT_SIZE,rowIndex* URMButtons.URM_DEFAULT_SIZE,URMButtons.URM_DEFAULT_SIZE,URMButtons.URM_DEFAULT_SIZE);
-        }
 
-    }
+
+//    public void draw(Graphics g) {
+//        g.drawImage(imgs[index], x, y, URM_SIZE, URM_SIZE, null);
+//    }
     public void draw(Graphics g){
         g.drawImage(imgs[index],x,y,URMButtons.URM_SIZE/2,URMButtons.URM_SIZE/2,null);
     }

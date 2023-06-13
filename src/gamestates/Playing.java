@@ -81,9 +81,8 @@ public class Playing extends State implements StateMethods{
             enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player,playerHealth);
         } else if (gameOver) {
             levelManager.setLvlIndex(0);
-
         } else if (gameOver) {
-            gameOverOverlay.update();
+           //gameOverOverlay.update();
         }
     }
 
@@ -98,8 +97,9 @@ public class Playing extends State implements StateMethods{
             pauseOverlay.draw(g);
         } else if (gameOver)
             gameOverOverlay.draw(g);
-        else if (lvlCompleted)
+        else if (lvlCompleted) {
             levelCompletedOverlay.draw(g);
+        }
     }
 
     public void resetAll(){
@@ -138,7 +138,7 @@ public class Playing extends State implements StateMethods{
                 pauseOverlay.mousePressed(e);
             else if (lvlCompleted)
                 levelCompletedOverlay.mousePressed(e);
-        if(gameOver){
+        }else{
             gameOverOverlay.mousePressed(e);
         }
     }
@@ -146,11 +146,13 @@ public class Playing extends State implements StateMethods{
     @Override
     public void mouseReleased(MouseEvent e) {
         if (!gameOver) {
-            if (paused)
+            if (paused) {
                 pauseOverlay.mouseReleased(e);
-            else if (lvlCompleted)
+            }
+            else if (lvlCompleted) {
                 levelCompletedOverlay.mouseReleased(e);
-        if(gameOver){
+            }
+        }else{
             gameOverOverlay.mouseReleased(e);
         }
     }
@@ -163,6 +165,8 @@ public class Playing extends State implements StateMethods{
                 pauseOverlay.mouseMoved(e);
             else if (lvlCompleted)
                 levelCompletedOverlay.mouseMoved(e);
+        }else {
+            gameOverOverlay.mouseMoved(e);
         }
     }
     public void mouseDragged(MouseEvent e) {
@@ -173,9 +177,6 @@ public class Playing extends State implements StateMethods{
 
     public void unpauseGame() {
         paused = false;
-        if(gameOver){
-            gameOverOverlay.mouseMoved(e);
-        }
     }
 
     @Override
@@ -236,6 +237,9 @@ public class Playing extends State implements StateMethods{
     }
     public EnemyManager getEnemyManager() {
         return enemyManager;
+    }
+    public LevelManager getLevelManager(){
+        return levelManager;
     }
     public void setLevelCompleted(boolean levelCompleted) {
         this.lvlCompleted = levelCompleted;

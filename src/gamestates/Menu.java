@@ -36,6 +36,12 @@ public class Menu extends State implements StateMethods{
         buttons[0] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*105+50),0, Gamestate.PLAYING);
         buttons[1] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*135+50),1, Gamestate.OPTION);
         buttons[2] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*165+50),2, Gamestate.QUIT);
+
+//        buttons[0] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*105),0, Gamestate.PLAYING);
+//        buttons[1] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*135),1, Gamestate.OPTION);
+//        buttons[2] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*165),2, Gamestate.QUIT);
+
+
     }
 
     @Override
@@ -48,17 +54,14 @@ public class Menu extends State implements StateMethods{
     @Override
     public void draw(Graphics g) {
 //ojo cuidao aca
-        g.drawImage(backGroundImg,menuX,menuY,menuWidth/2,menuHeight/2,null);
+
 
         g.drawImage(BGImg,0,0,Game.GAME_WIDTH-40,Game.GAME_HEIGHT-40,null);
+        //g.drawImage(backGroundImg,menuX,menuY,menuWidth/2,menuHeight/2,null);
         g.drawImage(backGroundImg,menuX,menuY+50,menuWidth/2,menuHeight/2,null);
-
         for(MenuButton mb: buttons){
             mb.draw(g);
         }
-
-
-
     }
 
     @Override
@@ -81,7 +84,7 @@ public class Menu extends State implements StateMethods{
     public void mouseReleased(MouseEvent e) {
         for(MenuButton mb: buttons){
             if(isIn(e,mb)) {
-                if (mb.getMousePressed()) {
+                if (mb.isMousePressed()) {
                     mb.applyGameState();
                     break;
                 }
