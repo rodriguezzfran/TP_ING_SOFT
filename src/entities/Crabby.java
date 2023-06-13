@@ -3,7 +3,9 @@ package entities;
 import static utilz.Constants.EnemyConstants.*;
 
 import behaviors.damage.Damage1;
+import behaviors.damage.Damage2;
 import behaviors.health.Health1;
+import behaviors.health.Health2;
 import behaviors.rangeenemies.LongDistance;
 import main.Game;
 import utilz.LoadSave;
@@ -19,7 +21,7 @@ public class Crabby extends Enemy {
 
 
         public Crabby(float x, float y) {
-            super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY,CRABBY_DRAWOFFSET_X,CRABBY_DRAWOFFSET_Y,new Health1(),new Damage1(),new LongDistance());
+            super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY,CRABBY_DRAWOFFSET_X,CRABBY_DRAWOFFSET_Y,new Health2(),new Damage2(),new LongDistance());
             initHitbox(x, y, (int) (22 * Game.SCALE), (int) (19 * Game.SCALE));
             initAttackBox();
             spritePath = LoadSave.CRABBY_SPRITE;

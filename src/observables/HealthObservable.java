@@ -6,10 +6,10 @@ import java.util.List;
 public class HealthObservable implements  Observable{
 
     private List<Observer> observers = new ArrayList<>();
-    private int Health;
+    private int health;
 
-    public HealthObservable(int Health){
-        this.Health = Health;
+    public HealthObservable(int health){
+        this.health = health;
     }
 
     @Override
@@ -27,13 +27,13 @@ public class HealthObservable implements  Observable{
     @Override
     public void notifyAllObservers() {
         for(Observer o : observers){
-            o.updateState(this.Health);
+            o.updateState(this.health);
         }
     }
 
     public void setHealth(int change){
-        this.Health += change;
-        System.out.println("Current Health : " + this.Health);
+        this.health += change;
+        System.out.println("Current Health : " + this.health);
         notifyAllObservers();
     }
 }
