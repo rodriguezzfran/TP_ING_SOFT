@@ -30,7 +30,6 @@ jobs:
  
       - name: Run tests
         run: |
-         run: |
          find $GITHUB_WORKSPACE -name "*.class" | grep -E '.*Test.*' | sed 's#.*/\(.*\)\.class#'\''\1'\''#' | \
          xargs -I {} java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore {}
      
