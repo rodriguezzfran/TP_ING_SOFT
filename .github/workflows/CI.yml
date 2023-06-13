@@ -26,7 +26,7 @@ jobs:
      
       - name: Run tests
         run: |
-          java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore $(find / -type f -name "*Tests.class" -printf "%P\n" | sed 's/\.class$//' | tr '\n' ' ')
+          java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore $(find /out -type f -name "*Tests.class" -printf "%P\n" | sed 's/\.class$//' | tr '\n' ' ')
 
      
 #       - name: Run tests
