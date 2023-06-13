@@ -1,1 +1,14 @@
-
+name: CI al programa
+on:
+  pull_request:
+    branches: [master]
+jobs: 
+  ci_to_master:
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
+        with:
+         java-version: '19'
+         distribution: 'temurin'
+      - run: G:\Brunoo\Repos_GitHub\TP_ING_SOFT\src\testing    
