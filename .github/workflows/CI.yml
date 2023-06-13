@@ -20,4 +20,5 @@ jobs:
         find . -name "*.java" > sources.txt
         javac -cp junit-3.8.2.jar -d bin @sources.txt
     - name: Run tests with JUnit 3
-      run: java -cp bin:junit-3.8.2.jar junit.textui.TestRunner Tests
+      run: java -cp bin:junit-3.8.2.jar:out/test/TPINGSOFT junit.textui.TestRunner Tests
+
