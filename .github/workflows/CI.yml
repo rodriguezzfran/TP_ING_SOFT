@@ -18,8 +18,11 @@ jobs:
         with:
           java-version: '19'
           distribution: 'adopt'
-          
-      - name: Compile and run tests
+
+      - name: Compile program and tests
         run: |
-          javac -d  $GITHUB_WORKSPACE/src -sourcepath $GITHUB_WORKSPACE/src $(find $GITHUB_WORKSPACE/src -name '*.java')
-          java -cp  $GITHUB_WORKSPACE/Test/testing/Test.java
+          javac -d $GITHUB_WORKSPACE/classes -sourcepath $GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE/Test/testing $GITHUB_WORKSPACE/src/**/*.java $GITHUB_WORKSPACE/Test/testing/**/*.java
+
+      - name: Run tests
+        run: |
+          java -classpath $GITHUB_WORKSPACE/classes:$GITHUB_WORKSPACE/lib/* org.junit.runner.JUnitCore Test.testing.Test
