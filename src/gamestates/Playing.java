@@ -60,6 +60,10 @@ public class Playing extends State implements StateMethods {
         levelCompletedOverlay = new LevelCompletedOverlay(this);
     }
 
+    public HealthObservable getObservable(){
+        return this.playerHealth;
+    }
+
     private void loadStartLevel() {
         enemyManager.loadEnemies(levelManager.getCurrentLevel());
     }

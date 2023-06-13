@@ -1,6 +1,6 @@
 package main;
 
-import Imputs.KeyBoardImputs;
+import imputs.KeyBoardImputs;
 import Imputs.MouseInputs;
 import javax.swing.JPanel;
 import java.awt.*;

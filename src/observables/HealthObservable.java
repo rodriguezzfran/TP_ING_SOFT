@@ -17,6 +17,10 @@ public class HealthObservable implements  Observable{
         this.observers.add(o);
     }
 
+    public int getHealth(){
+        return this.health;
+    }
+
     @Override
     public void removeObserver(Observer o) {
         int i = observers.indexOf(o);

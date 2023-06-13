@@ -9,6 +9,7 @@ import entities.*;
 import gamestates.Playing;
 import junit.framework.TestCase;
 import main.Game;
+import observables.HealthObservable;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -93,4 +94,9 @@ public class Tests extends TestCase {
         assertEquals(healthKP.getHealth(),kingPig.getHealthBehavior().getHealth());
     }
 
+    public void testHealthObserverDamage(){
+        createNewGame();
+        game.getPlaying().getObservable().setHealth(-20);
+        assertEquals(game.getPlaying().getObservable().getHealth(),game.getPlaying().getPlayer().getCurrentHealth());
+    }
 }

@@ -362,4 +362,7 @@ public class Player extends Entity implements Observer {
             inAir = true;
         }
     }
+    public int getCurrentHealth(){
+        return this.currentHealth;
+    }
 }
