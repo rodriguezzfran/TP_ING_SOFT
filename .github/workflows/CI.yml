@@ -28,4 +28,4 @@ jobs:
           
       - name: Run tests
         run: |
-          java -cp "path/to/classes:path/to/classes/*" org.junit.runner.JUnitCore com.example.tests.TestClass
+          java -cp "out/:out/*" org.junit.runner.JUnitCore Tests.Tests
