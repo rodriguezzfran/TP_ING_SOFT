@@ -2,6 +2,7 @@ package entities;
 
 import gamestates.Playing;
 import main.Game;
+import observables.Observer;
 import utilz.LoadSave;
 
 import java.awt.*;
@@ -14,7 +15,7 @@ import static utilz.HelpMethods.*;
 
 
 
-public class Player extends Entity{
+public class Player extends Entity implements Observer {
     private int speed = 3;
     private BufferedImage[][] allAnimations;
     private BufferedImage img;
@@ -107,6 +108,12 @@ public class Player extends Entity{
         attackBox.y = hitBox.y - (Game.SCALE * 12);
     }
 
+    public void loadLvlData(int[][] lvlData) {
+        this.lvlData = lvlData;
+        if (!IsEntityOnFloor(hitBox, lvlData))
+            inAir = true;
+    }
+
     private void updateHealthBar() {
         healthWidth = (int)((currentHealth/(float)maxHealth) * healthBarWidth); //escala
     }
@@ -133,6 +140,15 @@ public class Player extends Entity{
         g.setColor(Color.RED);
         g.fillRect(healthBarXStart+statusBarX, healthBarYStart+statusBarY,healthWidth,healthBarHeight);
     }
+
+    public void setSpawn(Point spawn) {
+        this.x = spawn.x;
+        this.y = spawn.y;
+        this.hitBox.x = x;
+        this.hitBox.y = y;
+    }
+
+
 
     private void setAnimation() {
         int startAnimation = playerAction;
@@ -246,8 +262,9 @@ public class Player extends Entity{
         }
     }
 
-    public void changeHealth(int value){
-        currentHealth += value;
+    @Override
+    public void updateState(int health){
+        currentHealth = health;
 
         if(currentHealth <= 0){
             currentHealth = 0;
@@ -285,12 +302,6 @@ public class Player extends Entity{
         }
         statusBarImg = LoadSave.GetSpriteAtlas(LoadSave.LIVE_BAR_GRAPH)[4]; //toma la health bar del array de las
                                                                             //imagenes de "12-Live and Coins"
-    }
-    public void loadLvlData(int[][] lvlData){
-        this.lvlData = lvlData;
-        if(!IsEntityOnFloor(hitBox,lvlData)){
-            inAir = true;
-        }
     }
 
     public void resetDirBooleans() {

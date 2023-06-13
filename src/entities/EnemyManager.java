@@ -3,8 +3,12 @@ package entities;
 import gamestates.Playing;
 
 import static utilz.Constants.EnemyConstants.*;
+
+import levels.Level;
+import observables.HealthObservable;
 import utilz.LoadSave;
 
+import javax.swing.plaf.ButtonUI;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -15,48 +19,48 @@ import java.util.ArrayList;
 public class EnemyManager {
 
     private Playing playing;
-    private BufferedImage[][] kingPigArr;
-    private ArrayList<KingPig> kingPigs = new ArrayList<>();
+    private BufferedImage[][][] enemyArr;
+    private ArrayList<Enemy> enemies = new ArrayList<>();
     public EnemyManager(Playing playing){
         this.playing = playing;
         loadEnemyImgs();
-        addEnemies();
     }
 
-    private void addEnemies() {
-        kingPigs = LoadSave.GetKingPigs();
-        System.out.println("Amount of King Pigs: " + kingPigs.size());
-    }
-
-    public void update(int[][] lvlData, Player player){
-        for(KingPig kp : kingPigs){
-            if(kp.isActive()){
-                kp.update(lvlData,player);
+    public void update(int[][] lvlData, Player player, HealthObservable playerHealth){
+        boolean isAnyActive = false;
+        for(Enemy e : enemies){
+            if(e.isActive()) {
+                e.update(lvlData, player,playerHealth);
+                isAnyActive = true;
             }
         }
+        if(!isAnyActive)
+            playing.setLevelCompleted(true);
     }
     public void draw(Graphics g){
-        drawKingPigs(g);
+        drawEnemies(g);
     }
 
-    private void drawKingPigs(Graphics g) {
-        for(KingPig kp : kingPigs){
-            if(kp.isActive()) {
-                g.drawImage(kingPigArr[kp.getEnemyState()][kp.getAniIndex()],
-                        (int) kp.getHitBox().x - KING_PIG_DRAWOFFSET_X + kp.flipX(),
-                        (int) kp.getHitBox().y - KING_PIG_DRAWOFFSET_Y,
-                        KING_PIG_WIDTH * kp.flipW(), KING_PIG_HEIGHT, null);
+    private void drawEnemies(Graphics g) {
+
+        for(Enemy e : enemies){
+            if(e.isActive()) {
+                g.drawImage(enemyArr[e.getEnemyIndex()][e.getEnemyState()][e.getAniIndex()],
+                        (int) e.getHitBox().x - e.getXDrawOffset() + e.flipX(),
+                        (int) e.getHitBox().y - e.getYDrawOffset(),
+                        e.getEnemyWidth() * e.flipW(), e.getEnemyHeight(), null);
                 //kp.drawHitbox(g); //para debuggear hitbox
                 //kp.drawAttackBox(g);
             }
         }
     }
 
+
     public void checkEnemyHit(Rectangle2D.Float attackBox){
-        for(KingPig kp : kingPigs){
-            if(kp.isActive()){
-                if (attackBox.intersects(kp.getHitBox())) {
-                    kp.hurt(10);
+        for(Enemy e : enemies){
+            if(e.isActive()){
+                if (attackBox.intersects(e.getHitBox())) {
+                    e.hurt(100);
                     return;
                 }
             }
@@ -65,18 +69,29 @@ public class EnemyManager {
 
 
     private void loadEnemyImgs() {
-        kingPigArr = new BufferedImage[8][12];
+        enemyArr = new BufferedImage[2][8][12];
         BufferedImage temp[] = LoadSave.GetSpriteAtlas(LoadSave.KING_PIG_SPRITE);
-        for(int i = 0;i<temp.length;i++){
-            for(int j = 0; j < (temp[i].getWidth()/KING_PIG_WIDTH_DEFAULT);j++){
-                kingPigArr[i][j] = temp[i].getSubimage(j*(KING_PIG_WIDTH_DEFAULT),0,KING_PIG_WIDTH_DEFAULT,KING_PIG_HEIGHT_DEFAULT);
+        for(int k=0;k<2;k++) {
+            for (int i = 0; i < temp.length; i++) {
+                for (int j = 0; j < (temp[i].getWidth() / KING_PIG_WIDTH_DEFAULT); j++) {
+                    enemyArr[0][i][j] = temp[i].getSubimage(j * (KING_PIG_WIDTH_DEFAULT), 0, KING_PIG_WIDTH_DEFAULT, KING_PIG_HEIGHT_DEFAULT);
+                }
+            }
+        }
+        temp = LoadSave.GetSpriteAtlas(LoadSave.CRABBY_SPRITE);
+        for (int i = 0; i < temp.length; i++) {
+            for (int j = 0; j < (temp[i].getWidth() / CRABBY_WIDTH_DEFAULT); j++) {
+                enemyArr[1][i][j] = temp[i].getSubimage(j * (CRABBY_WIDTH_DEFAULT), 0, CRABBY_WIDTH_DEFAULT, CRABBY_HEIGHT_DEFAULT);
             }
         }
     }
+    public void loadEnemies(Level level) {
+        enemies = level.getEnemies();
+    }
 
     public void resetAllEnemies() {
-        for(KingPig kp : kingPigs){
-            kp.resetEnemy();
+        for(Enemy e : enemies){
+            e.resetEnemy();
         }
     }
 }
