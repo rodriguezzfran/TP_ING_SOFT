@@ -22,4 +22,4 @@ jobs:
       - name: Compile and run tests
         run: |
           javac -d  $GITHUB_WORKSPACE/src -sourcepath $GITHUB_WORKSPACE/src $(find $GITHUB_WORKSPACE/src -name '*.java')
-          java -cp  $GITHUB_WORKSPACE/Test/testing.java
+          java -cp  $GITHUB_WORKSPACE/Test/testing/Test.java
