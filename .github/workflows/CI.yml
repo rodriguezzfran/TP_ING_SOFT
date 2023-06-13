@@ -17,8 +17,10 @@ jobs:
     - name: Set up JDK 19
       uses: actions/setup-java@v2
       with:
-        java-version: '19'
+        java-version: 'adopt@1.19'
+        distribution: 'jdk'
+        architecture: 'x64'
 
     - name: Run tests
       run: |
-        java -cp "out/:out/*" org.junit.runner.JUnitCore Tests.Tests
+        java -cp "path/to/classes:path/to/classes/*" org.junit.runner.JUnitCore com.example.tests.TestClass
