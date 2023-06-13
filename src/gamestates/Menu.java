@@ -53,9 +53,6 @@ public class Menu extends State implements StateMethods{
 
     @Override
     public void draw(Graphics g) {
-//ojo cuidao aca
-
-
         g.drawImage(BGImg,0,0,Game.GAME_WIDTH-40,Game.GAME_HEIGHT-40,null);
         //g.drawImage(backGroundImg,menuX,menuY,menuWidth/2,menuHeight/2,null);
         g.drawImage(backGroundImg,menuX,menuY+50,menuWidth/2,menuHeight/2,null);
