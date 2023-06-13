@@ -23,15 +23,12 @@ jobs:
         run: |
           curl -o $GITHUB_WORKSPACE/junit-4.12.jar https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar
 
-      - name: Find test classes
-        run: |
-         find $GITHUB_WORKSPACE -type f -name "*.class" | sed 's#.*/\(.*\)\.class#'\''\1'\''#' > $GITHUB_WORKSPACE/test_classes.txt
- 
+     
       - name: Run tests
         run: |
-            while IFS= read -r class; do
-            java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore "$class"
-            done < $GITHUB_WORKSPACE/test_classes.txt
+           find $GITHUB_WORKSPACE -type f -name "*.class" | while read -r class; do
+           java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore "$(basename "${class%.*}")"
+           done
      
 #       - name: Run tests
 #         run: |
