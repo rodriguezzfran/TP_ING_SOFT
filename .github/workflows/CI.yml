@@ -19,10 +19,11 @@ jobs:
       run: |
         find . -name "*.java" > sources.txt
         javac -cp junit-3.8.2.jar -d bin @sources.txt
-    - name: Find test class directory
+    - name: Find all test classes
       run: |
-        TEST_DIR=$(dirname $(find . -name "Main.class"))
-        echo "TEST_DIR=$TEST_DIR" >> $GITHUB_ENV
-    - name: Run tests with JUnit 3
-      run: java -cp bin:junit-3.8.2.jar:$TEST_DIR junit.textui.TestRunner Tests
-
+        find bin -name "*.class" | sed 's|bin/||;s|/|.|g;s|.class||' > test_classes.txt
+    - name: Run all test classes with JUnit 3
+      run: |
+        while read -r test_class; do
+          java -cp bin:junit-3.8.2.jar junit.textui.TestRunner $test_class
+        done < test_classes.txt
