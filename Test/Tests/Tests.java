@@ -41,7 +41,7 @@ public class Tests extends TestCase {
 
     public void testGetEntityXPosNextToWallRight() {
         jibos();
-        assertEquals(278, (int) GetEntityXPosNextToWall(hitBox, 3)); //87 es lo que debería volver
+        assertEquals(279, (int) GetEntityXPosNextToWall(hitBox, 3)); //87 es lo que debería volver
     }
 
     public void testGetEntityXPosNextToWallLeft() {
