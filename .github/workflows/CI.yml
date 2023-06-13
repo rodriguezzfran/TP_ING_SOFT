@@ -1,31 +1,27 @@
-name: Java 19 Test
+name: Java CI
 
 on:
+  push:
+    branches:
+      - main
   pull_request:
     branches:
-      - '*'
+      - main
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v2
 
-      - name: Set up JDK 19
-        uses: actions/setup-java@v2
-        with:
-          java-version: '19'
-          distribution: 'adopt'
+    - name: Set up JDK 19
+      uses: actions/setup-java@v2
+      with:
+        java-version: '19'
 
-      - name: Create lib directory
-        run: mkdir $GITHUB_WORKSPACE/lib
-
-      - name: Download JUnit 3.8.2
-        run: |
-          curl -o $GITHUB_WORKSPACE/lib/junit-3.8.2.jar https://repo1.maven.org/maven2/junit/junit/3.8.2/junit-3.8.2.jar
-
-      - name: Run tests
-        run: |
-          java -classpath $GITHUB_WORKSPACE/out:$GITHUB_WORKSPACE/lib/junit-3.8.2.jar junit.textui.TestRunner out/Tests
+    - name: Run tests
+      run: |
+        java -cp "out/:out/*" org.junit.runner.JUnitCore Tests.Tests
