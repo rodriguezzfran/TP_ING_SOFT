@@ -6,7 +6,7 @@ import behaviors.health.Health3;
 import behaviors.health.Health4;
 import behaviors.health.HealthBehavior;
 import entities.*;
-import gamestates.Playing;
+import gamestates.*;
 import junit.framework.TestCase;
 import main.Game;
 
