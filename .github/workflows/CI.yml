@@ -31,8 +31,6 @@ jobs:
          find $GITHUB_WORKSPACE -name "*.java" > sources.txt
          javac -d $GITHUB_WORKSPACE/classes -sourcepath $GITHUB_WORKSPACE -classpath $GITHUB_WORKSPACE/lib/junit-3.8.2.jar @sources.txt
 
-     
+   
       - name: Run tests
-        run: |
-         java -classpath $GITHUB_WORKSPACE/classes:$GITHUB_WORKSPACE/lib/junit-3.8.2.jar org.junit.runner.JUnitCore Test.Tests
-
+        run: java -classpath $GITHUB_WORKSPACE/classes:$GITHUB_WORKSPACE/lib/junit-3.8.2.jar junit.textui.TestRunner Tests
