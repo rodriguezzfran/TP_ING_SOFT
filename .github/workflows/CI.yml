@@ -21,7 +21,7 @@ jobs:
 
       - name: Compile program and tests
         run: |
-         javac -d $GITHUB_WORKSPACE/classes -sourcepath $GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE/Test/testing -classpath $GITHUB_WORKSPACE/junit/junit/3.8.2/junit.jar:$GITHUB_WORKSPACE/libs/hamcrest.jar $GITHUB_WORKSPACE/src/**/*.java $GITHUB_WORKSPACE/Test/testing/Tests.java
+         javac -d $GITHUB_WORKSPACE/classes -sourcepath $GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE/Test/testing -classpath $GITHUB_WORKSPACE/junit/junit/3.8.2/:$GITHUB_WORKSPACE/libs/hamcrest.jar $GITHUB_WORKSPACE/src/**/*.java $GITHUB_WORKSPACE/Test/testing/Tests.java
 
       - name: Run tests
         run: |
