@@ -17,7 +17,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '19'
-
+          distribution: 'adopt'
+          
       - name: Compile and run tests
         run: |
           javac -d  $GITHUB_WORKSPACE/
