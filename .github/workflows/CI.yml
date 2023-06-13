@@ -21,7 +21,7 @@ jobs:
 
       - name: Set up Gradle
         run: |
-          export GRADLE_HOME=$GITHUB_WORKSPACE/path/to/gradle-8.1.1
+          export GRADLE_HOME=$GITHUB_WORKSPACE/TP_ING_SOFT/gradle-8.1.1
           export PATH=$GRADLE_HOME/bin:$PATH
 
       - name: Build with Gradle
