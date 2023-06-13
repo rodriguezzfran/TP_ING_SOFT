@@ -1,4 +1,4 @@
-name: Java CI
+name: Java 19 Test
 
 on:
   pull_request:
@@ -7,20 +7,18 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up JDK 19
-      uses: actions/setup-java@v2
-      with:
-        java-version: 'adopt@1.19'
-        distribution: 'jdk'
-        architecture: 'x64'
-
-    - name: Run tests
-      run: |
-        java -cp "path/to/classes:path/to/classes/*" org.junit.runner.JUnitCore com.example.tests.TestClass
+      - name: Set up JDK 19
+        uses: actions/setup-java@v2
+        with:
+          java-version: '19'
+          distribution: 'adopt'
+          
+      - name: Run tests
+        run: |
+          java -cp "path/to/classes:path/to/classes/*" org.junit.runner.JUnitCore com.example.tests.TestClass
