@@ -18,6 +18,13 @@ jobs:
         with:
           java-version: '19'
           distribution: 'adopt'
+      - name: Create lib directory
+        run: mkdir $GITHUB_WORKSPACE/lib
+
+      - name: Download JUnit 3.8.2
+        run: |
+          curl -o $GITHUB_WORKSPACE/lib/junit-3.8.2.jar https://repo1.maven.org/maven2/junit/junit/3.8.2/junit-3.8.2.jar
+     
           
       - name: Run tests
         run: |
