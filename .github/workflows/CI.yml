@@ -27,9 +27,8 @@ jobs:
 #           curl -o $GITHUB_WORKSPACE/lib/junit-3.8.2.jar https://repo1.maven.org/maven2/junit/junit/3.8.2/junit-3.8.2.jar
 
       - name: Compile program
-        run: |
-          javac -d $GITHUB_WORKSPACE/out/classes -sourcepath $GITHUB_WORKSPACE/src -classpath $GITHUB_WORKSPACE/lib/junit-3.8.2.jar $GITHUB_WORKSPACE/src/*.java
-
+        run: javac -d $GITHUB_WORKSPACE/out/classes -sourcepath $GITHUB_WORKSPACE/src -classpath $GITHUB_WORKSPACE/lib/junit-3.8.2.jar $GITHUB_WORKSPACE/src/**/*.java
+      
       - name: Find test source files
         run: find $GITHUB_WORKSPACE/Test -name "*.java" > test_sources.txt
 
