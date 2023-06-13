@@ -20,10 +20,9 @@ jobs:
           distribution: 'adopt'
 
       - name: Set up Gradle
-        uses: gradle/setup-gradle@v1
-        with:
-          gradle-version: '8.1.1'
-          gradle-distribution-url: 'file:TP_ING_SOFT/gradle-8.1.1' # Reemplaza con la ruta correcta a tu distribución de Gradle
+        run: |
+          export GRADLE_HOME=$GITHUB_WORKSPACE/path/to/gradle-8.1.1
+          export PATH=$GRADLE_HOME/bin:$PATH
 
       - name: Build with Gradle
         run: gradle build
