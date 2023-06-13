@@ -26,21 +26,15 @@ jobs:
       - name: Find test classes
         run: |
           find $GITHUB_WORKSPACE/out -type f -name "*.class" | grep -E '.*Test.*' | sed 's|.*/\(.*\)\.class$|\1|' > $GITHUB_WORKSPACE/test_classes.txt
+ 
+
      
       - name: Run tests
         run: |
-         while read -r class; do
-         class_path=$(echo "$class" | sed "s#^$GITHUB_WORKSPACE#$GITHUB_WORKSPACE/out:$GITHUB_WORKSPACE/junit-4.12.jar#")
-         java -cp "$class_path" org.junit.runner.JUnitCore "$class"
-         done < "$GITHUB_WORKSPACE/test_classes.txt"
-
-     
-#      - name: Run tests
-#         run: |
-#          find "$GITHUB_WORKSPACE/out/production/TP ING SOFT" -name "*.class" | \
-#          sed 's/\.class$//' | \
-#          sed 's#^'"$GITHUB_WORKSPACE/out/production/TP ING SOFT"'#'"$GITHUB_WORKSPACE/out"':'"$GITHUB_WORKSPACE/junit-4.12.jar"'#' | \
-#          xargs -I {} java -cp {} org.junit.runner.JUnitCore {}
+         find "$GITHUB_WORKSPACE/out/production/TP ING SOFT" -name "*.class" | \
+         sed 's/\.class$//' | \
+         sed 's#^'"$GITHUB_WORKSPACE/out/production/TP ING SOFT"'#'"$GITHUB_WORKSPACE/out"':'"$GITHUB_WORKSPACE/junit-4.12.jar"'#' | \
+         xargs -I {} java -cp {} org.junit.runner.JUnitCore {}
 
 #       - name: Run tests
 #         run: |
