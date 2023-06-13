@@ -12,6 +12,9 @@ jobs:
       with:
         java-version: '19'
         distribution: 'adopt'
+    - name: Download JUnit
+      run: |
+        wget https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/1.8.2/junit-platform-console-standalone-1.8.2.jar 
     - name: Compile all Java files
       run: |
         find . -name "*.java" > sources.txt
