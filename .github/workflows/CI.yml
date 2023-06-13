@@ -21,7 +21,7 @@ jobs:
 
       - name: Compile program and tests
         run: |
-          javac -d $GITHUB_WORKSPACE/classes -sourcepath $GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE/Test/testing $GITHUB_WORKSPACE/src/**/*.java $GITHUB_WORKSPACE/Test/testing/**/*.java
+          javac -d $GITHUB_WORKSPACE/classes -sourcepath $GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE/Test/testing $GITHUB_WORKSPACE/src/**/*.java $GITHUB_WORKSPACE/Test/testing/Tests.java
 
       - name: Run tests
         run: |
