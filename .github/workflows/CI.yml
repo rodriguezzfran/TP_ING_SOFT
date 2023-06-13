@@ -34,7 +34,7 @@ jobs:
       - name: Compile tests
         run: |
          find $GITHUB_WORKSPACE/test -name "*.java" > test_sources.txt
-         javac -d $GITHUB_WORKSPACE/out/test -sourcepath $GITHUB_WORKSPACE/test -classpath $GITHUB_WORKSPACE/out/classes:$GITHUB_WORKSPACE/lib/junit-3.8.2.jar @$GITHUB_WORKSPACE/test_sources.txt
+         javac -d $GITHUB_WORKSPACE/out/test -sourcepath $GITHUB_WORKSPACE/Test -classpath $GITHUB_WORKSPACE/out/classes:$GITHUB_WORKSPACE/lib/junit-3.8.2.jar @$GITHUB_WORKSPACE/test_sources.txt
     
       - name: Run tests
         run: |
