@@ -49,6 +49,7 @@ public class Tests extends TestCase {
         createNewGame();
         Button a = new Button();
         KeyEvent e = new KeyEvent(a, 401, 1686669135712l, 0, 68, 'd');
+        playing.keyPressed(e);
         assertEquals(true,playing.getPlayer().getRight());
 
     }
