@@ -1,41 +1,20 @@
-name: Java 19 Test
+name: Java CI
 
-on:
-  pull_request:
-    branches:
-      - '*'
+on: [push]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up JDK 19
-        uses: actions/setup-java@v2
-        with:
-          java-version: '19'
-          distribution: 'adopt'
-
-      - name: Download JUnit 4.12
-        run: |
-          curl -o $GITHUB_WORKSPACE/junit-4.12.jar https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar
-
-     
-      - name: Run tests
-        run: |
-          java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore $(find origin/ -type f -name "*Tests.class" -printf "%P\n" | sed 's/\.class$//' | tr '\n' ' ')
-
-     
-#       - name: Run tests
-#         run: |
-#          find "$GITHUB_WORKSPACE/out/production/TP ING SOFT" -name "*.class" | \
-#          sed 's/\.class$//' | \
-#          sed 's#^'"$GITHUB_WORKSPACE/out/production/TP ING SOFT"'#'"$GITHUB_WORKSPACE/out"':'"$GITHUB_WORKSPACE/junit-4.12.jar"'#' | \
-#          xargs -I {} java -cp {} org.junit.runner.JUnitCore {}
-
-#       - name: Run tests
-#         run: |
-#           java -cp "$GITHUB_WORKSPACE/out:$GITHUB_WORKSPACE/junit-4.12.jar" org.junit.runner.JUnitCore $(cat $GITHUB_WORKSPACE/test_classes.txt)
+    - uses: actions/checkout@v2
+    - name: Set up JDK 19
+      uses: actions/setup-java@v2
+      with:
+        java-version: '19'
+        distribution: 'adopt'
+    - name: Compile all Java files
+      run: |
+        find . -name "*.java" > sources.txt
+        javac -d bin @sources.txt
+    - name: Run tests
+      run: java -cp bin Tests
