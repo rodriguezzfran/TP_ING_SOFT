@@ -46,13 +46,12 @@ public class Tests extends TestCase {
         jibos();
         assertEquals(384,(int) GetEntityYPosUnderRoofOrAboveFloor(hitBox,-2.25f)); //87 es lo que debería volver
     }
-/*
+
     public void testMoveRight(){
         createNewGame();
         KeyEvent e;
-        e = new KeyEvent();
+        e = new KeyEvent(d,401,1686668504291,0,68,"d" );
+        playing.keyPressed(e);
 
     }
-    
- */
 }

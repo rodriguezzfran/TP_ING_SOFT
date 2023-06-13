@@ -1,4 +1,4 @@
-package Imputs;
+package imputs;
 
 import gamestates.Gamestate;
 import main.GamePanel;
