@@ -28,7 +28,7 @@ import observables.HealthObservable;
 import utilz.LoadSave;
 
 
-public class Playing extends State implements StateMethods {
+public class Playing extends State implements StateMethods{
 
     private Player player;
     private LevelManager levelManager;
@@ -81,6 +81,9 @@ public class Playing extends State implements StateMethods {
             enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player,playerHealth);
         } else if (gameOver) {
             levelManager.setLvlIndex(0);
+
+        } else if (gameOver) {
+            gameOverOverlay.update();
         }
     }
 
@@ -135,6 +138,8 @@ public class Playing extends State implements StateMethods {
                 pauseOverlay.mousePressed(e);
             else if (lvlCompleted)
                 levelCompletedOverlay.mousePressed(e);
+        if(gameOver){
+            gameOverOverlay.mousePressed(e);
         }
     }
 
@@ -145,6 +150,8 @@ public class Playing extends State implements StateMethods {
                 pauseOverlay.mouseReleased(e);
             else if (lvlCompleted)
                 levelCompletedOverlay.mouseReleased(e);
+        if(gameOver){
+            gameOverOverlay.mouseReleased(e);
         }
     }
 
@@ -166,6 +173,9 @@ public class Playing extends State implements StateMethods {
 
     public void unpauseGame() {
         paused = false;
+        if(gameOver){
+            gameOverOverlay.mouseMoved(e);
+        }
     }
 
     @Override
@@ -230,5 +240,4 @@ public class Playing extends State implements StateMethods {
     public void setLevelCompleted(boolean levelCompleted) {
         this.lvlCompleted = levelCompleted;
     }
-
 }
