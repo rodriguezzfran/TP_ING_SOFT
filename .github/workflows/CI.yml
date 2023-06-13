@@ -33,4 +33,5 @@ jobs:
 
    
       - name: Run tests
+        run: |
          java -classpath $GITHUB_WORKSPACE/out:$GITHUB_WORKSPACE/lib/junit-3.8.2.jar junit.textui.TestRunner testing.Tests
