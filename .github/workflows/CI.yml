@@ -28,7 +28,8 @@ jobs:
 
       - name: Compile program
         run: |
-          javac -d $GITHUB_WORKSPACE/out/classes -sourcepath $GITHUB_WORKSPACE/src -classpath $GITHUB_WORKSPACE/lib/junit-3.8.2.jar $GITHUB_WORKSPACE/src/*.java
+           find $GITHUB_WORKSPACE/src -name "*.java" > sources.txt
+           javac -d $GITHUB_WORKSPACE/out/classes -sourcepath $GITHUB_WORKSPACE/src -classpath $GITHUB_WORKSPACE/lib/junit-3.8.2.jar @$GITHUB_WORKSPACE/sources.txt
 
       - name: Compile tests
         run: |
