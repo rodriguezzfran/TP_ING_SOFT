@@ -29,10 +29,9 @@ jobs:
  
       - name: Run tests
         run: |
-         run: |
-          find $GITHUB_WORKSPACE -name "*.class" | sed 's#.*/\(.*\)\.class#'\''\1'\''#' | \
-          xargs -I {} java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore {}
-     
+            while IFS= read -r class; do
+            java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore "$class"
+            done < $GITHUB_WORKSPACE/test_classes.txt
      
 #       - name: Run tests
 #         run: |
