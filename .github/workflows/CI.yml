@@ -1,0 +1,37 @@
+name: Java 19 Test
+
+on:
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 19
+        uses: actions/setup-java@v2
+        with:
+          java-version: '19'
+          distribution: 'adopt'
+
+      - name: Create lib directory
+        run: mkdir $GITHUB_WORKSPACE/lib
+
+      - name: Download JUnit 3.8.2
+        run: |
+          curl -o $GITHUB_WORKSPACE/lib/junit-3.8.2.jar https://repo1.maven.org/maven2/junit/junit/3.8.2/junit-3.8.2.jar
+
+      - name: Compile program and tests
+        run: |
+         find $GITHUB_WORKSPACE -name "*.java" > sources.txt
+         javac -d $GITHUB_WORKSPACE/classes -sourcepath $GITHUB_WORKSPACE -classpath $GITHUB_WORKSPACE/lib/junit-3.8.2.jar @sources.txt
+
+     
+      - name: Run tests
+        run: java -classpath $GITHUB_WORKSPACE/classes:$GITHUB_WORKSPACE/lib/junit-3.8.2.jar junit.textui.TestRunner Test.Tests
+
