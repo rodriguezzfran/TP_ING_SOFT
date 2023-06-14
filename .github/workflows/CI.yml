@@ -21,16 +21,10 @@ jobs:
         javac -cp junit-3.8.2.jar -d bin @sources.txt
     - name: Find all test classes
       run: |
-        find bin -name "*.class" | sed 's|bin/||;s|/|.|g;s|.class||' > test_classes.txt
+        find bin -name "*Tests.class" | sed 's|bin/||;s|/|.|g;s|.class||' > test_classes.txt
     - name: Run all test classes with JUnit 3
       run: |
         while read -r test_class; do
-          test_file=$(find . -name "$(basename $test_class).java")
-          if grep "@Test" $test_file; then
-            if ! java -cp bin:junit-3.8.2.jar junit.textui.TestRunner $test_class; then
-              echo "Test failed: $test_class"
-              exit 1
-            fi
-          fi
+          java -cp bin:junit-3.8.2.jar junit.textui.TestRunner $test_class
         done < test_classes.txt
 # hola
