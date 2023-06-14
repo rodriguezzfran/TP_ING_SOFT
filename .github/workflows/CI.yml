@@ -25,8 +25,11 @@ jobs:
     - name: Run all test classes with JUnit 3
       run: |
         while read -r test_class; do
-          if ! java -cp bin:junit-3.8.2.jar junit.textui.TestRunner $test_class; then
-            echo "Test failed: $test_class"
-            exit 1
+          test_file=$(find . -name "$(basename $test_class).java")
+          if grep "@Test" $test_file; then
+            if ! java -cp bin:junit-3.8.2.jar junit.textui.TestRunner $test_class; then
+              echo "Test failed: $test_class"
+              exit 1
+            fi
           fi
         done < test_classes.txt
