@@ -13,7 +13,7 @@ import main.Game;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
-
+import java.awt.Robot;
 import static utilz.HelpMethods.*;
 
 
@@ -29,8 +29,7 @@ public class Tests extends TestCase {
         hitBox = new Rectangle2D.Float(xTest, yTest, 20 * Game.SCALE, 27 * Game.SCALE);
     }
 
-    private void createNewGame() {
-        game = new Game();
+    private void createNewPlaying() {
         playing = new Playing(game);
     }
 
@@ -60,7 +59,15 @@ public class Tests extends TestCase {
     }
 
     public void testMoveRight() {
-        createNewGame();
+        createNewPlaying();
+        try {
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_D);
+            robot.keyRelease(KeyEvent.VK_D);
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+
         Button a = new Button();
         KeyEvent e = new KeyEvent(a, 401, 1686669135712l, 0, 68, 'd');
         playing.keyPressed(e);
