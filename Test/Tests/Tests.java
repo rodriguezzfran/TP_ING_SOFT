@@ -13,7 +13,7 @@ import main.Game;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
-
+import java.awt.Robot;
 import static utilz.HelpMethods.*;
 
 
@@ -61,9 +61,17 @@ public class Tests extends TestCase {
 
     public void testMoveRight() {
         createNewGame();
+        try {
+            Robot robot = new Robot();
+            robot.keyPress(KeyEvent.VK_D);
+            robot.keyRelease(KeyEvent.VK_D);
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+
         Button a = new Button();
         KeyEvent e = new KeyEvent(a, 401, 1686669135712l, 0, 68, 'd');
-        playing.keyPressed(e);
+        //playing.keyPressed(e);
         assertTrue(playing.getPlayer().getRight());
 
     }
