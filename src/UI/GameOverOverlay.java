@@ -38,7 +38,7 @@ public class GameOverOverlay {
     }
 
     private void createImg() {
-        img = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[2];
+        img = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[2];//Cuadro del DeathMenu
         imgW = (int) (img.getWidth() * Game.SCALE/1.5);
         imgH = (int) (img.getHeight() * Game.SCALE/1.5);
         imgX = Game.GAME_WIDTH/2 - imgW/2;
@@ -48,16 +48,11 @@ public class GameOverOverlay {
     public void draw(Graphics g){
         g.setColor(new Color(0,0,0,200));
         g.fillRect(0,0, Game.GAME_WIDTH,Game.GAME_HEIGHT);
+
         g.drawImage(img,imgX,imgY,imgW,imgH,null);
+
         menu.draw(g);
         play.draw(g);
-
-
-
-
-//        g.setColor(Color.white);
-//        g.drawString("Game Over", Game.GAME_WIDTH/2,150);
-//        g.drawString("Press esc to enter Main Menu!", Game.GAME_WIDTH/2,300);
 
     }
 
@@ -99,8 +94,8 @@ public class GameOverOverlay {
                 playing.resetAll();
             }
         }
-        menu.resetBooleans();
-        play.resetBooleans();
+        menu.resetBools();
+        play.resetBools();
     }
 
     public void mousePressed(MouseEvent e){

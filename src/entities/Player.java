@@ -16,7 +16,7 @@ import static utilz.HelpMethods.*;
 
 
 public class Player extends Entity implements Observer {
-    private int speed = 3;
+    private float speed = 1.5f * Game.SCALE;
     private BufferedImage[][] allAnimations;
     private BufferedImage img;
     private int playerAction = DEAD;
@@ -67,7 +67,7 @@ public class Player extends Entity implements Observer {
         super(x, y,width,height);
         this.playing=playing;
         importSprites();
-        initHitbox(x,y,20*Game.SCALE, 27*Game.SCALE); //20x27 is the actual player's size
+        initHitbox(x,y,(int)(20*Game.SCALE), (int)(27*Game.SCALE)); //20x27 is the actual player's size
         initAttackBox();
     }
 
