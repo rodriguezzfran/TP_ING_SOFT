@@ -27,4 +27,3 @@ jobs:
         while read -r test_class; do
           java -cp bin:junit-3.8.2.jar junit.textui.TestRunner $test_class
         done < test_classes.txt
-# hola
