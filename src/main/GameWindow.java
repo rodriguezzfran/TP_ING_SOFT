@@ -2,6 +2,7 @@ package main;
 import javax.swing.JFrame;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.Robot;
 
 /**
  * Esto es solo la ventana y sus dimensiones

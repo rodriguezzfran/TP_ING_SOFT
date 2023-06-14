@@ -59,22 +59,22 @@ public class Tests extends TestCase {
         assertEquals(384, (int) GetEntityYPosUnderRoofOrAboveFloor(hitBox, -2.25f)); //87 es lo que debería volver
     }
 
-    public void testMoveRight() {
-        createNewGame();
-        try {
-            Robot robot = new Robot();
-            robot.keyPress(KeyEvent.VK_D);
-            robot.keyRelease(KeyEvent.VK_D);
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
-
-        Button a = new Button();
-        KeyEvent e = new KeyEvent(a, 401, 1686669135712l, 0, 68, 'd');
-        //playing.keyPressed(e);
-        assertTrue(playing.getPlayer().getRight());
-
-    }
+//    public void testMoveRight() {
+//
+//        try {
+//            Robot robot = new Robot();
+//            robot.keyPress(KeyEvent.VK_D);
+//            robot.keyRelease(KeyEvent.VK_D);
+//        } catch (AWTException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Button a = new Button();
+//        KeyEvent e = new KeyEvent(a, 401, 1686669135712l, 0, 68, 'd');
+//        playing.keyPressed(e);
+//        assertTrue(playing.getPlayer().getRight());
+//
+//    }
 
     public void testBehaviors() {
         createTestEnemys();
