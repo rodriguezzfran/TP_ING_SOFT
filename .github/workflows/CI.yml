@@ -27,4 +27,4 @@ jobs:
         TEST_CLASS=$(find bin -name "Tests.class" | sed 's|bin/||;s|/|.|g;s|.class||')
         echo "TEST_CLASS=$TEST_CLASS" >> $GITHUB_ENV
     - name: Run Tests class with JUnit 3
-      run: java -cp bin:junit-3.8.2.jar junit.textui.TestRunner $TEST_CLASS
+      run: java -cp bin:junit-3.8.2.jar:res junit.textui.TestRunner $TEST_CLASS
