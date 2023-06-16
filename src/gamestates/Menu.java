@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
 public class Menu extends State implements StateMethods{
 
     private MenuButton[] buttons = new MenuButton[3];
-    private BufferedImage backGroundImg;
+    private BufferedImage backGroundImg,backgroundImgPink;
     private int menuX,menuY,menuWidth,menuHeight;
 
     public Menu(Game game) {
@@ -20,10 +20,11 @@ public class Menu extends State implements StateMethods{
         super(game);
         loadButtons();
         loadBackground();
+        backgroundImgPink = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[4]; //Fondo de la pantalla de menu
     }
 
     private void loadBackground() {
-        backGroundImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[1];
+        backGroundImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[1]; //Cuadro del menu (no imagen de fondo)
         menuWidth = (int)(backGroundImg.getWidth()*Game.SCALE);
         menuHeight = (int)(backGroundImg.getHeight()*Game.SCALE);
         menuX = Game.GAME_WIDTH/2 - menuWidth/2;
@@ -31,9 +32,10 @@ public class Menu extends State implements StateMethods{
     }
 
     private void loadButtons() {
-        buttons[0] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*105),0, Gamestate.PLAYING);
-        buttons[1] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*135),1, Gamestate.OPTION);
-        buttons[2] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*165),2, Gamestate.QUIT);
+        //desp cambiar esto
+        buttons[0] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*105+50),0, Gamestate.PLAYING);
+        buttons[1] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*135+50),1, Gamestate.OPTION);
+        buttons[2] = new MenuButton(Game.GAME_WIDTH/2-68, (int)(Game.SCALE*165+50),2, Gamestate.QUIT);
     }
 
     @Override
@@ -45,13 +47,12 @@ public class Menu extends State implements StateMethods{
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(backGroundImg,menuX,menuY,menuWidth/2,menuHeight/2,null);
+        //ver esto tambien
+        g.drawImage(backgroundImgPink,0,0,Game.GAME_WIDTH-40,Game.GAME_HEIGHT-40,null);
+        g.drawImage(backGroundImg,menuX,menuY+50,menuWidth/2,menuHeight/2,null);
         for(MenuButton mb: buttons){
             mb.draw(g);
         }
-
-
-
     }
 
     @Override
@@ -106,7 +107,7 @@ public class Menu extends State implements StateMethods{
     public void keyPressed(KeyEvent e) {
         if(e.getKeyCode() == KeyEvent.VK_ENTER)
             Gamestate.state = Gamestate.PLAYING;
-        System.out.println(Gamestate.state);
+        //System.out.println(Gamestate.state);
 
     }
 
