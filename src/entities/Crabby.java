@@ -1,11 +1,9 @@
 package entities;
 
 import static utilz.Constants.EnemyConstants.*;
+import static utilz.HelpMethods.setDamageBehavior;
+import static utilz.HelpMethods.setHealthBehavior;
 
-import behaviors.damage.Damage1;
-import behaviors.damage.Damage2;
-import behaviors.health.Health1;
-import behaviors.health.Health2;
 import behaviors.rangeenemies.LongDistance;
 import main.Game;
 import utilz.LoadSave;
@@ -20,12 +18,15 @@ public class Crabby extends Enemy {
         private int attackBoxOffsetX;
 
 
-        public Crabby(float x, float y) {
-            super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY,CRABBY_DRAWOFFSET_X,CRABBY_DRAWOFFSET_Y,new Health2(),new Damage2(),new LongDistance());
+        public Crabby(float x, float y,int lvlIndex) {
+            super(x, y, CRABBY_WIDTH, CRABBY_HEIGHT, CRABBY,CRABBY_DRAWOFFSET_X,CRABBY_DRAWOFFSET_Y,new LongDistance());
             initHitbox(x, y, (int) (22 * Game.SCALE), (int) (19 * Game.SCALE));
             initAttackBox();
             spritePath = LoadSave.CRABBY_SPRITE;
             enemyIndex=1;
+            setEnemyMaxHealth(setHealthBehavior(lvlIndex));
+            setEnemyDamage(setDamageBehavior(lvlIndex));
+            currentHealth = healthBehavior.getHealth();
         }
 
         private void initAttackBox() {

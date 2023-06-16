@@ -1,14 +1,14 @@
 package utilz;
 
+import behaviors.damage.*;
+import behaviors.health.*;
 import entities.Crabby;
 import entities.Enemy;
 import entities.KingPig;
 import main.Game;
 
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 import java.awt.Color;
@@ -76,7 +76,7 @@ public class HelpMethods {
     }
 
 
-    public static ArrayList<Enemy> GetEnemies(BufferedImage img){
+    public static ArrayList<Enemy> GetEnemies(BufferedImage img, int lvlIndex){
         ArrayList<Enemy> list = new ArrayList<>();
 
         for (int j = 0; j < img.getHeight(); j++) {
@@ -84,10 +84,10 @@ public class HelpMethods {
                 Color color = new Color(img.getRGB(i, j));
                 int value = color.getGreen();
                 if (value == KING_PIG) {
-                    list.add(new KingPig(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                    list.add(new KingPig(i * Game.TILES_SIZE, j * Game.TILES_SIZE,lvlIndex));
                 }
                 if (value == CRABBY){
-                    list.add(new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE));
+                    list.add(new Crabby(i * Game.TILES_SIZE, j * Game.TILES_SIZE,lvlIndex));
                 }
             }
         }
@@ -169,6 +169,54 @@ public class HelpMethods {
         return new Point(1 * Game.TILES_SIZE, 1 * Game.TILES_SIZE);
     }
 
+    public static DamageBehavior setDamageBehavior(int lvlIndex){
+        switch (lvlIndex){
+            case 0:
+                return new Damage1();
+            case 1:
+                return new Damage2();
+            case 2:
+                return new Damage3();
+            case 3:
+                return new Damage4();
+            default:
+                throw new IllegalStateException("Unexpected value: " + lvlIndex);
+        }
+    }
+    public static DamageBehavior setPlayerDamageBehavior(int lvlIndex){
+        switch (lvlIndex){
+            case 0:
+                return new DamageP1();
+            case 2:
+                return new DamageP2();
+            default:
+                throw new IllegalStateException("Unexpected value: " + lvlIndex);
+        }
+    }
+    public static HealthBehavior setPlayerHealthBehavior(int lvlIndex){
+        switch (lvlIndex){
+            case 0:
+                return new HealthP1();
+            case 2:
+                return new HealthP2();
+            default:
+                throw new IllegalStateException("Unexpected value: " + lvlIndex);
+        }
+    }
+    public static HealthBehavior setHealthBehavior(int lvlIndex){
+        switch (lvlIndex){
+            case 0:
+                return new Health1();
+            case 1:
+                return new Health2();
+            case 2:
+                return new Health3();
+            case 3:
+                return new Health4();
+            default:
+                throw new IllegalStateException("Unexpected value: " + lvlIndex);
+        }
+    }
 
 
 }

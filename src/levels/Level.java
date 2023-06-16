@@ -1,7 +1,7 @@
 package levels;
 import entities.Enemy;
 import static utilz.HelpMethods.*;
-import static utilz.LoadSave.*;
+
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -15,11 +15,10 @@ public class Level {
     private ArrayList<Enemy> enemies;
     private BufferedImage img;
 
-
-    public Level(BufferedImage img) {
+    public Level(BufferedImage img,int LvlIndex) {
         this.img = img;
         createLevelData();
-        createEnemies();
+        createEnemies(LvlIndex);
         calcPlayerSpawn();
     }
 
@@ -36,8 +35,8 @@ public class Level {
         playerSpawn = GetPlayerSpawn(img);
     }
 
-    private void createEnemies() {
-        enemies = GetEnemies(img);
+    private void createEnemies(int lvlIndex) {
+        enemies = GetEnemies(img,lvlIndex);
     }
 
     private void createLevelData() {

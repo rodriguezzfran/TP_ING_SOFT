@@ -6,26 +6,15 @@ import entities.Player;
 import levels.LevelManager;
 import main.Game;
 
-import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.util.Random;
 
-import entities.EnemyManager;
-import entities.Player;
-import levels.LevelManager;
-import main.Game;
 import UI.GameOverOverlay;
 import UI.LevelCompletedOverlay;
 import observables.HealthObservable;
-import utilz.LoadSave;
 
 
 public class Playing extends State implements StateMethods {
@@ -39,7 +28,7 @@ public class Playing extends State implements StateMethods {
     private boolean lvlCompleted;
     private PauseOverlay pauseOverlay;
     private boolean paused = false;
-    HealthObservable playerHealth = new HealthObservable(100);
+    HealthObservable healthObservable = new HealthObservable(100);
 
 
     public Playing(Game game) {
@@ -53,7 +42,7 @@ public class Playing extends State implements StateMethods {
         player = new Player(270,200,(int)(78*Game.SCALE),(int)(58*Game.SCALE),this); //78 y 58
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
-        playerHealth.addObserver(player);
+        healthObservable.addObserver(player);
         gameOverOverlay= new GameOverOverlay(this);
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
@@ -78,11 +67,9 @@ public class Playing extends State implements StateMethods {
         } else if (!gameOver) {
             levelManager.update();
             player.update();
-            enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player,playerHealth);
-        } else if (gameOver) {
-            levelManager.setLvlIndex(0);
+            enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player,healthObservable);
         }
-    }
+   }
 
     @Override
     public void draw(Graphics g) {
@@ -104,6 +91,7 @@ public class Playing extends State implements StateMethods {
         player.resetAll();
         enemyManager.resetAllEnemies();
         lvlCompleted = false;
+
     }
 
     public void loadNextLevel() {
@@ -227,6 +215,9 @@ public class Playing extends State implements StateMethods {
     }
     public EnemyManager getEnemyManager() {
         return enemyManager;
+    }
+    public LevelManager getLevelManager() {
+        return levelManager;
     }
     public void setLevelCompleted(boolean levelCompleted) {
         this.lvlCompleted = levelCompleted;

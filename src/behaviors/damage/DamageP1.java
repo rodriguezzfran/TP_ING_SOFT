@@ -1,9 +1,9 @@
 package behaviors.damage;
 
+public class DamageP1 implements DamageBehavior{
 
-public class Damage3 implements DamageBehavior{
+    final static int dmg = 20;
 
-    final static int dmg = 15;
     @Override
     public int getDamage() {
         return dmg;

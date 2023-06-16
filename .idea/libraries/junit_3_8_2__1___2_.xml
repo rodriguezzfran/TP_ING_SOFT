@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="junit-3.8.2 (1) (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/junit-3.8.2 (1).jar!/" />
+      <root url="jar://$USER_HOME$/Downloads/junit-3.8.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="jar://$PROJECT_DIR$/lib/junit-3.8.2 (1).jar!/" recursive="false" />
+  </library>
+</component>

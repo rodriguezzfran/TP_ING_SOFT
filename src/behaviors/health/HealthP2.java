@@ -1,10 +1,8 @@
 package behaviors.health;
 
-import entities.Enemy;
+public class HealthP2 implements HealthBehavior{
 
-public class Health1 implements HealthBehavior{
-
-    final static int health = 10;
+    final static int health = 200;
 
     @Override
     public int getHealth() {

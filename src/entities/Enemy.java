@@ -29,28 +29,28 @@ public abstract class Enemy extends Entity{
     protected int enemyTileY;
 
     protected int currentHealth;
+    HealthObservable healthObservable;
+
     protected boolean active = true;
     protected boolean attackChecked;
     protected Rectangle2D.Float attackBox;
     protected int xDrawOffset, yDrawOffset;
     protected String spritePath;
     protected int enemyIndex;
+    protected int lvlIndex;
 
 
 
 
-
-    public Enemy(float x, float y, int width, int height, int enemyType, int xDrawOffset, int yDrawOffset,HealthBehavior healthBehavior, DamageBehavior damageBehavior, RangeEnemiesBehavior rangeBehavior) {
+    public Enemy(float x, float y, int width, int height, int enemyType, int xDrawOffset, int yDrawOffset, RangeEnemiesBehavior rangeBehavior) {
         super(x, y, width, height);
         this.enemyState=RUN;
         this.enemyType=enemyType;
         initHitbox(x,y,width,height);
         this.xDrawOffset=xDrawOffset;
         this.yDrawOffset=yDrawOffset;
-        setEnemyMaxHealth(healthBehavior);
-        setEnemyDamage(damageBehavior);
         setRange(rangeBehavior);
-        currentHealth = healthBehavior.getHealth();
+        HealthObservable healthObservable = new HealthObservable(100);
     }
 
     protected void firstUpdateCheck(int[][] lvlData){
@@ -85,6 +85,10 @@ public abstract class Enemy extends Entity{
             }
         }
         changeWalkDir();
+    }
+
+    public void setLvlIndex(int lvlIndex) {
+        this.lvlIndex = lvlIndex;
     }
 
     protected void turnTowardsPlayer(Player player){
@@ -151,7 +155,7 @@ public abstract class Enemy extends Entity{
         }
     }
 
-    private void updateBehavior(int[][] lvlData, Player player,HealthObservable playerHealth){
+    private void updateBehavior(int[][] lvlData, Player player,HealthObservable healthObservable){
         if (firstUpdate) {
             firstUpdateCheck(lvlData);
         }
@@ -176,7 +180,7 @@ public abstract class Enemy extends Entity{
                         attackChecked = false;
                     }
                     if(aniIndex == 2 && !attackChecked){
-                        checkEnemyHit(attackBox, player,playerHealth);
+                        checkEnemyHit(attackBox, player,healthObservable);
                     }
                     break;
                 case HIT:
@@ -196,16 +200,15 @@ public abstract class Enemy extends Entity{
         attackBox.y = hitBox.y - (7*Game.SCALE);
     }
 
-    public void update(int[][] lvlData, Player player,HealthObservable playerHealth){
+    public void update(int[][] lvlData, Player player, HealthObservable playerHealth){
         updateBehavior(lvlData,player,playerHealth);
         updateAnimationTick();
         updateAttackBox();
     }
 
-    protected void checkEnemyHit(Rectangle2D.Float attackBox, Player player, HealthObservable playerHealth){
+   protected void checkEnemyHit(Rectangle2D.Float attackBox, Player player, HealthObservable healthObservable){
         if(attackBox.intersects(player.hitBox)){
-            playerHealth.setHealth(-getDamageBehavior().getDamage());
-
+          healthObservable.changeHealth(-getDamageBehavior().getDamage());
         }
         attackChecked = true;
     }

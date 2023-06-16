@@ -5,6 +5,7 @@ import gamestates.Playing;
 import static utilz.Constants.EnemyConstants.*;
 
 import levels.Level;
+import levels.LevelManager;
 import observables.HealthObservable;
 import utilz.LoadSave;
 
@@ -60,7 +61,7 @@ public class EnemyManager {
         for(Enemy e : enemies){
             if(e.isActive()){
                 if (attackBox.intersects(e.getHitBox())) {
-                    e.hurt(100);
+                    e.hurt(playing.getPlayer().getPlayerDamage());
                     return;
                 }
             }
@@ -94,4 +95,10 @@ public class EnemyManager {
             e.resetEnemy();
         }
     }
+
+    public LevelManager getLevelManager(){
+        return this.playing.getLevelManager();
+    }
+
+
 }

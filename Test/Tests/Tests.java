@@ -35,8 +35,8 @@ public class Tests extends TestCase {
     }
 
     private void createTestEnemys() {
-        kingPig = new KingPig(2, 2);
-        crabby = new Crabby(2, 2);
+        kingPig = new KingPig(2, 2,1);
+        crabby = new Crabby(2, 2,1);
     }
 
     public void testGetEntityXPosNextToWallRight() {

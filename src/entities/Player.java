@@ -1,8 +1,12 @@
 package entities;
 
+import behaviors.damage.DamageBehavior;
+import behaviors.damage.DamageP1;
+import behaviors.health.HealthBehavior;
+import behaviors.health.HealthP1;
 import gamestates.Playing;
 import main.Game;
-import observables.Observer;
+import observables.*;
 import utilz.LoadSave;
 
 import java.awt.*;
@@ -14,11 +18,11 @@ import static utilz.HelpMethods.*;
 
 
 
-
 public class Player extends Entity implements Observer {
     private int speed = 3;
     private BufferedImage[][] allAnimations;
     private BufferedImage img;
+
     private int playerAction = DEAD;
     private int aniTick,aniIndex,aniSpeed = 20;
     private int playerDir = -1;
@@ -49,10 +53,12 @@ public class Player extends Entity implements Observer {
     private int healthBarYStart = (int) (14*Game.SCALE);
 
 
-    private int maxHealth = 100;
-    private int currentHealth = maxHealth;
-    private int healthWidth = healthBarWidth;
 
+    private HealthBehavior healthBehavior;
+    private DamageBehavior damageBehavior;
+
+    private int healthWidth = healthBarWidth;
+    private HealthObservable healthObservable;
     //AttackBox
     private Rectangle2D.Float attackBox;
 
@@ -61,14 +67,22 @@ public class Player extends Entity implements Observer {
 
     private boolean attackChecked = false;
     private Playing playing;
+    private int playerDamage;
 
 
     public Player(float x, float y,int width, int height, Playing playing) {
         super(x, y,width,height);
+        healthBehavior = new HealthP1();
+        damageBehavior = new DamageP1();
+        healthObservable  = new HealthObservable(healthBehavior.getHealth());
         this.playing=playing;
         importSprites();
         initHitbox(x,y,20*Game.SCALE, 27*Game.SCALE); //20x27 is the actual player's size
         initAttackBox();
+        setHealthBehavior(setPlayerHealthBehavior(0));
+        healthObservable.setHealth(healthBehavior.getHealth());
+        setDamageBehavior(setPlayerDamageBehavior(0));
+        playerDamage = damageBehavior.getDamage();
     }
 
     private void initAttackBox() {
@@ -77,7 +91,7 @@ public class Player extends Entity implements Observer {
 
     public void update(){
         updateHealthBar();
-        if(currentHealth <= 0){
+        if(healthObservable.getHealth() <= 0){
             playing.setGameOver(true);
             return;
         }
@@ -88,6 +102,21 @@ public class Player extends Entity implements Observer {
         }
         updateAnimationTick();
         setAnimation();
+
+    }
+    public void resetAll() {
+        resetDirBooleans();
+        inAir = false;
+        attacking=false;
+        moving=false;
+        playerAction=IDLE;
+        int test = healthBehavior.getHealth();
+        healthObservable.setHealth(healthBehavior.getHealth());
+        hitBox.x=x;
+        hitBox.y=y;
+        if(!IsEntityOnFloor(hitBox,lvlData)){
+            inAir = true;
+        }
     }
 
     private void checkAttack() {
@@ -115,7 +144,7 @@ public class Player extends Entity implements Observer {
     }
 
     private void updateHealthBar() {
-        healthWidth = (int)((currentHealth/(float)maxHealth) * healthBarWidth); //escala
+        healthWidth = (int)((healthObservable.getHealth()/(float)healthBehavior.getHealth()) * healthBarWidth); //escala
     }
 
     public void render(Graphics g){
@@ -264,14 +293,14 @@ public class Player extends Entity implements Observer {
 
     @Override
     public void updateState(int health){
-        currentHealth = health;
-
-        if(currentHealth <= 0){
-            currentHealth = 0;
+        healthObservable.setHealth(health);
+        System.out.println(healthObservable.getHealth());
+        if(healthObservable.getHealth() <= 0){
+            healthObservable.setHealth(0);
             //gameOver();
         }
-        else if(currentHealth >= maxHealth){
-            currentHealth = maxHealth;
+        else if(healthObservable.getHealth() >= healthBehavior.getHealth()){
+            healthObservable.setHealth(healthBehavior.getHealth());
         }
     }
 
@@ -345,21 +374,21 @@ public class Player extends Entity implements Observer {
     public void setJump(boolean jump){
         this.jump = jump;
     }
+    public void setHealthBehavior(HealthBehavior healthBehavior){
+        healthObservable.setHealth(healthBehavior.getHealth());
+    }
+    public void setDamageBehavior(DamageBehavior damageBehavior){
+        playerDamage = this.damageBehavior.getDamage();
+    }
+    public int getPlayerDamage(){
+        return playerDamage;
+    }
 
 
-    public void resetAll() {
-        resetDirBooleans();
-        inAir = false;
-        attacking=false;
-        moving=false;
-        playerAction=IDLE;
-        currentHealth=maxHealth;
 
-        hitBox.x=x;
-        hitBox.y=y;
 
-        if(!IsEntityOnFloor(hitBox,lvlData)){
-            inAir = true;
-        }
+
+    public DamageBehavior getDamageBehavior(){
+        return this.damageBehavior;
     }
 }
