@@ -1,47 +1,30 @@
-name: Java 19 Test
+name: Java CI
 
 on:
   pull_request:
     branches:
-      - '*'
+      - '**'
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up JDK 19
-        uses: actions/setup-java@v2
-        with:
-          java-version: '19'
-          distribution: 'adopt'
-
-      - name: Download JUnit 4.12
-        run: |
-          curl -o $GITHUB_WORKSPACE/junit-4.12.jar https://repo1.maven.org/maven2/junit/junit/4.12/junit-4.12.jar
-
-      - name: Find test classes
-        run: |
-          find $GITHUB_WORKSPACE -type f -name "*.class" | grep -E '.*Test.*' | sed 's|.*/\(.*\)\.class$|\1|' > $GITHUB_WORKSPACE/test_classes.txt
-
- 
-      - name: Run tests
-        run: |
-         find $GITHUB_WORKSPACE -name "*Test.class" | sed 's#.*/\(.*\)\.class#'\''\1'\''#' | \
-         xargs -I {} java -cp $GITHUB_WORKSPACE:$GITHUB_WORKSPACE/junit-4.12.jar org.junit.runner.JUnitCore {}
-     
-     
-     
-#       - name: Run tests
-#         run: |
-#          find "$GITHUB_WORKSPACE/out/production/TP ING SOFT" -name "*.class" | \
-#          sed 's/\.class$//' | \
-#          sed 's#^'"$GITHUB_WORKSPACE/out/production/TP ING SOFT"'#'"$GITHUB_WORKSPACE/out"':'"$GITHUB_WORKSPACE/junit-4.12.jar"'#' | \
-#          xargs -I {} java -cp {} org.junit.runner.JUnitCore {}
-
-#       - name: Run tests
-#         run: |
-#           java -cp "$GITHUB_WORKSPACE/out:$GITHUB_WORKSPACE/junit-4.12.jar" org.junit.runner.JUnitCore $(cat $GITHUB_WORKSPACE/test_classes.txt)
+    - uses: actions/checkout@v2
+    - name: Set up JDK 19
+      uses: actions/setup-java@v2
+      with:
+        java-version: '19'
+        distribution: 'adopt'
+    - name: Download JUnit 3
+      run: |
+        wget https://repo1.maven.org/maven2/junit/junit/3.8.2/junit-3.8.2.jar
+    - name: Compile all Java files
+      run: |
+        find . -name "*.java" > sources.txt
+        javac -cp junit-3.8.2.jar -d bin @sources.txt
+    - name: Find Tests class
+      run: |
+        TEST_CLASS=$(find bin -name "Tests.class" | sed 's|bin/||;s|/|.|g;s|.class||')
+        echo "TEST_CLASS=$TEST_CLASS" >> $GITHUB_ENV
+    - name: Run Tests class with JUnit 3
+      run: java -cp bin:junit-3.8.2.jar:res junit.textui.TestRunner $TEST_CLASS
