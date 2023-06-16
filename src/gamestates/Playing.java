@@ -26,10 +26,11 @@ public class Playing extends State implements StateMethods {
     private LevelManager levelManager;
     private EnemyManager enemyManager;
     private GameOverOverlay gameOverOverlay;
-    private boolean gameOver;
-    private LevelCompletedOverlay levelCompletedOverlay;
-    private boolean lvlCompleted;
     private PauseOverlay pauseOverlay;
+    private LevelCompletedOverlay levelCompletedOverlay;
+    private boolean gameOver;
+    private boolean lvlCompleted;
+
     private boolean paused = false;
 
 
@@ -41,12 +42,13 @@ public class Playing extends State implements StateMethods {
     private void initClases() {
         levelManager = new LevelManager(game);
         enemyManager = new EnemyManager(this);
+
         player = new Player(270,200,(int)(78*Game.SCALE),(int)(58*Game.SCALE),this); //78 y 58
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+
         gameOverOverlay= new GameOverOverlay(this);
         pauseOverlay = new PauseOverlay(this);
-        gameOverOverlay = new GameOverOverlay(this);
         levelCompletedOverlay = new LevelCompletedOverlay(this);
     }
 
@@ -65,7 +67,10 @@ public class Playing extends State implements StateMethods {
             pauseOverlay.update();
         } else if (lvlCompleted) {
             levelCompletedOverlay.update();
-        } else if (!gameOver) {
+        }else if (gameOver) {
+            gameOverOverlay.update();
+        }
+        else{
             levelManager.update();
             player.update();
             enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player);
@@ -89,6 +94,7 @@ public class Playing extends State implements StateMethods {
 
     public void resetAll(){
         gameOver=false;
+        paused=false;
         player.resetAll();
         enemyManager.resetAllEnemies();
         lvlCompleted = false;
@@ -125,16 +131,22 @@ public class Playing extends State implements StateMethods {
                 pauseOverlay.mousePressed(e);
             else if (lvlCompleted)
                 levelCompletedOverlay.mousePressed(e);
+        }else{
+            gameOverOverlay.mousePressed(e);
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         if (!gameOver) {
-            if (paused)
+            if (paused) {
                 pauseOverlay.mouseReleased(e);
-            else if (lvlCompleted)
+            }
+            else if (lvlCompleted) {
                 levelCompletedOverlay.mouseReleased(e);
+            }
+        }else{
+            gameOverOverlay.mouseReleased(e);
         }
     }
 
@@ -146,6 +158,8 @@ public class Playing extends State implements StateMethods {
                 pauseOverlay.mouseMoved(e);
             else if (lvlCompleted)
                 levelCompletedOverlay.mouseMoved(e);
+        }else {
+            gameOverOverlay.mouseMoved(e);
         }
     }
     public void mouseDragged(MouseEvent e) {
@@ -154,9 +168,7 @@ public class Playing extends State implements StateMethods {
                 pauseOverlay.mouseDragged(e);
     }
 
-    public void unpauseGame() {
-        paused = false;
-    }
+
 
     @Override
     public void keyPressed(KeyEvent e) {
@@ -165,17 +177,10 @@ public class Playing extends State implements StateMethods {
         }
         else {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    player.setUp(true);
-                    break;
                 case KeyEvent.VK_A:
                     player.setLeft(true);
                     break;
-                case KeyEvent.VK_S:
-                    player.setDown(true);
-                    break;
                 case KeyEvent.VK_D:
-                    System.out.println(e.getComponent() + "  " + e.getID() + "  " + e.getWhen() + "  " + e.getModifiers() + " " + e.getKeyCode() + "  "+ e.getKeyChar());
                     player.setRight(true);
                     break;
                 case KeyEvent.VK_SPACE:
@@ -192,14 +197,8 @@ public class Playing extends State implements StateMethods {
     public void keyReleased(KeyEvent e) {
         if(!gameOver) {
             switch (e.getKeyCode()) {
-                case KeyEvent.VK_W:
-                    player.setUp(false);
-                    break;
                 case KeyEvent.VK_A:
                     player.setLeft(false);
-                    break;
-                case KeyEvent.VK_S:
-                    player.setDown(false);
                     break;
                 case KeyEvent.VK_D:
                     player.setRight(false);
@@ -212,6 +211,9 @@ public class Playing extends State implements StateMethods {
 
     }
 
+    public void unpauseGame() {
+        paused = false;
+    }
     public Player getPlayer(){
         return player;
     }

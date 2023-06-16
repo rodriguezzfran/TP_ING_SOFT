@@ -23,7 +23,7 @@ public class PauseOverlay {
 
 	public PauseOverlay(Playing playing) {
 		this.playing = playing;
-		//loadBackground();
+		loadBackground();
 
 		createSoundButtons();
 		createUrmButtons();
@@ -55,6 +55,14 @@ public class PauseOverlay {
 		sfxButton = new SoundButton(soundX, sfxY, SOUND_SIZE, SOUND_SIZE);
 	}
 
+	private void loadBackground() {
+		backgroundImg = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[5];
+		bgW=(int)(backgroundImg.getWidth()*Game.SCALE);
+		bgH=(int)(backgroundImg.getHeight()*Game.SCALE);
+		bgX=Game.GAME_WIDTH/2 - bgW/2;
+		bgY=(int)(25*Game.SCALE);
+
+	}
 
 	public void update() {
 		musicButton.update();
@@ -69,7 +77,7 @@ public class PauseOverlay {
 
 	public void draw(Graphics g) {
 		// Background
-		g.drawImage(backgroundImg, bgX, bgY, bgW, bgH, null);
+		g.drawImage(backgroundImg, bgX, bgY, bgW/2, bgH/2, null);
 
 		// Sound buttons
 		musicButton.draw(g);
