@@ -91,6 +91,7 @@ public class Player extends Entity implements Observer {
 
     public void update(){
         updateHealthBar();
+        System.out.println(healthObservable.getHealth());
         if(healthObservable.getHealth() <= 0){
             playing.setGameOver(true);
             return;

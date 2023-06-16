@@ -57,6 +57,8 @@ public class Playing extends State implements StateMethods {
         player.resetDirBooleans();
     }
 
+    public HealthObservable getHealthObservable(){return this.healthObservable;}
+
 
     @Override
     public void update() {
@@ -91,6 +93,7 @@ public class Playing extends State implements StateMethods {
         player.resetAll();
         enemyManager.resetAllEnemies();
         lvlCompleted = false;
+        this.healthObservable.setHealth(100);
 
     }
 
