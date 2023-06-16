@@ -93,7 +93,7 @@ public class Tests extends TestCase {
         assertEquals(10, crabby.getDamageBehavior().getDamage());
         assertEquals(20, crabby.getHealthBehavior().getHealth());
         assertEquals(10, kingPig.getDamageBehavior().getDamage());
-        assertEquals(10, kingPig.getHealthBehavior().getHealth());
+        assertEquals(20, kingPig.getHealthBehavior().getHealth());
 
         assertTrue(Game.TILES_SIZE * 2 == crabby.getRangeBehavior().getAttackDistance() && crabby.getRangeBehavior().getSightDistance() == Game.TILES_SIZE * 4.5f);
         assertTrue(kingPig.getRangeBehavior().getAttackDistance() == Game.TILES_SIZE && kingPig.getRangeBehavior().getSightDistance() == Game.TILES_SIZE * 3);
