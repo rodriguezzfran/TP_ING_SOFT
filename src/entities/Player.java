@@ -366,6 +366,7 @@ public class Player extends Entity implements Observer {
     public void setJump(boolean jump) {
         this.jump = jump;
     }
+    public boolean getJump(){return this.jump;}
 
 
 

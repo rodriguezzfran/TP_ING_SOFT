@@ -184,6 +184,7 @@ public class Playing extends State implements StateMethods {
                     player.setRight(true);
                     break;
                 case KeyEvent.VK_SPACE:
+                    System.out.println(e.getComponent() + "  " + e.getID() + "  " + e.getWhen() + "  " + e.getModifiers() + " " + e.getKeyCode() + "  "+ e.getKeyChar());
                     player.setJump(true);
                     break;
                 case KeyEvent.VK_ESCAPE:
