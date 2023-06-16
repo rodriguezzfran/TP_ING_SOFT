@@ -185,9 +185,9 @@ public class HelpMethods {
     }
     public static DamageBehavior setPlayerDamageBehavior(int lvlIndex){
         switch (lvlIndex){
-            case 0:
+            case 0,1:
                 return new DamageP1();
-            case 2:
+            case 2,3:
                 return new DamageP2();
             default:
                 throw new IllegalStateException("Unexpected value: " + lvlIndex);
@@ -195,9 +195,9 @@ public class HelpMethods {
     }
     public static HealthBehavior setPlayerHealthBehavior(int lvlIndex){
         switch (lvlIndex){
-            case 0:
+            case 0,1:
                 return new HealthP1();
-            case 2:
+            case 2,3:
                 return new HealthP2();
             default:
                 throw new IllegalStateException("Unexpected value: " + lvlIndex);

@@ -16,6 +16,9 @@ import UI.GameOverOverlay;
 import UI.LevelCompletedOverlay;
 import observables.HealthObservable;
 
+import static utilz.HelpMethods.setPlayerDamageBehavior;
+import static utilz.HelpMethods.setPlayerHealthBehavior;
+
 
 public class Playing extends State implements StateMethods {
 
@@ -68,7 +71,7 @@ public class Playing extends State implements StateMethods {
             levelCompletedOverlay.update();
         } else if (!gameOver) {
             levelManager.update();
-            player.update();
+            player.update(healthObservable,setPlayerHealthBehavior(levelManager.getLvlIndex()));
             enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player,healthObservable);
         }
    }
@@ -93,7 +96,7 @@ public class Playing extends State implements StateMethods {
         player.resetAll();
         enemyManager.resetAllEnemies();
         lvlCompleted = false;
-        this.healthObservable.setHealth(100);
+        this.healthObservable.setHealth(setPlayerHealthBehavior(levelManager.getLvlIndex()).getHealth());
 
     }
 
@@ -101,6 +104,10 @@ public class Playing extends State implements StateMethods {
         resetAll();
         levelManager.loadNextLevel();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
+        player.setDamageBehavior(setPlayerDamageBehavior(levelManager.getLvlIndex()));
+        player.setHealthBehavior(setPlayerHealthBehavior(levelManager.getLvlIndex()));
+        int test = setPlayerHealthBehavior(levelManager.getLvlIndex()).getHealth();
+        this.healthObservable.setHealth(test);
     }
 
     public void setGameOver(boolean gameOver){
