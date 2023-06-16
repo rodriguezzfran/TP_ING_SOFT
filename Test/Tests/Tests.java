@@ -35,8 +35,8 @@ public class Tests extends TestCase {
     }
 
     private void createTestEnemys() {
-        kingPig = new KingPig(2, 2);
-        crabby = new Crabby(2, 2);
+        kingPig = new KingPig(2, 2,1);
+        crabby = new Crabby(2, 2,1);
     }
 
     public void testGetEntityXPosNextToWallRight() {
@@ -86,15 +86,16 @@ public class Tests extends TestCase {
         healthC = new Health3();
         damageKP = new Damage4();
         healthKP = new Health4();
-        crabby.setEnemyDamage(damageC);
-        crabby.setEnemyMaxHealth(healthC);
-        kingPig.setEnemyDamage(damageKP);
-        kingPig.setEnemyMaxHealth(healthKP);
+        crabby.setEntityDamage(damageC);
+        crabby.setEntityMaxHealth(healthC);
+        kingPig.setEntityDamage(damageKP);
+        kingPig.setEntityMaxHealth(healthKP);
 
         assertEquals(damageC.getDamage(), crabby.getDamageBehavior().getDamage());
         assertEquals(healthC.getHealth(), crabby.getHealthBehavior().getHealth());
         assertEquals(damageKP.getDamage(), kingPig.getDamageBehavior().getDamage());
         assertEquals(healthKP.getHealth(), kingPig.getHealthBehavior().getHealth());
     }
+
 
 }

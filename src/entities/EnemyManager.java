@@ -5,10 +5,10 @@ import gamestates.Playing;
 import static utilz.Constants.EnemyConstants.*;
 
 import levels.Level;
+import levels.LevelManager;
 import observables.HealthObservable;
 import utilz.LoadSave;
 
-import javax.swing.plaf.ButtonUI;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -26,11 +26,11 @@ public class EnemyManager {
         loadEnemyImgs();
     }
 
-    public void update(int[][] lvlData, Player player, HealthObservable playerHealth){
+    public void update(int[][] lvlData, Player player){
         boolean isAnyActive = false;
         for(Enemy e : enemies){
             if(e.isActive()) {
-                e.update(lvlData, player,playerHealth);
+                e.update(lvlData, player);
                 isAnyActive = true;
             }
         }
@@ -60,7 +60,7 @@ public class EnemyManager {
         for(Enemy e : enemies){
             if(e.isActive()){
                 if (attackBox.intersects(e.getHitBox())) {
-                    e.hurt(100);
+                    e.hurt(playing.getPlayer().getDamageBehavior().getDamage());
                     return;
                 }
             }
@@ -94,4 +94,10 @@ public class EnemyManager {
             e.resetEnemy();
         }
     }
+
+    public LevelManager getLevelManager(){
+        return this.playing.getLevelManager();
+    }
+
+
 }

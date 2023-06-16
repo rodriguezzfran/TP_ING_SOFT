@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import gamestates.Gamestate;
 import gamestates.Playing;
 import main.Game;
+import main.Main;
 
 public class GameOverOverlay {
 
@@ -28,8 +29,8 @@ public class GameOverOverlay {
 
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            playing.resetAll();
-            Gamestate.state = Gamestate.MENU;
+          playing.resetAll();
+          Gamestate.state = Gamestate.MENU;
         }
     }
 }

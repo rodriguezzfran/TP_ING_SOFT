@@ -1,6 +1,7 @@
 package levels;
 
 import entities.Enemy;
+import entities.Player;
 import gamestates.Gamestate;
 import main.Game;
 import utilz.LoadSave;
@@ -24,7 +25,8 @@ public class LevelManager {
     private Game game;
     private BufferedImage[] levelSprite;
     private ArrayList<Level> levels;
-    private int lvlIndex = 0;
+    private static int lvlIndex = 0;
+    private int lvlIndexEn = 0;
     public LevelManager(Game game){
         this.game = game;
         importOutsideSprites();
@@ -32,10 +34,13 @@ public class LevelManager {
         buildAllLevels();
     }
 
-    private void buildAllLevels() {
+    public void buildAllLevels() {
+        lvlIndexEn = lvlIndex;
         BufferedImage[] allLevels = LoadSave.GetAllLevels();
-        for (BufferedImage img : allLevels)
-            levels.add(new Level(img));
+        for (BufferedImage img : allLevels){
+            levels.add(new Level(img, lvlIndexEn));
+            lvlIndexEn++;
+         }
     }
 
 
@@ -72,7 +77,6 @@ public class LevelManager {
     }
 
     public void update(){
-
     }
 
 
@@ -87,5 +91,8 @@ public class LevelManager {
         this.lvlIndex =  index;
     }
 
+    public int getLvlIndex(){
+        return lvlIndex;
+    }
 
 }
