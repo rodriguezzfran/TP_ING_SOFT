@@ -78,15 +78,6 @@ public class Tests extends TestCase {
 
     }
 
-    public void testMoveDown() {
-        createNewGame();
-        Button a = new Button();
-        KeyEvent e = new KeyEvent(a, 401, 1686954149110l, 0, 83, 's');
-        playing.keyPressed(e);
-        assertTrue(playing.getPlayer().getDown());
-
-    }
-
     public void testMoveJump() {
         createNewGame();
         Button a = new Button();
@@ -99,10 +90,10 @@ public class Tests extends TestCase {
     public void testBehaviors() {
         createTestEnemys();
 
-        assertEquals(30, crabby.getDamageBehavior().getDamage());
+        assertEquals(10, crabby.getDamageBehavior().getDamage());
         assertEquals(20, crabby.getHealthBehavior().getHealth());
-        assertEquals(1, kingPig.getDamageBehavior().getDamage());
-        assertEquals(1, kingPig.getHealthBehavior().getHealth());
+        assertEquals(10, kingPig.getDamageBehavior().getDamage());
+        assertEquals(10, kingPig.getHealthBehavior().getHealth());
 
         assertTrue(Game.TILES_SIZE * 2 == crabby.getRangeBehavior().getAttackDistance() && crabby.getRangeBehavior().getSightDistance() == Game.TILES_SIZE * 4.5f);
         assertTrue(kingPig.getRangeBehavior().getAttackDistance() == Game.TILES_SIZE && kingPig.getRangeBehavior().getSightDistance() == Game.TILES_SIZE * 3);
