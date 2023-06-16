@@ -30,6 +30,11 @@ public class HealthObservable implements  Observable{
             o.updateState(this.health);
         }
     }
+
+    public int getHealth(){
+        return health;
+    }
+
     public void setHealth(int change){
         this.health = change;
         notifyAllObservers();
@@ -39,7 +44,5 @@ public class HealthObservable implements  Observable{
         notifyAllObservers();
     }
 
-    public int getHealth(){
-        return health;
-    }
+
 }

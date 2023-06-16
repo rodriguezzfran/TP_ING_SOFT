@@ -16,8 +16,8 @@ import UI.GameOverOverlay;
 import UI.LevelCompletedOverlay;
 import observables.HealthObservable;
 
-import static utilz.HelpMethods.setPlayerDamageBehavior;
-import static utilz.HelpMethods.setPlayerHealthBehavior;
+import static utilz.HelpMethods.*;
+
 
 
 public class Playing extends State implements StateMethods {
@@ -31,7 +31,6 @@ public class Playing extends State implements StateMethods {
     private boolean lvlCompleted;
     private PauseOverlay pauseOverlay;
     private boolean paused = false;
-    HealthObservable healthObservable = new HealthObservable(100);
 
 
     public Playing(Game game) {
@@ -45,7 +44,6 @@ public class Playing extends State implements StateMethods {
         player = new Player(270,200,(int)(78*Game.SCALE),(int)(58*Game.SCALE),this); //78 y 58
         player.loadLvlData(levelManager.getCurrentLevel().getLvlData());
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
-        healthObservable.addObserver(player);
         gameOverOverlay= new GameOverOverlay(this);
         pauseOverlay = new PauseOverlay(this);
         gameOverOverlay = new GameOverOverlay(this);
@@ -60,8 +58,6 @@ public class Playing extends State implements StateMethods {
         player.resetDirBooleans();
     }
 
-    public HealthObservable getHealthObservable(){return this.healthObservable;}
-
 
     @Override
     public void update() {
@@ -71,8 +67,8 @@ public class Playing extends State implements StateMethods {
             levelCompletedOverlay.update();
         } else if (!gameOver) {
             levelManager.update();
-            player.update(healthObservable,setPlayerHealthBehavior(levelManager.getLvlIndex()));
-            enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player,healthObservable);
+            player.update();
+            enemyManager.update(levelManager.getCurrentLevel().getLvlData(), player);
         }
    }
 
@@ -96,18 +92,14 @@ public class Playing extends State implements StateMethods {
         player.resetAll();
         enemyManager.resetAllEnemies();
         lvlCompleted = false;
-        this.healthObservable.setHealth(setPlayerHealthBehavior(levelManager.getLvlIndex()).getHealth());
-
     }
 
     public void loadNextLevel() {
-        resetAll();
         levelManager.loadNextLevel();
         player.setSpawn(levelManager.getCurrentLevel().getPlayerSpawn());
-        player.setDamageBehavior(setPlayerDamageBehavior(levelManager.getLvlIndex()));
-        player.setHealthBehavior(setPlayerHealthBehavior(levelManager.getLvlIndex()));
-        int test = setPlayerHealthBehavior(levelManager.getLvlIndex()).getHealth();
-        this.healthObservable.setHealth(test);
+        getPlayer().setEntityMaxHealth(GetPlayerHealthBehaviorByLvl(levelManager.getLvlIndex()));
+        getPlayer().setEntityDamage(GetPlayerDamageBehaviorByLvl(levelManager.getLvlIndex()));
+        resetAll();
     }
 
     public void setGameOver(boolean gameOver){

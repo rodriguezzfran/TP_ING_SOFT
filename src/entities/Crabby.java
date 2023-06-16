@@ -1,8 +1,7 @@
 package entities;
 
 import static utilz.Constants.EnemyConstants.*;
-import static utilz.HelpMethods.setDamageBehavior;
-import static utilz.HelpMethods.setHealthBehavior;
+import static utilz.HelpMethods.*;
 
 import behaviors.rangeenemies.LongDistance;
 import main.Game;
@@ -24,8 +23,8 @@ public class Crabby extends Enemy {
             initAttackBox();
             spritePath = LoadSave.CRABBY_SPRITE;
             enemyIndex=1;
-            setEnemyMaxHealth(setHealthBehavior(lvlIndex));
-            setEnemyDamage(setDamageBehavior(lvlIndex));
+            setEntityMaxHealth(GetHealthBehaviorByLvl(lvlIndex));
+            setEntityDamage(GetDamageBehaviorByLvl(lvlIndex));
             currentHealth = healthBehavior.getHealth();
         }
 

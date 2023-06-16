@@ -23,8 +23,8 @@ public class KingPig  extends  Enemy{
         initAttackBox();
         spritePath = LoadSave.KING_PIG_SPRITE;
         enemyIndex=0;
-        setEnemyMaxHealth(setHealthBehavior(lvlIndex));
-        setEnemyDamage(setDamageBehavior(lvlIndex));
+        setEntityMaxHealth(GetHealthBehaviorByLvl(lvlIndex));
+        setEntityDamage(GetDamageBehaviorByLvl(lvlIndex));
         currentHealth = healthBehavior.getHealth();
     }
 

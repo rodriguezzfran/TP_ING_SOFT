@@ -169,7 +169,7 @@ public class HelpMethods {
         return new Point(1 * Game.TILES_SIZE, 1 * Game.TILES_SIZE);
     }
 
-    public static DamageBehavior setDamageBehavior(int lvlIndex){
+    public static DamageBehavior GetDamageBehaviorByLvl(int lvlIndex){
         switch (lvlIndex){
             case 0:
                 return new Damage1();
@@ -180,30 +180,30 @@ public class HelpMethods {
             case 3:
                 return new Damage4();
             default:
-                throw new IllegalStateException("Unexpected value: " + lvlIndex);
+                return new Damage4();
         }
     }
-    public static DamageBehavior setPlayerDamageBehavior(int lvlIndex){
+    public static DamageBehavior GetPlayerDamageBehaviorByLvl(int lvlIndex){
         switch (lvlIndex){
             case 0,1:
                 return new DamageP1();
             case 2,3:
                 return new DamageP2();
             default:
-                throw new IllegalStateException("Unexpected value: " + lvlIndex);
+                return new DamageP2();
         }
     }
-    public static HealthBehavior setPlayerHealthBehavior(int lvlIndex){
+    public static HealthBehavior GetPlayerHealthBehaviorByLvl(int lvlIndex){
         switch (lvlIndex){
             case 0,1:
                 return new HealthP1();
             case 2,3:
                 return new HealthP2();
             default:
-                throw new IllegalStateException("Unexpected value: " + lvlIndex);
+                return new HealthP2();
         }
     }
-    public static HealthBehavior setHealthBehavior(int lvlIndex){
+    public static HealthBehavior GetHealthBehaviorByLvl(int lvlIndex){
         switch (lvlIndex){
             case 0:
                 return new Health1();
@@ -214,7 +214,7 @@ public class HelpMethods {
             case 3:
                 return new Health4();
             default:
-                throw new IllegalStateException("Unexpected value: " + lvlIndex);
+                return new Health4();
         }
     }
 

@@ -1,9 +1,8 @@
 package entities;
 
-import behaviors.damage.DamageBehavior;
 import behaviors.damage.DamageP1;
-import behaviors.health.HealthBehavior;
 import behaviors.health.HealthP1;
+import behaviors.health.HealthP2;
 import gamestates.Playing;
 import main.Game;
 import observables.*;
@@ -53,11 +52,9 @@ public class Player extends Entity implements Observer {
     private int healthBarYStart = (int) (14 * Game.SCALE);
 
 
-    private HealthBehavior healthBehavior;
-    private DamageBehavior damageBehavior;
-
     private int healthWidth = healthBarWidth;
-    private HealthObservable healthObservable;
+    private int currentPlayerHealth;
+
     //AttackBox
     private Rectangle2D.Float attackBox;
 
@@ -66,35 +63,33 @@ public class Player extends Entity implements Observer {
 
     private boolean attackChecked = false;
     private Playing playing;
-    private int playerDamage;
+
 
 
     public Player(float x, float y, int width, int height, Playing playing) {
         super(x, y, width, height);
-        healthBehavior = new HealthP1();
-        damageBehavior = new DamageP1();
-        healthObservable = new HealthObservable(healthBehavior.getHealth());
+        setEntityMaxHealth(new HealthP1());
+        setEntityDamage(new DamageP1());
+        this.currentPlayerHealth = getHealthBehavior().getHealth();
+        healthObservable = new HealthObservable(getHealthBehavior().getHealth());
+        healthObservable.addObserver(this);
         this.playing = playing;
         importSprites();
         initHitbox(x, y, 20 * Game.SCALE, 27 * Game.SCALE); //20x27 is the actual player's size
         initAttackBox();
-        setHealthBehavior(setPlayerHealthBehavior(0));
-        healthObservable.setHealth(healthBehavior.getHealth());
-        setDamageBehavior(setPlayerDamageBehavior(0));
-        playerDamage = damageBehavior.getDamage();
     }
 
     private void initAttackBox() {
         attackBox = new Rectangle2D.Float(x, y, (int) (25 * Game.SCALE), (int) (40 * Game.SCALE));
     }
 
-    public void update(HealthObservable healthObservable, HealthBehavior healthBehavior) {
-        float test1 = healthObservable.getHealth();
-        float test2 = healthBehavior.getHealth();
-        System.out.println("Observable:" + test1 + " Behavior:"+test2);
-        updateHealthBar(healthObservable.getHealth(), healthBehavior.getHealth());
+    public void update() {
+//        float test1 = getHealthObservable().getHealth();
+//        float test2 = healthBehavior.getHealth();
+//        System.out.println("Observable:" + test1 + " Behavior:"+test2);
+        updateHealthBar();
 
-        if (this.healthObservable.getHealth() <= 0) {
+        if (this.currentPlayerHealth <= 0) {
             playing.setGameOver(true);
             return;
         }
@@ -114,13 +109,12 @@ public class Player extends Entity implements Observer {
         attacking = false;
         moving = false;
         playerAction = IDLE;
-        int test = healthBehavior.getHealth();
-        healthObservable.setHealth(healthBehavior.getHealth());
         hitBox.x = x;
         hitBox.y = y;
         if (!IsEntityOnFloor(hitBox, lvlData)) {
             inAir = true;
         }
+        getHealthObservable().setHealth(healthBehavior.getHealth());
     }
 
     private void checkAttack() {
@@ -146,8 +140,8 @@ public class Player extends Entity implements Observer {
             inAir = true;
     }
 
-    private void updateHealthBar(float health, float healthBehaviorHealth) {
-        healthWidth = (int) ((health / healthBehaviorHealth) * healthBarWidth); //escala
+    private void updateHealthBar() {
+        healthWidth = (int) ((getHealthObservable().getHealth() / (float)getHealthBehavior().getHealth()) * healthBarWidth); //escala
     }
 
     public void render(Graphics g) {
@@ -183,7 +177,7 @@ public class Player extends Entity implements Observer {
 
     private void setAnimation() {
         int startAnimation = playerAction;
-        if (moving) {
+        if (moving){
             playerAction = RUN;
         } else {
             playerAction = IDLE;
@@ -197,7 +191,7 @@ public class Player extends Entity implements Observer {
             }
         }
 
-        if (attacking) {
+        if (attacking){
             playerAction = ATTACK;
         }
         if (startAnimation != playerAction) {
@@ -292,14 +286,13 @@ public class Player extends Entity implements Observer {
 
     @Override
     public void updateState(int health) {
-        healthObservable.setHealth(health);
-        System.out.println(healthObservable.getHealth());
-        if (healthObservable.getHealth() <= 0) {
-            healthObservable.setHealth(0);
-            //gameOver();
-        } else if (healthObservable.getHealth() >= healthBehavior.getHealth()) {
-            healthObservable.setHealth(healthBehavior.getHealth());
-        }
+        this.currentPlayerHealth = health;
+        System.out.println(currentPlayerHealth);
+//        if (currentPlayerHealth <= 0) {
+//            healthObservable.setHealth(0);
+//        } else if (currentPlayerHealth >= healthBehavior.getHealth()) {
+//            healthObservable.setHealth(healthBehavior.getHealth());
+//        }
     }
 
     private void updateAnimationTick() {
@@ -307,7 +300,7 @@ public class Player extends Entity implements Observer {
         if (aniTick >= aniSpeed) {
             aniTick = 0;
             aniIndex++;
-            if (aniIndex >= getSpriteAmount(playerAction)) {
+            if (aniIndex >= GetSpriteAmount(playerAction)) {
                 aniIndex = 0;
                 attacking = false;
                 attackChecked = false;
@@ -374,28 +367,8 @@ public class Player extends Entity implements Observer {
         this.jump = jump;
     }
 
-    public void setHealthBehavior(HealthBehavior healthBehavior) {
-        healthObservable.setHealth(healthBehavior.getHealth());
-    }
-
-    public void setDamageBehavior(DamageBehavior damageBehavior) {
-        playerDamage = this.damageBehavior.getDamage();
-    }
-
-    public int getPlayerDamage() {
-        return playerDamage;
-    }
-
-    public void setHealthObservable(int health) {
-        healthObservable.setHealth(healthBehavior.getHealth());
-    }
 
 
-    public DamageBehavior getDamageBehavior() {
-        return this.damageBehavior;
-    }
 
-    public HealthBehavior getHealthBehavior() {
-        return this.healthBehavior;
-    }
+
 }
