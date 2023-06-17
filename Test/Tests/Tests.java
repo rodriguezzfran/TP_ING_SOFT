@@ -87,6 +87,7 @@ public class Tests extends TestCase {
 
     }
 
+
     public void testBehaviors() {
         createTestEnemys();
 
