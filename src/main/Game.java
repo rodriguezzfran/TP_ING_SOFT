@@ -25,6 +25,7 @@ public class Game implements Runnable{
     public final static int TILES_SIZE = (int)(TILES_DEFAULT_SIZE * SCALE);
     public final static int GAME_WIDTH = TILES_SIZE * TILES_IN_WIDTH;
     public final static int GAME_HEIGHT = TILES_SIZE * TILES_IN_HEIGHT;
+    public static Game gameGet;
     private final int playerSpeed = 3;
 
     public Game(){
@@ -34,6 +35,7 @@ public class Game implements Runnable{
         gamePanel.setFocusable(true);
         gamePanel.requestFocus();
         startGameLoop();
+        gameGet = this;
     }
 
     private void initClases() {
@@ -130,8 +132,9 @@ public class Game implements Runnable{
     public Menu getMenu(){
         return menu;
     }
+
     public Playing getPlaying(){
-        return playing;
+        return this.playing;
     }
 
 }

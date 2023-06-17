@@ -14,9 +14,8 @@ import static utilz.Constants.Directions.*;
 
 
 public abstract class Enemy extends Entity{
+
     protected RangeEnemiesBehavior rangeBehavior;
-    protected DamageBehavior damageBehavior;
-    protected HealthBehavior healthBehavior;
 
     protected int aniIndex, enemyState, enemyType;
     protected int aniTick, aniSpeed = 25;
@@ -29,28 +28,26 @@ public abstract class Enemy extends Entity{
     protected int enemyTileY;
 
     protected int currentHealth;
+
     protected boolean active = true;
     protected boolean attackChecked;
     protected Rectangle2D.Float attackBox;
     protected int xDrawOffset, yDrawOffset;
     protected String spritePath;
     protected int enemyIndex;
+    protected int lvlIndex;
 
 
 
 
-
-    public Enemy(float x, float y, int width, int height, int enemyType, int xDrawOffset, int yDrawOffset,HealthBehavior healthBehavior, DamageBehavior damageBehavior, RangeEnemiesBehavior rangeBehavior) {
+    public Enemy(float x, float y, int width, int height, int enemyType, int xDrawOffset, int yDrawOffset, RangeEnemiesBehavior rangeBehavior) {
         super(x, y, width, height);
         this.enemyState=RUN;
         this.enemyType=enemyType;
         initHitbox(x,y,width,height);
         this.xDrawOffset=xDrawOffset;
         this.yDrawOffset=yDrawOffset;
-        setEnemyMaxHealth(healthBehavior);
-        setEnemyDamage(damageBehavior);
         setRange(rangeBehavior);
-        currentHealth = healthBehavior.getHealth();
     }
 
     protected void firstUpdateCheck(int[][] lvlData){
@@ -85,6 +82,10 @@ public abstract class Enemy extends Entity{
             }
         }
         changeWalkDir();
+    }
+
+    public void setLvlIndex(int lvlIndex) {
+        this.lvlIndex = lvlIndex;
     }
 
     protected void turnTowardsPlayer(Player player){
@@ -151,7 +152,7 @@ public abstract class Enemy extends Entity{
         }
     }
 
-    private void updateBehavior(int[][] lvlData, Player player,HealthObservable playerHealth){
+    private void updateBehavior(int[][] lvlData, Player player){
         if (firstUpdate) {
             firstUpdateCheck(lvlData);
         }
@@ -175,8 +176,10 @@ public abstract class Enemy extends Entity{
                     if(aniIndex == 0){
                         attackChecked = false;
                     }
-                    if(aniIndex == 2 && !attackChecked){
-                        checkEnemyHit(attackBox, player,playerHealth);
+                    if( enemyType == CRABBY && aniIndex == 3 && !attackChecked) {
+                        checkEnemyHit(attackBox, player);
+                    } else if (aniIndex == 2 && !attackChecked && enemyType == KING_PIG) {
+                        checkEnemyHit(attackBox, player);
                     }
                     break;
                 case HIT:
@@ -196,16 +199,15 @@ public abstract class Enemy extends Entity{
         attackBox.y = hitBox.y - (7*Game.SCALE);
     }
 
-    public void update(int[][] lvlData, Player player,HealthObservable playerHealth){
-        updateBehavior(lvlData,player,playerHealth);
+    public void update(int[][] lvlData, Player player){
+        updateBehavior(lvlData,player);
         updateAnimationTick();
         updateAttackBox();
     }
 
-    protected void checkEnemyHit(Rectangle2D.Float attackBox, Player player, HealthObservable playerHealth){
+   protected void checkEnemyHit(Rectangle2D.Float attackBox, Player player){
         if(attackBox.intersects(player.hitBox)){
-            playerHealth.setHealth(-getDamageBehavior().getDamage());
-
+          player.getHealthObservable().changeHealth(-this.getDamageBehavior().getDamage());
         }
         attackChecked = true;
     }
@@ -247,19 +249,13 @@ public abstract class Enemy extends Entity{
         fallSpeed=0;
     }
 
-    protected void setRange(RangeEnemiesBehavior rangeBehavior){
+
+
+    public void setRange(RangeEnemiesBehavior rangeBehavior){
         this.rangeBehavior = rangeBehavior;
     }
-    public void setEnemyDamage(DamageBehavior damageBehavior){
-        this.damageBehavior = damageBehavior;
-    }
-    public void setEnemyMaxHealth(HealthBehavior healthBehavior){
-        this.healthBehavior=healthBehavior;
-    }
-
     public RangeEnemiesBehavior getRangeBehavior(){return this.rangeBehavior;}
-    public HealthBehavior getHealthBehavior(){return this.healthBehavior;}
-    public DamageBehavior getDamageBehavior(){return this.damageBehavior;}
+
     public int getAniIndex(){
         return aniIndex;
     }

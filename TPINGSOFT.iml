@@ -28,5 +28,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="library" name="junit-3.8.2 (1)" level="application" />
+    <orderEntry type="library" name="junit-3.8.2 (1) (2)" level="project" />
   </component>
 </module>
