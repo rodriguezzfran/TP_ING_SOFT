@@ -179,12 +179,6 @@ public class HelpMethods {
                 return new Damage3();
             case 3:
                 return new Damage4();
-            case 4:
-                return new Damage4();
-            case 5:
-                return new Damage4();
-            case 6:
-                return new Damage4();
             default:
                 return new Damage4();
         }
@@ -195,10 +189,6 @@ public class HelpMethods {
                 return new DamageP1();
             case 2,3:
                 return new DamageP2();
-            case 4,5:
-                return new DamageP2();
-            case 6,7:
-                return new DamageP2();
             default:
                 return new DamageP2();
         }
@@ -208,10 +198,6 @@ public class HelpMethods {
             case 0,1:
                 return new HealthP1();
             case 2,3:
-                return new HealthP2();
-            case 4,5:
-                return new HealthP2();
-            case 6,7:
                 return new HealthP2();
             default:
                 return new HealthP2();
@@ -226,12 +212,6 @@ public class HelpMethods {
             case 2:
                 return new Health3();
             case 3:
-                return new Health4();
-            case 4:
-                return new Health4();
-            case 5:
-                return new Health4();
-            case 6:
                 return new Health4();
             default:
                 return new Health4();
