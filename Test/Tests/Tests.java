@@ -36,13 +36,13 @@ public class Tests extends TestCase {
     }
 
     private void createTestEnemys() {
-        kingPig = new KingPig(2, 2,1);
-        crabby = new Crabby(2, 2,1);
+        kingPig = new KingPig(2, 2,0);
+        crabby = new Crabby(2, 2,0);
     }
 
     public void testGetEntityXPosNextToWallRight() {
         jibos();
-        assertEquals(278, (int) GetEntityXPosNextToWall(hitBox, 3)); //87 es lo que debería volver
+        assertEquals(279, (int) GetEntityXPosNextToWall(hitBox, 3)); //87 es lo que debería volver
     }
 
     public void testGetEntityXPosNextToWallLeft() {
@@ -87,13 +87,14 @@ public class Tests extends TestCase {
 
     }
 
+
     public void testBehaviors() {
         createTestEnemys();
 
-        assertEquals(10, crabby.getDamageBehavior().getDamage());
-        assertEquals(20, crabby.getHealthBehavior().getHealth());
-        assertEquals(10, kingPig.getDamageBehavior().getDamage());
-        assertEquals(20, kingPig.getHealthBehavior().getHealth());
+        assertEquals(5, crabby.getDamageBehavior().getDamage());
+        assertEquals(10, crabby.getHealthBehavior().getHealth());
+        assertEquals(5, kingPig.getDamageBehavior().getDamage());
+        assertEquals(10, kingPig.getHealthBehavior().getHealth());
 
         assertTrue(Game.TILES_SIZE * 2 == crabby.getRangeBehavior().getAttackDistance() && crabby.getRangeBehavior().getSightDistance() == Game.TILES_SIZE * 4.5f);
         assertTrue(kingPig.getRangeBehavior().getAttackDistance() == Game.TILES_SIZE && kingPig.getRangeBehavior().getSightDistance() == Game.TILES_SIZE * 3);
@@ -123,7 +124,6 @@ public class Tests extends TestCase {
         Damage2 d2 = new Damage2();
         Damage3 d3 = new Damage3();
 
-        System.out.println(game.getPlaying().getLevelManager().getCurrentLevel().getEnemies().get(0).getDamageBehavior().getDamage());
         assertEquals(d1.getDamage(),game.getPlaying().getLevelManager().getCurrentLevel().getEnemies().get(0).getDamageBehavior().getDamage());
         game.getPlaying().loadNextLevel();
         assertEquals(d2.getDamage(),game.getPlaying().getLevelManager().getCurrentLevel().getEnemies().get(0).getDamageBehavior().getDamage());

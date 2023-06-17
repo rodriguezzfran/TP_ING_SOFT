@@ -25,22 +25,22 @@ public class GameOverOverlay {
         createImg();
         createButtons();
     }
+    private void createImg() {
+        img = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[2];//Cuadro del DeathMenu
+        imgW = (int) (img.getWidth() * Game.SCALE / 1.5);
+        imgH = (int) (img.getHeight() * Game.SCALE / 1.5);
+        imgX = Game.GAME_WIDTH/2 - imgW/2;
+        imgY = (int) (100*Game.SCALE);
+    }
 
     private void createButtons() {
-        int menuX = (int)(335*Game.SCALE);
-        int playX = (int)(440*Game.SCALE);
-        int y =(int)(195*Game.SCALE-40);
+        int menuX = imgX +  (int)(25*Game.SCALE);
+        int playX = imgX + imgW - (int)(30*Game.SCALE) - URM_SIZE;
+        int y =(int)(192*Game.SCALE-40);
         play = new UrmButton(playX,y,URM_SIZE, URM_SIZE,0);
         menu = new UrmButton(menuX,y, URM_SIZE, URM_SIZE,2);
     }
 
-    private void createImg() {
-        img = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[2];//Cuadro del DeathMenu
-        imgW = (int) (img.getWidth() * Game.SCALE/1.5);
-        imgH = (int) (img.getHeight() * Game.SCALE/1.5);
-        imgX = Game.GAME_WIDTH/2 - imgW/2;
-        imgY = (int) (100*Game.SCALE);
-    }
 
     public void draw(Graphics g) {
         g.setColor(new Color(0, 0, 0, 200));
