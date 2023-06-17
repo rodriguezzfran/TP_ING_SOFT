@@ -25,18 +25,6 @@ public class GameOverOverlay {
         createImg();
         createButtons();
     }
-
-<<<<<<< Updated upstream
-    private void createButtons() {
-        int menuX = (int)(356*Game.SCALE);
-        int playX = (int)(420*Game.SCALE);
-        int y =(int)(195*Game.SCALE-40);
-        play = new UrmButton(playX,y,URM_SIZE, URM_SIZE,0);
-        menu = new UrmButton(menuX,y, URM_SIZE, URM_SIZE,2);
-    }
-
-=======
->>>>>>> Stashed changes
     private void createImg() {
         img = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[2];//Cuadro del DeathMenu
         imgW = (int) (img.getWidth() * Game.SCALE/1.5);
