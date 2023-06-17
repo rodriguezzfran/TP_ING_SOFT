@@ -27,8 +27,8 @@ public class GameOverOverlay {
     }
     private void createImg() {
         img = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS)[2];//Cuadro del DeathMenu
-        imgW = (int) (img.getWidth() * Game.SCALE);
-        imgH = (int) (img.getHeight() * Game.SCALE);
+        imgW = (int) (img.getWidth() * Game.SCALE / 1.5);
+        imgH = (int) (img.getHeight() * Game.SCALE / 1.5);
         imgX = Game.GAME_WIDTH/2 - imgW/2;
         imgY = (int) (100*Game.SCALE);
     }
