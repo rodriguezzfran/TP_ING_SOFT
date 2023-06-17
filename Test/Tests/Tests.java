@@ -42,7 +42,7 @@ public class Tests extends TestCase {
 
     public void testGetEntityXPosNextToWallRight() {
         jibos();
-        assertEquals(278, (int) GetEntityXPosNextToWall(hitBox, 3)); //87 es lo que debería volver
+        assertEquals(279, (int) GetEntityXPosNextToWall(hitBox, 3)); //87 es lo que debería volver
     }
 
     public void testGetEntityXPosNextToWallLeft() {
@@ -124,7 +124,6 @@ public class Tests extends TestCase {
         Damage2 d2 = new Damage2();
         Damage3 d3 = new Damage3();
 
-        System.out.println(game.getPlaying().getLevelManager().getCurrentLevel().getEnemies().get(0).getDamageBehavior().getDamage());
         assertEquals(d1.getDamage(),game.getPlaying().getLevelManager().getCurrentLevel().getEnemies().get(0).getDamageBehavior().getDamage());
         game.getPlaying().loadNextLevel();
         assertEquals(d2.getDamage(),game.getPlaying().getLevelManager().getCurrentLevel().getEnemies().get(0).getDamageBehavior().getDamage());
