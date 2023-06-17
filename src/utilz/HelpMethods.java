@@ -228,13 +228,13 @@ public class HelpMethods {
             case 3:
                 return new Health4();
             case 4:
-                return new Health4();
+                return new Health5();
             case 5:
-                return new Health4();
+                return new Health6();
             case 6:
-                return new Health4();
+                return new Health7();
             default:
-                return new Health4();
+                return new Health1();
         }
     }
 

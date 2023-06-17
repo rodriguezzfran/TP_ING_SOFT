@@ -1,8 +1,8 @@
 package behaviors.health;
 
-public class HealthP2 implements HealthBehavior{
+public class HealthP4 implements HealthBehavior{
 
-    private final static int health = 130;
+    private final static int health = 200;
 
     @Override
     public int getHealth() {
