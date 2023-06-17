@@ -31,9 +31,18 @@ public class HealthObservable implements  Observable{
         }
     }
 
+    public int getHealth(){
+        return health;
+    }
+
     public void setHealth(int change){
-        this.health += change;
-        System.out.println("Current Health : " + this.health);
+        this.health = change;
         notifyAllObservers();
     }
+    public void changeHealth(int change){
+        this.health += change;
+        notifyAllObservers();
+    }
+
+
 }
