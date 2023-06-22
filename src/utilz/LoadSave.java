@@ -77,7 +77,7 @@ public class LoadSave {
 
 
     public static BufferedImage[] GetAllLevels() {
-        
+
             URL url = LoadSave.class.getResource("/Sprites/15-LevelData/");
             File file = null;
 
