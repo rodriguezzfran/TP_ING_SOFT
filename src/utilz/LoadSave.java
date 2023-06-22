@@ -21,6 +21,7 @@ public class LoadSave {
     public static final String COMPLETED_IMG = "/Sprites/19-Completed/";
     public static final String SOUND_BUTTONS = "/Sprites/20-SOUND_BUTTONS/";
     public static final String VOLUME_BUTTONS = "/Sprites/21-VOLUME_BUTTONS/";
+    public static final String BACKGROUND = "/Sprites/22-BACKGROUND/";
     /**
      * Devuelve una lista con los png de cada animacion
      * @return
@@ -49,6 +50,8 @@ public class LoadSave {
             case SOUND_BUTTONS: aux = 1;
                 break;
             case VOLUME_BUTTONS: aux = 1;
+                break;
+            case BACKGROUND: aux = 1;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + fileName);

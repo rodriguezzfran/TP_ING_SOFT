@@ -11,10 +11,12 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import UI.GameOverOverlay;
 import UI.LevelCompletedOverlay;
 import observables.HealthObservable;
+import utilz.LoadSave;
 
 import static utilz.HelpMethods.*;
 
@@ -32,12 +34,14 @@ public class Playing extends State implements StateMethods {
     private boolean lvlCompleted;
 
     private boolean paused = false;
+    private BufferedImage Background;
 
 
     public Playing(Game game) {
         super(game);
         initClases();
         loadStartLevel();
+        Background = LoadSave.GetSpriteAtlas(LoadSave.BACKGROUND)[0];
     }
     private void initClases() {
         levelManager = new LevelManager(game);
@@ -79,6 +83,7 @@ public class Playing extends State implements StateMethods {
 
     @Override
     public void draw(Graphics g) {
+        g.drawImage(Background,0,0,Game.GAME_WIDTH,Game.GAME_HEIGHT,null);
         levelManager.draw(g);
         player.render(g);
         enemyManager.draw(g); //desp ver lo de ofset para level estirado
