@@ -7,6 +7,10 @@ import java.io.InputStream;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 public class LoadSave {
 
@@ -73,34 +77,24 @@ public class LoadSave {
 
 
     public static BufferedImage[] GetAllLevels() {
-        URL url = LoadSave.class.getResource("/Sprites/15-LevelData/");
-        File file = null;
-
+        BufferedImage[] imgs = null;
         try {
-            file = new File(url.toURI());
-        } catch (URISyntaxException e) {
+            String path = LoadSave.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+            JarFile jarFile = new JarFile(path);
+            Enumeration<JarEntry> entries = jarFile.entries();
+            ArrayList<BufferedImage> imagesList = new ArrayList<>();
+            while (entries.hasMoreElements()) {
+                JarEntry entry = entries.nextElement();
+                if (entry.getName().startsWith("Sprites/15-LevelData/") && entry.getName().endsWith(".png")) {
+                    InputStream inputStream = jarFile.getInputStream(entry);
+                    BufferedImage image = ImageIO.read(inputStream);
+                    imagesList.add(image);
+                }
+            }
+            imgs = imagesList.toArray(new BufferedImage[0]);
+        } catch (URISyntaxException | IOException e) {
             e.printStackTrace();
         }
-
-        File[] files = file.listFiles();
-        File[] filesSorted = new File[files.length];
-
-        for (int i = 0; i < filesSorted.length; i++)
-            for (int j = 0; j < files.length; j++) {
-                if (files[j].getName().equals((i + 1) + ".png"))
-                    filesSorted[i] = files[j];
-
-            }
-
-        BufferedImage[] imgs = new BufferedImage[filesSorted.length];
-
-        for (int i = 0; i < imgs.length; i++)
-            try {
-                imgs[i] = ImageIO.read(filesSorted[i]);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
         return imgs;
     }
 
